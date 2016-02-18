@@ -27,6 +27,15 @@ file { "/var/lib/prometheus":
   mode   => 755,
 }
 
+# bootup prometheus actions
+file { '/etc/nubis.d/prometheus':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0755'
+    source  => 'puppet:///nubis/files/prometheus-restart',
+}
+
 file { '/etc/prometheus/config.yml':
     ensure  => file,
     owner   => root,
