@@ -1,0 +1,14 @@
+description "Prometheus Consul Exporter"
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [016]
+
+respawn
+env GOMAXPROCS=2
+setuid root
+setgid root
+
+script
+  exec >> /var/log/prometheus_consul_exporter.log
+  exec 2>&1
+  exec /opt/prometheus/consul_exporter
+end script

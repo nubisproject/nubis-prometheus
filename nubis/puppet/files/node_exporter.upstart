@@ -1,0 +1,14 @@
+description "Prometheus Node Exporter"
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [016]
+
+respawn
+env GOMAXPROCS=2
+setuid root
+setgid root
+
+script
+  exec >> /var/log/prometheus_node_exporter.log
+  exec 2>&1
+  exec /opt/prometheus/node_exporter
+end script

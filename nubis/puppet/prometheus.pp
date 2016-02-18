@@ -45,6 +45,24 @@ file { '/etc/init/prometheus.conf':
     require => File['/etc/prometheus'],
 }
 
+file { '/etc/init/node_exporter.conf':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0644',
+    source  => 'puppet:///nubis/files/node_exporter.upstart',
+    require => File['/etc/prometheus'],
+}
+
+file { '/etc/init/consul_exporter.conf':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0644',
+    source  => 'puppet:///nubis/files/consul_exporter.upstart',
+    require => File['/etc/prometheus'],
+}
+
 notice ("Grabbing prometheus ${prometheus_version}")
 staging::file { "prometheus.${prometheus_version}.tar.gz":
   source => $prometheus_url,
