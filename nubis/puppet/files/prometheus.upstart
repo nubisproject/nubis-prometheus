@@ -1,0 +1,14 @@
+description "Prometheus"
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [016]
+
+respawn
+env GOMAXPROCS=2
+setuid root
+setgid root
+
+script
+  exec >> /var/log/prometheus.log
+  exec 2>&1
+  exec /opt/prometheus/prometheus -web.listen-address :80 -storage.local.path /var/lib/prometheus -config.file /etc/prometheus/config.yml
+end script
