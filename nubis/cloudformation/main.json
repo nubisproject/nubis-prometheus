@@ -97,9 +97,6 @@
           "IamRole": {
             "Ref": "PrometheusIamRole"
           },
-          "SecurityGroup": {
-            "Ref": "SecurityGroup"
-          },
           "ConsulToken": {
             "Ref": "ConsulToken"
           },
@@ -244,64 +241,6 @@
         "SearchString": {
           "Ref": "Environment"
         }
-      }
-    },
-    "SecurityGroup": {
-      "Type": "AWS::EC2::SecurityGroup",
-      "Properties": {
-        "GroupDescription": "Inbound traffic rules",
-        "VpcId": {
-          "Fn::GetAtt": [
-            "VpcInfo",
-            "VpcId"
-          ]
-        },
-        "SecurityGroupIngress": [
-          {
-            "IpProtocol": "tcp",
-            "FromPort": "80",
-            "ToPort": "80",
-            "CidrIp": "0.0.0.0/0"
-          },
-                    {
-            "IpProtocol": "tcp",
-            "FromPort": "22",
-            "ToPort": "22",
-            "CidrIp": "0.0.0.0/0"
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "ServiceName",
-            "Value": {
-              "Ref": "ServiceName"
-            }
-          },
-          {
-            "Key": "TechnicalOwner",
-            "Value": {
-              "Ref": "TechnicalOwner"
-            }
-          },
-          {
-            "Key": "Environment",
-            "Value": {
-              "Ref": "Environment"
-            }
-          },
-          {
-            "Key": "Purpose",
-            "Value": "Prometheus"
-          },
-          {
-            "Key": "Backups",
-            "Value": "Nightly"
-          },
-          {
-            "Key": "Shutdown",
-            "Value": "Never"
-          }
-        ]
       }
     }
   },
