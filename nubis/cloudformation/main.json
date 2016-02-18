@@ -85,6 +85,12 @@
           "TechnicalOwner": {
             "Ref": "TechnicalOwner"
           },
+          "SecurityGroup": {
+            "Fn::GetAtt": [
+              "VpcInfo",
+              "MonitoringSecurityGroupId"
+            ]
+          },
           "Environment": {
             "Ref": "Environment"
           },
@@ -118,10 +124,21 @@
         }
       }
     },
-     "ELBStack": {
+    "ELBStack": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": { "Fn::Join": [ "/", [ "https://s3.amazonaws.com/nubis-stacks", { "Ref": "StacksVersion" }, "elb.template" ] ] },
+        "TemplateURL": {
+          "Fn::Join": [
+            "/",
+            [
+              "https://s3.amazonaws.com/nubis-stacks",
+              {
+                "Ref": "StacksVersion"
+              },
+              "elb.template"
+            ]
+          ]
+        },
         "TimeoutInMinutes": "60",
         "Parameters": {
           "ServiceName": {
@@ -244,6 +261,5 @@
       }
     }
   },
-  "Outputs": {
-  }
+  "Outputs": {}
 }
