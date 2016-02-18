@@ -111,7 +111,32 @@
               },
               "InstanceType"
             ]
+          },
+          "ELB": {
+            "Fn::GetAtt": [
+              "ELBStack",
+              "Outputs.ELB"
+            ]
           }
+        }
+      }
+    },
+     "ELBStack": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": { "Fn::Join": [ "/", [ "https://s3.amazonaws.com/nubis-stacks", { "Ref": "StacksVersion" }, "elb.template" ] ] },
+        "TimeoutInMinutes": "60",
+        "Parameters": {
+          "ServiceName": {
+            "Ref": "ServiceName"
+          },
+          "TechnicalOwner": {
+            "Ref": "TechnicalOwner"
+          },
+          "Environment": {
+            "Ref": "Environment"
+          },
+          "ElbHealthTarget": "HTTP:80/graph"
         }
       }
     },
@@ -233,6 +258,12 @@
         },
         "SecurityGroupIngress": [
           {
+            "IpProtocol": "tcp",
+            "FromPort": "80",
+            "ToPort": "80",
+            "CidrIp": "0.0.0.0/0"
+          },
+                    {
             "IpProtocol": "tcp",
             "FromPort": "22",
             "ToPort": "22",
