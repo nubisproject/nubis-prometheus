@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "ServiceName",
+    "ParameterValue": "dpaste"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "sandbox"
+  },
+  {
+    "ParameterKey": "SSHKeyName",
+    "ParameterValue": "key"
+  },
+  {
+    "ParameterKey": "TechnicalOwner",
+    "ParameterValue": "email"
+  },
+  {
+    "ParameterKey": "AmiId",
+    "ParameterValue": "ami-abcdef123"
+  }
+]

@@ -1,0 +1,8 @@
+nubis/.librarian/
+nubis/.tmp/
+nubis/Puppetfile.lock
+nubis/nubis-puppet.tar.gz
+nubis/nubis-puppet/
+nubis/packer/variables.json
+nubis/terraform.*
+nubis/cloudformation/parameters.json
