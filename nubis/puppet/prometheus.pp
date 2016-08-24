@@ -1,10 +1,8 @@
-$prometheus_version = "0.17.0rc2"
-$node_exporter_version = "0.12.0rc3"
-$consul_exporter_version = "0.2.0"
+$prometheus_version = "1.0.1"
+$alertmanager_version = "0.4.0"
 
-$prometheus_url = "https://github.com/prometheus/prometheus/releases/download/${prometheus_version}/prometheus-${prometheus_version}.linux-amd64.tar.gz"
-$node_exporter_url = "https://github.com/prometheus/node_exporter/releases/download/${node_exporter_version}/node_exporter-${node_exporter_version}.linux-amd64.tar.gz"
-$consul_exporter_url = "https://github.com/prometheus/consul_exporter/releases/download/${consul_exporter_version}/consul_exporter-${consul_exporter_version}.linux-amd64.tar.gz"
+$prometheus_url = "https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-amd64.tar.gz"
+$alertmanager_url = "https://github.com/prometheus/alertmanager/releases/download/v${alertmanager_version}/alertmanager-${alertmanager_version}.linux-amd64.tar.gz"
 
 file { "/opt/prometheus":
   ensure => 'directory',
@@ -18,6 +16,21 @@ file { "/etc/prometheus":
   owner  => 0,
   group  => 0,
   mode   => 755,
+}->
+file { "/etc/prometheus/rules.d":
+  ensure => 'directory',
+  owner  => 0,
+  group  => 0,
+  mode   => 755,
+}
+
+file { "/etc/prometheus/rules.d/nubis.prom":
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    source  => 'puppet:///nubis/files/rules/nubis.prom',
+    require => File['/etc/prometheus/rules.d'],
 }
 
 file { "/var/lib/prometheus":
@@ -54,22 +67,20 @@ file { '/etc/init/prometheus.conf':
     require => File['/etc/prometheus'],
 }
 
-file { '/etc/init/node_exporter.conf':
+file { '/etc/consul/svc-prometheus.json':
     ensure  => file,
     owner   => root,
     group   => root,
     mode    => '0644',
-    source  => 'puppet:///nubis/files/node_exporter.upstart',
-    require => File['/etc/prometheus'],
+    source  => 'puppet:///nubis/files/svc-prometheus.json',
 }
 
-file { '/etc/init/consul_exporter.conf':
+file { '/etc/consul/svc-alertmanager.json':
     ensure  => file,
     owner   => root,
     group   => root,
     mode    => '0644',
-    source  => 'puppet:///nubis/files/consul_exporter.upstart',
-    require => File['/etc/prometheus'],
+    source  => 'puppet:///nubis/files/svc-alertmanager.json',
 }
 
 notice ("Grabbing prometheus ${prometheus_version}")
@@ -83,25 +94,33 @@ staging::extract { "prometheus.${prometheus_version}.tar.gz":
   require => File["/opt/prometheus"],
 }
 
-notice ("Grabbing node_exporter ${node_exporter_version}")
-staging::file { "node_exporter.${node_exporter_version}.tar.gz":
-  source => $node_exporter_url,
+notice ("Grabbing alertmanager ${alertmanager_version}")
+staging::file { "alertmanager.${alertmanager_version}.tar.gz":
+  source => $alertmanager_url,
 }->
-staging::extract { "node_exporter.${node_exporter_version}.tar.gz":
+staging::extract { "alertmanager.${alertmanager_version}.tar.gz":
+  strip   => 1,
   target  => "/opt/prometheus",
-  creates => "/opt/prometheus/node_exporter",
+  creates => "/opt/prometheus/alertmanager",
   require => File["/opt/prometheus"],
 }
 
-notice ("Grabbing consul_exporter ${consul_exporter_version}")
-staging::file { "consul_exporter.${consul_exporter_version}.tar.gz":
-  source => $consul_exporter_url,
+exec { "apt-get-update-grafana":
+  command => "/usr/bin/apt-get update",  
 }->
-staging::extract { "consul_exporter.${consul_exporter_version}.tar.gz":
-  target  => "/opt/prometheus",
-  creates => "/opt/prometheus/consul_exporter",
-  require => File["/opt/prometheus"],
+class { 'grafana':
+  install_method  => 'repo',
+  cfg => {
+    app_mode => 'production',
+    users    => {
+      allow_sign_up => false,
+    },
+  },
 }
-
-# https://github.com/prometheus/pushgateway/releases/download/0.2.0/pushgateway-0.2.0.linux-amd64.tar.gz
-# https://github.com/prometheus/cloudwatch_exporter/archive/cloudwatch_exporter-0.1.tar.gz
+#->
+#grafana_datasource { 'prometheus':
+#  type              => 'prometheus',
+#  url               => 'http://localhost:80',
+  #access_mode       => 'proxy',
+  #is_default        => true,
+#}

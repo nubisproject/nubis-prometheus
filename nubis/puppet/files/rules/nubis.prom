@@ -1,0 +1,80 @@
+ALERT InstanceDown
+  IF up{job="node"} == 0
+  FOR 1m
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Instance {{ $labels.instance }} down",
+    description = "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.",
+  }
+
+ALERT ConsulDown
+  IF consul_agent_check{job="consul",check="serfHealth"} == 0
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Consul not healthy on {{ $labels.instance }}",
+    description = "{{ $labels.instance }} Consul sefl health reporting unhealthy",
+  }
+
+ALERT ConsulServiceDown
+  IF min(consul_catalog_service_node_healthy) by (service) < 1
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Consul service problem for {{ $labels.service }}",
+    description = "Consul detected {{ $labels.service }} with no healthy nodes",
+  }
+
+ALERT SustainedLoadHigh
+  IF avg_over_time(node_load1[5m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws > 2
+  FOR 10m
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Sustained HIGH load on {{ $labels.instance }}",
+    description = "{{ $labels.instance }} average 1 minute load is averaging over 2 for more than 10 minutes",
+  }
+
+ALERT OutlierLoad1
+  IF ( node_load1 > on (job) group_left(account) ( avg by (job) (node_load1) + on (job) 2 * stddev by (job) (node_load1 )  ) ) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
+  FOR 5m
+  LABELS {
+    severity = "critical",
+    type = "anomaly"
+  }
+  ANNOTATIONS {
+    summary = "Anomalous load on {{ $labels.instance }}",
+    description = "{{ $labels.instance }} is showing load that's more than 2 stddevs over the average"
+  }
+
+ALERT ConsulProxyAvailable
+  IF count(count(consul_catalog_service_node_healthy{job="consul",service="proxy"}) by (node)) != 2
+  FOR 5m
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Unexpected number of healthy proxy nodes",
+    description = "There are {{ $value }} healthy proxies and not the expected 2"
+  }
+
+ALERT ConsulConsulAvailable
+  IF count(count(consul_catalog_service_node_healthy{job="consul",service="consul"}) by (node)) != 3
+  FOR 5m
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Unexpected number of healthy Consul nodes",
+    description = "There are {{ $value }} healthy Consul servers and not the expected 3"
+  }
+
+ALERT ConsulFluentAvailable
+  IF count(count(consul_catalog_service_node_healthy{job="consul",service="fluentd"}) by (node)) != 1
+  FOR 5m
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Unexpected number of healthy Fluentd nodes",
+    description = "There are {{ $value }} healthy fluentd servers and not the expected 1"
+  }
+
+ALERT PredictDiskFull24h
+  IF predict_linear(node_filesystem_free{job='node'}[1h], 24*60*60) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws < 0
+  FOR 5m
+  LABELS {
+    severity="critical",
+    type="predictive"
+  }

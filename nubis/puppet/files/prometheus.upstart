@@ -10,5 +10,5 @@ setgid root
 script
   exec >> /var/log/prometheus.log
   exec 2>&1
-  exec /opt/prometheus/prometheus -web.listen-address :80 -storage.local.path /var/lib/prometheus -config.file /etc/prometheus/config.yml
+  exec /opt/prometheus/prometheus -web.listen-address :80 -storage.local.path /var/lib/prometheus -config.file /etc/prometheus/config.yml -alertmanager.url http://alertmanager.service.consul:9093
 end script

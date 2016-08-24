@@ -1,13 +1,10 @@
 {
   "variables": {
-    "automatic_version_bump": "1",
-    "automatic_version_verify": "1",
     "builders": [
       "amazon-ebs-ubuntu"
     ],
     "project_description": "Prometheus",
     "project_name": "nubis-prometheus",
-    "project_version": "0.2",
-    "source_ami_project_name": "nubis-base"
+    "project_version": "v1.3.0-dev"
   }
 }

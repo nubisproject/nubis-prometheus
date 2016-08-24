@@ -1,3 +1,7 @@
 #!/bin/bash
 
+ENV=$(nubis-environment NUBIS_ENVIRONMENT)
+
+consulate kv set "environments/$ENV/global/node_exporter/config/enabled" 1
+
 service prometheus restart
