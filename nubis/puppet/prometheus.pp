@@ -84,6 +84,14 @@ file { '/etc/consul/svc-prometheus.json':
     source  => 'puppet:///nubis/files/svc-prometheus.json',
 }
 
+file { '/etc/consul/svc-grafana.json':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0644',
+    source  => 'puppet:///nubis/files/svc-grafana.json',
+}
+
 file { '/etc/consul/svc-alertmanager.json':
     ensure  => file,
     owner   => root,
