@@ -58,6 +58,15 @@ file { '/etc/prometheus/config.yml':
     require => File['/etc/prometheus'],
 }
 
+file { '/etc/prometheus/alertmanager.yml':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0644',
+    source  => 'puppet:///nubis/files/alertmanager.yml',
+    require => File['/etc/prometheus'],
+}
+
 file { '/etc/init/prometheus.conf':
     ensure  => file,
     owner   => root,
@@ -105,6 +114,7 @@ staging::extract { "alertmanager.${alertmanager_version}.tar.gz":
   require => File["/opt/prometheus"],
 }
 
+# XXX: This is just too ugly
 exec { "apt-get-update-grafana":
   command => "/usr/bin/apt-get update",  
 }->
@@ -116,11 +126,46 @@ class { 'grafana':
       allow_sign_up => false,
     },
   },
+}->
+exec {"wait-for grafana startup":
+  command => "/bin/sleep 15",
+}->
+grafana_datasource { 'prometheus':
+  grafana_url       => 'http://localhost:3000',
+  grafana_user      => 'admin',
+  grafana_password  => 'admin',
+  type              => 'prometheus',
+  url               => 'http://localhost:80',
+  access_mode       => 'proxy',
+  is_default        => true,
 }
-#->
-#grafana_datasource { 'prometheus':
-#  type              => 'prometheus',
-#  url               => 'http://localhost:80',
-  #access_mode       => 'proxy',
-  #is_default        => true,
-#}
+
+include 'upstart'
+
+upstart::job { 'alertmanager':
+    description    => 'Prometheus Alert Manager',
+#    service_ensure => 'stopped',
+    # Never give up
+    respawn        => true,
+    respawn_limit  => 'unlimited',
+    start_on       => '(local-filesystems and net-device-up IFACE!=lo)',
+    env            => {
+      "SLEEP_TIME" => 1,
+      "GOMAXPROCS" => 2,
+    },
+    user           => 'root',
+    group          => 'root',
+    exec           => '/opt/prometheus/alertmanager -config.file /etc/prometheus/alertmanager.yml',
+    post_stop      => '
+goal=$(initctl status $UPSTART_JOB | awk \'{print $2}\' | cut -d \'/\' -f 1)
+if [ $goal != "stop" ]; then
+    echo "Backoff for $SLEEP_TIME seconds"
+    sleep $SLEEP_TIME
+    NEW_SLEEP_TIME=`expr 2 \* $SLEEP_TIME`
+    if [ $NEW_SLEEP_TIME -ge 60 ]; then
+        NEW_SLEEP_TIME=60
+    fi
+    initctl set-env SLEEP_TIME=$NEW_SLEEP_TIME
+fi
+',
+}

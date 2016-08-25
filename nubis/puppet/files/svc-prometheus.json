@@ -1,0 +1,10 @@
+{
+  "service": {
+    "name": "prometheus",
+    "check": {
+       "http": "http://localhost:80/status",
+       "interval": "10s",
+       "timeout": "1s"
+    }
+  }
+}
