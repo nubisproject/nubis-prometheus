@@ -1,0 +1,10 @@
+{
+  "service": {
+    "name": "grafana",
+    "check": {
+       "http": "http://localhost:3000/login",
+       "interval": "30s",
+       "timeout": "1s"
+    }
+  }
+}
