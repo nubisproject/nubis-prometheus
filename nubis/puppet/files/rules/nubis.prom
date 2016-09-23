@@ -9,6 +9,7 @@ ALERT InstanceDown
 
 ALERT ConsulDown
   IF sum(consul_agent_check{check="serfHealth",job="consul"}) by (node) != 3
+  FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Consul not healthy on {{ $labels.instance }}",
@@ -19,6 +20,7 @@ ALERT ConsulDown
 # Except for tainted instances, these we filter out here
 ALERT ConsulServiceDown
   IF min(consul_catalog_service_node_healthy{service != "tainted" }) BY (service) < 1
+  FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Consul service problem for {{ $labels.service }}",
