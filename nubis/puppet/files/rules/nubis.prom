@@ -8,20 +8,24 @@ ALERT InstanceDown
   }
 
 ALERT ConsulDown
-  IF consul_agent_check{job="consul",check="serfHealth"} == 0
+  IF sum(consul_agent_check{check="serfHealth",job="consul"}) by (node) != 3
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Consul not healthy on {{ $labels.instance }}",
     description = "{{ $labels.instance }} Consul sefl health reporting unhealthy",
   }
 
+# We expect all our Consul services to have at least 1 healthy member
+# Except for tainted instances, these we filter out here
 ALERT ConsulServiceDown
-  IF min(consul_catalog_service_node_healthy) by (service) < 1
+  IF min(consul_catalog_service_node_healthy{service != "tainted" }) BY (service) < 1
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Consul service problem for {{ $labels.service }}",
     description = "Consul detected {{ $labels.service }} with no healthy nodes",
   }
+
+# Create an alert for tainted istances past their expriry date
 
 ALERT SustainedLoadHigh
   IF avg_over_time(node_load1[5m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws > 2
@@ -42,6 +46,15 @@ ALERT OutlierLoad1
   ANNOTATIONS {
     summary = "Anomalous load on {{ $labels.instance }}",
     description = "{{ $labels.instance }} is showing load that's more than 2 stddevs over the average"
+  }
+
+ALERT ConsulInsufficientPeers
+  IF count(up{job="consul"} == 0) > (count(up{job="consul"}) / 2 - 1)
+  FOR 5m
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Consul Insufficient Peers",
+    description = "The consul has lost sufficient peers and will be unable to achieve Quorum"
   }
 
 ALERT ConsulProxyAvailable
