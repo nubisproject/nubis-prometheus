@@ -69,7 +69,7 @@ ALERT ConsulProxyAvailable
   }
 
 ALERT ConsulConsulAvailable
-  IF count(count(consul_catalog_service_node_healthy{job="consul",service="consul"}) by (node)) != 3
+  IF count(count(consul_catalog_service_node_healthy{job="consul",service="consul"} == 1) by (node)) != 3
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
