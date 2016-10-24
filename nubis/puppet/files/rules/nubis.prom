@@ -12,8 +12,8 @@ ALERT ConsulDown
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
-    summary = "Consul not healthy on {{ $labels.instance }}",
-    description = "{{ $labels.instance }} Consul sefl health reporting unhealthy",
+    summary = "Consul not healthy on {{ $labels.node }}",
+    description = "{{ $labels.node }} Consul se health reporting unhealthy",
   }
 
 # We expect all our Consul services to have at least 1 healthy member

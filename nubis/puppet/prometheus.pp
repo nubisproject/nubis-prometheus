@@ -1,8 +1,10 @@
-$prometheus_version = '1.0.1'
-$alertmanager_version = '0.4.0'
+$prometheus_version = '1.2.1'
+$alertmanager_version = '0.4.2'
+$blackbox_version = '0.2.0'
 
 $prometheus_url = "https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-amd64.tar.gz"
 $alertmanager_url = "https://github.com/prometheus/alertmanager/releases/download/v${alertmanager_version}/alertmanager-${alertmanager_version}.linux-amd64.tar.gz"
+$blackbox_url = "https://github.com/prometheus/blackbox_exporter/releases/download/v${blackbox_version}/blackbox_exporter-${blackbox_version}.linux-amd64.tar.gz"
 
 file { '/opt/prometheus':
   ensure => 'directory',
@@ -29,7 +31,7 @@ file { '/etc/prometheus/rules.d/nubis.prom':
     owner   => root,
     group   => root,
     mode    => '0755',
-    source  => 'puppet:///modules/nubis/files/rules/nubis.prom',
+    source  => 'puppet:///nubis/files/rules/nubis.prom',
     require => File['/etc/prometheus/rules.d'],
 }
 
@@ -46,7 +48,7 @@ file { '/etc/nubis.d/prometheus':
     owner  => root,
     group  => root,
     mode   => '0755',
-    source => 'puppet:///modules/nubis/files/prometheus-restart',
+    source => 'puppet:///nubis/files/prometheus-restart',
 }
 
 file { '/etc/prometheus/config.yml':
@@ -54,7 +56,7 @@ file { '/etc/prometheus/config.yml':
     owner   => root,
     group   => root,
     mode    => '0644',
-    source  => 'puppet:///modules/nubis/files/prometheus.yml',
+    source  => 'puppet:///nubis/files/prometheus.yml',
     require => File['/etc/prometheus'],
 }
 
@@ -63,7 +65,16 @@ file { '/etc/prometheus/alertmanager.yml':
     owner   => root,
     group   => root,
     mode    => '0644',
-    source  => 'puppet:///modules/nubis/files/alertmanager.yml',
+    source  => 'puppet:///nubis/files/alertmanager.yml',
+    require => File['/etc/prometheus'],
+}
+
+file { '/etc/prometheus/blackbox.yml':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0644',
+    source  => 'puppet:///nubis/files/blackbox.yml',
     require => File['/etc/prometheus'],
 }
 
@@ -72,7 +83,7 @@ file { '/etc/init/prometheus.conf':
     owner   => root,
     group   => root,
     mode    => '0644',
-    source  => 'puppet:///modules/nubis/files/prometheus.upstart',
+    source  => 'puppet:///nubis/files/prometheus.upstart',
     require => File['/etc/prometheus'],
 }
 
@@ -81,7 +92,7 @@ file { '/etc/consul/svc-prometheus.json':
     owner  => root,
     group  => root,
     mode   => '0644',
-    source => 'puppet:///modules/nubis/files/svc-prometheus.json',
+    source => 'puppet:///nubis/files/svc-prometheus.json',
 }
 
 file { '/etc/consul/svc-grafana.json':
@@ -89,7 +100,7 @@ file { '/etc/consul/svc-grafana.json':
     owner  => root,
     group  => root,
     mode   => '0644',
-    source => 'puppet:///modules/nubis/files/svc-grafana.json',
+    source => 'puppet:///nubis/files/svc-grafana.json',
 }
 
 file { '/etc/consul/svc-alertmanager.json':
@@ -97,7 +108,7 @@ file { '/etc/consul/svc-alertmanager.json':
     owner  => root,
     group  => root,
     mode   => '0644',
-    source => 'puppet:///modules/nubis/files/svc-alertmanager.json',
+    source => 'puppet:///nubis/files/svc-alertmanager.json',
 }
 
 notice ("Grabbing prometheus ${prometheus_version}")
@@ -119,6 +130,17 @@ staging::extract { "alertmanager.${alertmanager_version}.tar.gz":
   strip   => 1,
   target  => '/opt/prometheus',
   creates => '/opt/prometheus/alertmanager',
+  require => File['/opt/prometheus'],
+}
+
+notice ("Grabbing blackbox ${blackbox_version}")
+staging::file { "blackbox.${blackbox_version}.tar.gz":
+  source => $blackbox_url,
+}->
+staging::extract { "blackbox.${blackbox_version}.tar.gz":
+  strip   => 1,
+  target  => '/opt/prometheus',
+  creates => '/opt/prometheus/blackbox_exporter',
   require => File['/opt/prometheus'],
 }
 
@@ -152,7 +174,6 @@ include 'upstart'
 
 upstart::job { 'alertmanager':
     description   => 'Prometheus Alert Manager',
-#    service_ensure => 'stopped',
     # Never give up
     respawn       => true,
     respawn_limit => 'unlimited',
@@ -177,3 +198,31 @@ if [ $goal != "stop" ]; then
 fi
 ',
 }
+
+upstart::job { 'blackbox':
+    description   => 'Prometheus Blackbox Exporter',
+    # Never give up
+    respawn       => true,
+    respawn_limit => 'unlimited',
+    start_on      => '(local-filesystems and net-device-up IFACE!=lo)',
+    env           => {
+      'SLEEP_TIME' => 1,
+      'GOMAXPROCS' => 2,
+    },
+    user          => 'root',
+    group         => 'root',
+    exec          => '/opt/prometheus/blackbox_exporter -config.file /etc/prometheus/blackbox.yml -log.level info -log.format "logger:syslog?appname=blackbox_exporter&local=7"',
+    post_stop     => '
+goal=$(initctl status $UPSTART_JOB | awk \'{print $2}\' | cut -d \'/\' -f 1)
+if [ $goal != "stop" ]; then
+    echo "Backoff for $SLEEP_TIME seconds"
+    sleep $SLEEP_TIME
+    NEW_SLEEP_TIME=`expr 2 \* $SLEEP_TIME`
+    if [ $NEW_SLEEP_TIME -ge 60 ]; then
+        NEW_SLEEP_TIME=60
+    fi
+    initctl set-env SLEEP_TIME=$NEW_SLEEP_TIME
+fi
+',
+}
+

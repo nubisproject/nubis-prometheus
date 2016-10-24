@@ -13,5 +13,5 @@ route:
 receivers:
   - name: 'default'
     email_configs:
-      - to: 'gozer@mozilla.com'
+      - to: 'gozer+alertmanager@mozilla.com'
         require_tls: false
