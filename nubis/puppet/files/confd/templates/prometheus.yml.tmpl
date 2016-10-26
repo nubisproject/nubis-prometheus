@@ -9,7 +9,7 @@ global:
 {{if exists "/config/AccountName"}}
     account: '{{ getv "/config/AccountName" }}'
 {{end}}
-{{if exists "/config/Environment"}}
+{{if exists "/config/EnvironmentName"}}
     environment: '{{ getv "/config/EnvironmentName" }}'
 {{end}}
 {{if exists "/config/RegionName"}}

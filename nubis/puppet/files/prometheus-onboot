@@ -11,7 +11,7 @@ NUBIS_ENVIRONMENT=$(nubis-metadata NUBIS_ENVIRONMENT)
 
 KV_PREFIX="$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config"
 
-REGION=$(nubis-region)
+NUBIS_REGION=$(nubis-region)
 if [ "$NUBIS_REGION" != "" ]; then
   consulate kv set "$KV_PREFIX/RegionName" "$REGION"
 fi
