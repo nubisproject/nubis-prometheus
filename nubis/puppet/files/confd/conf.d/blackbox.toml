@@ -1,0 +1,15 @@
+[template]
+src = "blackbox.yml.tmpl"
+dest = "/etc/prometheus/blackbox.yml"
+prefix = "/%%PROJECT%%/%%ENVIRONMENT%%"
+
+uid = 0
+gid = 0
+mode = "0640"
+
+keys = [
+    "/config/*",
+    "/config"
+]
+
+reload_cmd = "/sbin/reload blackbox || /sbin/restart blackbox || /sbin/start blackbox"

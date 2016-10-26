@@ -50,3 +50,10 @@ variable shared_services_security_groups {
 variable project {
   default = "prometheus"
 }
+
+variable slack_url {
+}
+variable slack_channel {
+}
+variable notification_email {
+}

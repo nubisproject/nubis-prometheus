@@ -1,6 +1,10 @@
 {
   "service": {
     "name": "grafana",
+    "port": 3000,
+    "tags": [
+      "nubis-grafana.service.consul/"
+    ],
     "check": {
        "http": "http://localhost:3000/login",
        "interval": "30s",

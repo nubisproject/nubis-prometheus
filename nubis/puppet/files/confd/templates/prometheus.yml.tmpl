@@ -6,9 +6,20 @@ global:
   # external systems (federation, remote storage, Alertmanager).
   external_labels:
     monitor: 'prometheus'
+{{if exists "/config/AccountName"}}
+    account: '{{ getv "/config/AccountName" }}'
+{{end}}
+{{if exists "/config/Environment"}}
+    environment: '{{ getv "/config/EnvironmentName" }}'
+{{end}}
+{{if exists "/config/RegionName"}}
+    region: '{{ getv "/config/RegionName" }}'
+{{end}}
+
 
 rule_files:
   - "/etc/prometheus/rules.prom"
+  - "/etc/prometheus/nubis.rules.d/*.prom"
   - "/etc/prometheus/rules.d/*.prom"
 
 scrape_configs:
@@ -81,3 +92,4 @@ scrape_configs:
     - server: 'localhost:8500'
       services:
         - datadog
+        - node-exporter
