@@ -13,7 +13,7 @@ KV_PREFIX="$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config"
 
 NUBIS_REGION=$(nubis-region)
 if [ "$NUBIS_REGION" != "" ]; then
-  consulate kv set "$KV_PREFIX/RegionName" "$REGION"
+  consulate kv set "$KV_PREFIX/RegionName" "$NUBIS_REGION"
 fi
 
 NUBIS_PROMETHEUS_SLACK_URL=$(nubis-metadata NUBIS_PROMETHEUS_SLACK_URL)
