@@ -8,7 +8,7 @@ ALERT InstanceDown
   }
 
 ALERT ConsulDown
-  IF drop_common_labels(label_replace(label_replace(sum(consul_agent_check{check="serfHealth",job="consul"}) BY (node), "instance", "$1", "node", "(.*)"),"node","XXX","node",".*")) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws != 3
+  IF drop_common_labels(label_replace(label_replace(sum(consul_agent_check{check="serfHealth",job="consul"} == 1) BY (node), "instance", "$1", "node", "(.*)"),"node","XXX","node",".*")) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws != 3
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
@@ -60,13 +60,12 @@ ALERT ConsulInsufficientPeers
   }
 
 ALERT ConsulProxyAvailable
-  IF count(count(consul_catalog_service_node_healthy{job="consul",service="proxy"}) by (node)) != 2
+  IF count(count(consul_catalog_service_node_healthy{job="consul",service="proxy"} == 1) by (node)) != 2
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Unexpected number of healthy proxy nodes",
     description = "There are {{ $value }} healthy proxies and not the expected 2"
-  }
 
 ALERT ConsulConsulAvailable
   IF count(count(consul_catalog_service_node_healthy{job="consul",service="consul"} == 1) by (node)) != 3
@@ -78,7 +77,7 @@ ALERT ConsulConsulAvailable
   }
 
 ALERT ConsulFluentAvailable
-  IF count(count(consul_catalog_service_node_healthy{job="consul",service="fluentd"}) by (node)) != 1
+  IF count(count(consul_catalog_service_node_healthy{job="consul",service="fluentd"} == 1) by (node)) != 1
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
