@@ -60,29 +60,48 @@ ALERT ConsulInsufficientPeers
   }
 
 ALERT ConsulProxyAvailable
-  IF count(count(consul_catalog_service_node_healthy{job="consul",service="proxy"} == 1) by (node)) != 2
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="proxy"} == 1) by (node)) == 2)
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Unexpected number of healthy proxy nodes",
-    description = "There are {{ $value }} healthy proxies and not the expected 2"
+    description = "Healthy Proxy servers count isn't 2"
+  }
 
 ALERT ConsulConsulAvailable
-  IF count(count(consul_catalog_service_node_healthy{job="consul",service="consul"} == 1) by (node)) != 3
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="consul"} == 1) by (node)) == 3)
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Consul nodes",
-    description = "There are {{ $value }} healthy Consul servers and not the expected 3"
+    description = "Healthy Consul servers count isn't 3"
   }
 
 ALERT ConsulFluentAvailable
-  IF count(count(consul_catalog_service_node_healthy{job="consul",service="fluentd"} == 1) by (node)) != 1
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="fluentd"} == 1) by (node)) == 1)
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Fluentd nodes",
-    description = "There are {{ $value }} healthy fluentd servers and not the expected 1"
+    description = "Healthy fluentd servers count isn't 1"
+  }
+
+ALERT ConsulPrometheusAvailable
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="prometheus"} == 1) by (node)) == 1)
+  FOR 5m
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Unexpected number of healthy Fluentd nodes",
+    description = "Healthy prometheus servers count isn't 1"
+  }
+
+ALERT ConsulAlertmanagerAvailable
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="alertmanager"} == 1) by (node)) == 1)
+  FOR 5m
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Unexpected number of healthy Fluentd nodes",
+    description = "Healthy alertmanager servers count isn't 1"
   }
 
 ALERT PredictDiskFull24h

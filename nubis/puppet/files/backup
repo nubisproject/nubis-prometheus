@@ -14,7 +14,7 @@ cleanup() {
 
 save() {
   # first backup, possibly slow
-  aws --region "$REGION" s3 sync --quiet --delete "$FROM/" "s3://$BUCKET/"
+  aws --region "$REGION" s3 sync --quiet --delete --exclude PRISTINE "$FROM/" "s3://$BUCKET/"
 
   # Ensures we start prometheus no matter what once done
   if [ "$UPSTART_JOB" == "" ]; then
@@ -31,7 +31,7 @@ restore() {
     stop prometheus BACKUP=SKIP
   fi
 
-  aws --region "$REGION" s3 sync --quiet --delete "s3://$BUCKET/" "$FROM/"
+  aws --region "$REGION" s3 sync --quiet --delete --exclude PRISTINE "s3://$BUCKET/" "$FROM/"
 }
 
 case "$1" in
