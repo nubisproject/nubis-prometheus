@@ -8,8 +8,6 @@ setuid root
 setgid root
 
 pre-start script
-  set -x
-  env
   if [ "$BACKUP" != "SKIP" ]; then
     if [ -r /var/lib/prometheus/PRISTINE ]; then
       echo "Restoring backup from S3 before startup..."
@@ -27,8 +25,6 @@ script
 end script
 
 post-stop script
-  set -x
-  env
   if [ "$BACKUP" != "SKIP" ]; then
     echo -n "Backing up to S3..."
     /usr/local/bin/nubis-prometheus-backup save
