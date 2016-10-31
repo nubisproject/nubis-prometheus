@@ -226,7 +226,7 @@ resource "aws_launch_configuration" "prometheus" {
   # add on, and pick that element
   image_id = "${ element(split(",",replace(atlas_artifact.nubis-prometheus.id,":",",")) ,1 + index(split(",",replace(atlas_artifact.nubis-prometheus.id,":",",")), var.aws_region)) }"
 
-  instance_type        = "t2.nano"
+  instance_type        = "t2.small"
   key_name             = "${var.key_name}"
   iam_instance_profile = "${element(aws_iam_instance_profile.prometheus.*.name, count.index)}"
 
