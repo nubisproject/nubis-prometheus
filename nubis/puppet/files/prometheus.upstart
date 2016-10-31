@@ -28,7 +28,7 @@ end script
 post-stop script
   goal=$(initctl status $UPSTART_JOB | awk '{print $2}' | cut -d '/' -f 1)
   # only backup on explicit stop action, not crashes and the like
-  if [ "$goal" == "stop" ]; then
+  if [ "$goal" = "stop" ]; then
     if [ "$BACKUP" != "SKIP" ]; then
       echo -n "Backing up to S3..."
       /usr/local/bin/nubis-prometheus-backup save
