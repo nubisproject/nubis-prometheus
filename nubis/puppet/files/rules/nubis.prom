@@ -1,5 +1,5 @@
 ALERT InstanceDown
-  IF up{job="node"} == 0
+  IF up{job="node"} * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws == 0
   FOR 1m
   LABELS { severity = "critical" }
   ANNOTATIONS {
@@ -8,7 +8,7 @@ ALERT InstanceDown
   }
 
 ALERT ConsulDown
-  IF sum(consul_agent_check{check="serfHealth",job="consul"}) by (node) != 3
+  IF drop_common_labels(label_replace(label_replace(sum(consul_agent_check{check="serfHealth",job="consul"} == 1) BY (node), "instance", "$1", "node", "(.*)"),"node","XXX","node",".*")) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws != 3
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
@@ -19,7 +19,7 @@ ALERT ConsulDown
 # We expect all our Consul services to have at least 1 healthy member
 # Except for tainted instances, these we filter out here
 ALERT ConsulServiceDown
-  IF min(consul_catalog_service_node_healthy{service != "tainted" }) BY (service) < 1
+  IF drop_common_labels(label_replace(label_replace(min(consul_catalog_service_node_healthy{service!="tainted"}) BY (service,node), "instance", "$1", "node", "(.*)"), "node", "XXX", "node", ".*")) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws < 1
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
@@ -39,7 +39,7 @@ ALERT SustainedLoadHigh
   }
 
 ALERT OutlierLoad1
-  IF ( node_load1 > on (job) group_left(account) ( avg by (job) (node_load1) + on (job) 2 * stddev by (job) (node_load1 )  ) ) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
+  IF (node_load1 > 0.25 > ON(job) GROUP_LEFT(account) (avg(node_load1) BY (job)  + ON(job) 2 * stddev(node_load1) BY (job))) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
   FOR 5m
   LABELS {
     severity = "critical",
@@ -47,7 +47,7 @@ ALERT OutlierLoad1
   }
   ANNOTATIONS {
     summary = "Anomalous load on {{ $labels.instance }}",
-    description = "{{ $labels.instance }} is showing load that's more than 2 stddevs over the average"
+    description = "{{ $labels.instance }} is showing load=={{ $value }} that's more than 2 stddevs over the average"
   }
 
 ALERT ConsulInsufficientPeers
@@ -60,30 +60,48 @@ ALERT ConsulInsufficientPeers
   }
 
 ALERT ConsulProxyAvailable
-  IF count(count(consul_catalog_service_node_healthy{job="consul",service="proxy"}) by (node)) != 2
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="proxy"} == 1) by (node)) == 2)
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Unexpected number of healthy proxy nodes",
-    description = "There are {{ $value }} healthy proxies and not the expected 2"
+    description = "Healthy Proxy servers count isn't 2"
   }
 
 ALERT ConsulConsulAvailable
-  IF count(count(consul_catalog_service_node_healthy{job="consul",service="consul"} == 1) by (node)) != 3
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="consul"} == 1) by (node)) == 3)
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Consul nodes",
-    description = "There are {{ $value }} healthy Consul servers and not the expected 3"
+    description = "Healthy Consul servers count isn't 3"
   }
 
 ALERT ConsulFluentAvailable
-  IF count(count(consul_catalog_service_node_healthy{job="consul",service="fluentd"}) by (node)) != 1
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="fluentd"} == 1) by (node)) == 1)
   FOR 5m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Fluentd nodes",
-    description = "There are {{ $value }} healthy fluentd servers and not the expected 1"
+    description = "Healthy fluentd servers count isn't 1"
+  }
+
+ALERT ConsulPrometheusAvailable
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="prometheus"} == 1) by (node)) == 1)
+  FOR 5m
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Unexpected number of healthy Fluentd nodes",
+    description = "Healthy prometheus servers count isn't 1"
+  }
+
+ALERT ConsulAlertmanagerAvailable
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="alertmanager"} == 1) by (node)) == 1)
+  FOR 5m
+  LABELS { severity = "critical" }
+  ANNOTATIONS {
+    summary = "Unexpected number of healthy Fluentd nodes",
+    description = "Healthy alertmanager servers count isn't 1"
   }
 
 ALERT PredictDiskFull24h
@@ -92,4 +110,44 @@ ALERT PredictDiskFull24h
   LABELS {
     severity="critical",
     type="predictive"
+  }
+  ANNOTATIONS {
+    summary = "Disk is going to be full in < 24h",
+    description = "The disk {{ $labels.mountpoint }} on {{ $labels.instance }} is filling up too fast, full in 24 hours or less"
+  }
+
+ALERT FluentdBufferSize
+  IF abs(avg_over_time(fluentd_status_buffer_total_bytes[5m]) - avg_over_time(fluentd_status_buffer_total_bytes[60m])) > 1 * stddev_over_time(fluentd_status_buffer_total_bytes[60m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
+  FOR 5m
+  LABELS {
+    severity="critical",
+    type="anomaly"
+  }
+  ANNOTATIONS {
+    summary = "Fluentd queue size increasing too fast",
+    description = "The fluentd queue size on {{ $labels.instance }} for {{ $labels.type }} has been growing too fast"
+  }
+
+ALERT FluentdQueueLength
+  IF abs(avg_over_time(fluentd_status_buffer_queue_length[5m]) - avg_over_time(fluentd_status_buffer_queue_length[60m])) > 1 * stddev_over_time(fluentd_status_buffer_queue_length[60m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
+  FOR 5m
+  LABELS {
+    severity="critical",
+    type="anomaly"
+  }
+  ANNOTATIONS {
+    summary = "Fluentd queue length increasing too fast",
+    description = "The fluentd queue length on {{ $labels.instance }} for {{ $labels.type }} has been growing too fast"
+  }
+
+ALERT FluentdRetryRate
+  IF irate(fluentd_status_retry_count[5m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws > 0
+  FOR 5m
+  LABELS {
+    severity="critical",
+    type="anomaly"
+  }
+  ANNOTATIONS {
+    summary = "Fluentd has been retrying to push out",
+    description = "The fluentd plugin for {{ $labels.type }} on {{ $labels.instance }} has been forced to retry {{ $value }} times/s recently, possible issue with push destination"
   }

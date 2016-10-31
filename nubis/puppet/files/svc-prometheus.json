@@ -1,6 +1,10 @@
 {
   "service": {
     "name": "prometheus",
+    "port": 80,
+    "tags": [
+      "nubis-prometheus.service.consul/"
+    ],
     "check": {
        "http": "http://localhost:80/status",
        "interval": "10s",

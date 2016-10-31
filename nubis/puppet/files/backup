@@ -1,0 +1,49 @@
+#!/bin/bash -l
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
+
+FROM=/var/lib/prometheus
+
+REGION=$(nubis-region)
+BUCKET=$(nubis-metadata NUBIS_PROMETHEUS_BUCKET)
+
+cleanup() {
+  echo "Starting Prometheus"
+  start prometheus BACKUP=SKIP >/dev/null 2>&1
+}
+
+save() {
+  # first backup, possibly slow
+  aws --region "$REGION" s3 sync --quiet --delete --exclude PRISTINE "$FROM/" "s3://$BUCKET/"
+
+  # Ensures we start prometheus no matter what once done
+  if [ "$UPSTART_JOB" == "" ]; then
+    trap cleanup EXIT
+
+    # Prometheus backs itself up after stopping
+    stop prometheus
+
+  fi
+}
+
+restore() {
+  if [ "$UPSTART_JOB" == "" ]; then
+    stop prometheus BACKUP=SKIP
+  fi
+
+  aws --region "$REGION" s3 sync --quiet --delete --exclude PRISTINE "s3://$BUCKET/" "$FROM/"
+}
+
+case "$1" in
+   save)
+   save
+   ;;
+   restore)
+   restore
+   ;;
+   *)
+   echo "$0 [save|restore]"
+   exit
+   ;;
+esac
+

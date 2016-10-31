@@ -1,0 +1,51 @@
+#!/bin/bash
+
+ENV=$(nubis-metadata NUBIS_ENVIRONMENT)
+
+echo "Enabling node_exporter"
+
+consulate kv set "environments/$ENV/global/node_exporter/config/enabled" 1
+
+NUBIS_PROJECT=$(nubis-metadata NUBIS_PROJECT)
+NUBIS_ENVIRONMENT=$(nubis-metadata NUBIS_ENVIRONMENT)
+
+KV_PREFIX="$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config"
+
+NUBIS_REGION=$(nubis-region)
+if [ "$NUBIS_REGION" != "" ]; then
+  consulate kv set "$KV_PREFIX/RegionName" "$NUBIS_REGION"
+fi
+
+NUBIS_PROMETHEUS_SLACK_URL=$(nubis-metadata NUBIS_PROMETHEUS_SLACK_URL)
+if [ "$NUBIS_PROMETHEUS_SLACK_URL" != "" ]; then
+  consulate kv set "$KV_PREFIX/Slack/Url" "$NUBIS_PROMETHEUS_SLACK_URL"
+else
+  consulate kv rm "$KV_PREFIX/Slack/Url"
+fi
+
+NUBIS_PROMETHEUS_SLACK_CHANNEL=$(nubis-metadata NUBIS_PROMETHEUS_SLACK_CHANNEL)
+if [ "$NUBIS_PROMETHEUS_SLACK_URL" != "" ]; then
+  consulate kv set "$KV_PREFIX/Slack/Channel" "$NUBIS_PROMETHEUS_SLACK_CHANNEL"
+else
+  consulate kv rm "$KV_PREFIX/Slack/Channel"
+fi
+
+NUBIS_PROMETHEUS_NOTIFICATION_EMAIL=$(nubis-metadata NUBIS_PROMETHEUS_NOTIFICATION_EMAIL)
+if [ "$NUBIS_PROMETHEUS_NOTIFICATION_EMAIL" != "" ]; then
+  consulate kv set "$KV_PREFIX/Email/Destination" "$NUBIS_PROMETHEUS_NOTIFICATION_EMAIL"
+else
+  consulate kv rm "$KV_PREFIX/Email/Destination"
+fi
+
+NUBIS_ACCOUNT=$(nubis-metadata NUBIS_ACCOUNT)
+if [ "$NUBIS_ACCOUNT" != "" ]; then
+  consulate kv set "$KV_PREFIX/AccountName" "$NUBIS_ACCOUNT"
+else
+  consulate kv rm "$KV_PREFIX/AccountName"
+fi
+
+if [ "$NUBIS_ENVIRONMENT" != "" ]; then
+  consulate kv set "$KV_PREFIX/EnvironmentName" "$NUBIS_ENVIRONMENT"
+else
+  consulate kv rm "$KV_PREFIX/EnvironmentName"
+fi

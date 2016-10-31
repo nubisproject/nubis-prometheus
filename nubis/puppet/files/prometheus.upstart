@@ -7,8 +7,34 @@ env GOMAXPROCS=2
 setuid root
 setgid root
 
+pre-start script
+  if [ "$BACKUP" != "SKIP" ]; then
+    if [ -r /var/lib/prometheus/PRISTINE ]; then
+      echo "Restoring backup from S3 before startup..."
+      /usr/local/bin/nubis-prometheus-backup restore
+      echo " Done"
+    fi
+  fi
+  initctl unset-env BACKUP
+  unset BACKUP
+end script
+
 script
   exec >> /var/log/prometheus.log
   exec 2>&1
-  exec /opt/prometheus/prometheus -web.listen-address :80 -storage.local.path /var/lib/prometheus -config.file /etc/prometheus/config.yml -alertmanager.url http://alertmanager.service.consul:9093
+  exec /opt/prometheus/prometheus -web.listen-address :80 -storage.local.path /var/lib/prometheus -config.file /etc/prometheus/config.yml -alertmanager.url http://alertmanager.service.consul:9093 -web.external-url http://prometheus.service.consul/
+end script
+
+post-stop script
+  goal=$(initctl status $UPSTART_JOB | awk '{print $2}' | cut -d '/' -f 1)
+  # only backup on explicit stop action, not crashes and the like
+  if [ "$goal" == "stop" ]; then
+    if [ "$BACKUP" != "SKIP" ]; then
+      echo -n "Backing up to S3..."
+      /usr/local/bin/nubis-prometheus-backup save
+      echo " Done"
+   fi
+  fi
+  initctl unset-env BACKUP
+  unset BACKUP
 end script

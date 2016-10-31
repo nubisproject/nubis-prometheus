@@ -25,14 +25,20 @@ file { '/etc/prometheus/rules.d':
   group  => 0,
   mode   => '0755',
 }
+file { '/etc/prometheus/nubis.rules.d':
+  ensure => 'directory',
+  owner  => 0,
+  group  => 0,
+  mode   => '0755',
+}
 
-file { '/etc/prometheus/rules.d/nubis.prom':
+file { '/etc/prometheus/nubis.rules.d/platform.prom':
     ensure  => file,
     owner   => root,
     group   => root,
     mode    => '0755',
     source  => 'puppet:///nubis/files/rules/nubis.prom',
-    require => File['/etc/prometheus/rules.d'],
+    require => File['/etc/prometheus/nubis.rules.d'],
 }
 
 file { '/var/lib/prometheus':
@@ -48,34 +54,7 @@ file { '/etc/nubis.d/prometheus':
     owner  => root,
     group  => root,
     mode   => '0755',
-    source => 'puppet:///nubis/files/prometheus-restart',
-}
-
-file { '/etc/prometheus/config.yml':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0644',
-    source  => 'puppet:///nubis/files/prometheus.yml',
-    require => File['/etc/prometheus'],
-}
-
-file { '/etc/prometheus/alertmanager.yml':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0644',
-    source  => 'puppet:///nubis/files/alertmanager.yml',
-    require => File['/etc/prometheus'],
-}
-
-file { '/etc/prometheus/blackbox.yml':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0644',
-    source  => 'puppet:///nubis/files/blackbox.yml',
-    require => File['/etc/prometheus'],
+    source => 'puppet:///nubis/files/prometheus-onboot',
 }
 
 file { '/etc/init/prometheus.conf':
@@ -85,6 +64,14 @@ file { '/etc/init/prometheus.conf':
     mode    => '0644',
     source  => 'puppet:///nubis/files/prometheus.upstart',
     require => File['/etc/prometheus'],
+}
+
+file { '/etc/init/prometheus.override':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0644',
+    content => 'manual',
 }
 
 file { '/etc/consul/svc-prometheus.json':
@@ -173,19 +160,27 @@ grafana_datasource { 'prometheus':
 include 'upstart'
 
 upstart::job { 'alertmanager':
-    description   => 'Prometheus Alert Manager',
+    description    => 'Prometheus Alert Manager',
+    service_ensure => 'stopped',
     # Never give up
-    respawn       => true,
-    respawn_limit => 'unlimited',
-    start_on      => '(local-filesystems and net-device-up IFACE!=lo)',
-    env           => {
+    respawn        => true,
+    respawn_limit  => 'unlimited',
+    start_on       => '(local-filesystems and net-device-up IFACE!=lo)',
+    env            => {
       'SLEEP_TIME' => 1,
       'GOMAXPROCS' => 2,
     },
-    user          => 'root',
-    group         => 'root',
-    exec          => '/opt/prometheus/alertmanager -config.file /etc/prometheus/alertmanager.yml',
-    post_stop     => '
+    user           => 'root',
+    group          => 'root',
+    script         => '
+  if [ -r /etc/profile.d/proxy.sh ]; then
+    echo "Loading Proxy settings"
+    . /etc/profile.d/proxy.sh
+  fi
+
+  exec /opt/prometheus/alertmanager -config.file /etc/prometheus/alertmanager.yml -web.external-url http://alertmanager.service.consul:9093/
+',
+    post_stop      => '
 goal=$(initctl status $UPSTART_JOB | awk \'{print $2}\' | cut -d \'/\' -f 1)
 if [ $goal != "stop" ]; then
     echo "Backoff for $SLEEP_TIME seconds"
@@ -200,19 +195,20 @@ fi
 }
 
 upstart::job { 'blackbox':
-    description   => 'Prometheus Blackbox Exporter',
+    description    => 'Prometheus Blackbox Exporter',
+    service_ensure => 'stopped',
     # Never give up
-    respawn       => true,
-    respawn_limit => 'unlimited',
-    start_on      => '(local-filesystems and net-device-up IFACE!=lo)',
-    env           => {
+    respawn        => true,
+    respawn_limit  => 'unlimited',
+    start_on       => '(local-filesystems and net-device-up IFACE!=lo)',
+    env            => {
       'SLEEP_TIME' => 1,
       'GOMAXPROCS' => 2,
     },
-    user          => 'root',
-    group         => 'root',
-    exec          => '/opt/prometheus/blackbox_exporter -config.file /etc/prometheus/blackbox.yml -log.level info -log.format "logger:syslog?appname=blackbox_exporter&local=7"',
-    post_stop     => '
+    user           => 'root',
+    group          => 'root',
+    exec           => '/opt/prometheus/blackbox_exporter -config.file /etc/prometheus/blackbox.yml -log.level info -log.format "logger:syslog?appname=blackbox_exporter&local=7"',
+    post_stop      => '
 goal=$(initctl status $UPSTART_JOB | awk \'{print $2}\' | cut -d \'/\' -f 1)
 if [ $goal != "stop" ]; then
     echo "Backoff for $SLEEP_TIME seconds"

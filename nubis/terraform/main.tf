@@ -55,61 +55,6 @@ resource "aws_s3_bucket" "prometheus" {
   }
 }
 
-variable "elb_account_ids" {
-  default = {
-    us-east-1      = "127311923021"
-    us-west-1      = "027434742980"
-    us-west-2      = "797873946194"
-    eu-central-1   = "054676820928"
-    ap-southeast-1 = "114774131450"
-    ap-northeast-1 = "582318560864"
-    ap-southeast-2 = "783225319266"
-    ap-northeast-2 = "600734575887"
-    sa-east-1      = "507241528517"
-  }
-}
-
-resource "aws_s3_bucket" "elb" {
-  count = "${var.enabled * length(split(",", var.environments))}"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  bucket = "prometheus-elb-${element(split(",",var.environments), count.index)}-${element(split(",",module.uuid.uuids), count.index)}"
-
-  acl           = "private"
-  force_destroy = true
-
-  versioning {
-    enabled = true
-  }
-
-  # Careful, resource must match the name of the bucket
-  policy = <<POLICY
-{
-          "Version": "2008-10-17",
-          "Statement": [
-            {
-              "Sid": "Allow ELBs to publish logs here",
-              "Action": "s3:PutObject",
-              "Effect": "Allow",
-              "Resource": "arn:aws:s3:::prometheus-elb-${element(split(",",var.environments), count.index)}-${element(split(",",module.uuid.uuids), count.index)}/*",
-              "Principal": {
-                "AWS": "arn:aws:iam::${lookup(var.elb_account_ids, var.aws_region)}:root"
-              }
-            }
-          ]
-        }  
-POLICY
-
-  tags = {
-    Name        = "${var.project}-${element(split(",",var.environments), count.index)}"
-    Region      = "${var.aws_region}"
-    Environment = "${element(split(",",var.environments), count.index)}"
-  }
-}
-
 resource "aws_security_group" "prometheus" {
   count = "${var.enabled * length(split(",", var.environments))}"
 
@@ -132,9 +77,32 @@ resource "aws_security_group" "prometheus" {
     ]
   }
 
+  # Prometheus itself
   ingress {
     from_port = 80
     to_port   = 80
+    protocol  = "tcp"
+
+    security_groups = [
+      "${element(split(",",var.ssh_security_groups), count.index)}",
+    ]
+  }
+
+  # Alertmanager
+  ingress {
+    from_port = 9093
+    to_port   = 9093
+    protocol  = "tcp"
+
+    security_groups = [
+      "${element(split(",",var.ssh_security_groups), count.index)}",
+    ]
+  }
+
+  # Grafana
+  ingress {
+    from_port = 3000
+    to_port   = 3000
     protocol  = "tcp"
 
     security_groups = [
@@ -225,8 +193,7 @@ resource "aws_iam_role_policy" "prometheus" {
                 "s3:ListBucket"
               ],
               "Resource": [
-	          "${element(aws_s3_bucket.prometheus.*.arn, count.index)}",
-		  "${element(aws_s3_bucket.elb.*.arn, count.index)}"
+	          "${element(aws_s3_bucket.prometheus.*.arn, count.index)}"
 	       ]
             },
             {
@@ -238,14 +205,6 @@ resource "aws_iam_role_policy" "prometheus" {
                 "s3:DeleteObject"
               ],
               "Resource": "${element(aws_s3_bucket.prometheus.*.arn, count.index)}/*"
-            },
-	    {
-              "Sid": "ReadingFromELBBucket",
-              "Effect": "Allow",
-              "Action": [
-                "s3:GetObject"
-              ],
-              "Resource": "${element(aws_s3_bucket.elb.*.arn, count.index)}/*"
             }
   ]
 }
@@ -285,6 +244,9 @@ NUBIS_ENVIRONMENT="${element(split(",",var.environments), count.index)}"
 NUBIS_ACCOUNT="${var.service_name}"
 NUBIS_DOMAIN="${var.nubis_domain}"
 NUBIS_PROMETHEUS_BUCKET="${element(aws_s3_bucket.prometheus.*.id, count.index)}"
+NUBIS_PROMETHEUS_SLACK_URL="${var.slack_url}"
+NUBIS_PROMETHEUS_SLACK_CHANNEL="${var.slack_channel}"
+NUBIS_PROMETHEUS_NOTIFICATION_EMAIL="${var.notification_email}"
 EOF
 }
 
