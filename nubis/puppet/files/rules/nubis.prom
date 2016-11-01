@@ -21,7 +21,10 @@ ALERT ConsulDown
 ALERT ConsulServiceDown
   IF drop_common_labels(label_replace(label_replace(min(consul_catalog_service_node_healthy{service!="tainted"}) BY (service, node)  - ON  (node) GROUP_LEFT(instance) min(consul_agent_check{check="serfHealth"}) BY (node), "instance", "$1", "node", "(.*)"), "node", "XXX", "node", ".*")) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws < 0
   FOR 5m
-  LABELS { severity = "critical" }
+  LABELS {
+    severity = "critical",
+    service = "consul"
+  }
   ANNOTATIONS {
     summary = "Consul service problem for {{ $labels.service }}",
     description = "Consul detected {{ $labels.service }} with no healthy nodes",
@@ -62,7 +65,10 @@ ALERT ConsulInsufficientPeers
 ALERT ConsulProxyAvailable
   IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="proxy"} == 1) by (node)) == 2)
   FOR 5m
-  LABELS { severity = "critical" }
+  LABELS {
+    severity = "critical",
+    service = "proxy"
+  }
   ANNOTATIONS {
     summary = "Unexpected number of healthy proxy nodes",
     description = "Healthy Proxy servers count isn't 2"
@@ -71,7 +77,10 @@ ALERT ConsulProxyAvailable
 ALERT ConsulConsulAvailable
   IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="consul"} == 1) by (node)) == 3)
   FOR 5m
-  LABELS { severity = "critical" }
+  LABELS {
+    severity = "critical",
+    service = "consul"
+  }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Consul nodes",
     description = "Healthy Consul servers count isn't 3"
@@ -80,7 +89,10 @@ ALERT ConsulConsulAvailable
 ALERT ConsulFluentAvailable
   IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="fluentd"} == 1) by (node)) == 1)
   FOR 5m
-  LABELS { severity = "critical" }
+  LABELS {
+    severity = "critical",
+    service = "fluentd"
+  }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Fluentd nodes",
     description = "Healthy fluentd servers count isn't 1"
@@ -89,7 +101,10 @@ ALERT ConsulFluentAvailable
 ALERT ConsulPrometheusAvailable
   IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="prometheus"} == 1) by (node)) == 1)
   FOR 5m
-  LABELS { severity = "critical" }
+  LABELS {
+    severity = "critical",
+    service = "prometheus"
+  }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Fluentd nodes",
     description = "Healthy prometheus servers count isn't 1"
@@ -98,7 +113,10 @@ ALERT ConsulPrometheusAvailable
 ALERT ConsulAlertmanagerAvailable
   IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="alertmanager"} == 1) by (node)) == 1)
   FOR 5m
-  LABELS { severity = "critical" }
+  LABELS {
+    severity = "critical",
+    service = "alertmanager"
+  }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Fluentd nodes",
     description = "Healthy alertmanager servers count isn't 1"
