@@ -16,9 +16,11 @@ receivers:
     email_configs:
       - to: '{{getv "/config/Email/Destination"}}'
         require_tls: false
+        send_resolved: true
 {{end}}
 {{if and (exists "/config/Slack/Url") (exists "/config/Slack/Channel")}}
     slack_configs:
       - api_url: '{{getv "/config/Slack/Url"}}'
         channel: '{{getv "/config/Slack/Channel"}}'
+        send_resolved: true
 {{end}}
