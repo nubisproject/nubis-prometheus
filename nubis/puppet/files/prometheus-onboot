@@ -52,7 +52,7 @@ fi
 
 NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY=$(nubis-metadata NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY)
 if [ "$NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY" != "" ]; then
-  consulate kv set "$KV_PREFIX/PagerDury/ServiceKey" "$NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY"
+  consulate kv set "$KV_PREFIX/PagerDuty/ServiceKey" "$NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY"
 else
   consulate kv rm "$KV_PREFIX/PagerDuty/ServiceKey"
 fi
