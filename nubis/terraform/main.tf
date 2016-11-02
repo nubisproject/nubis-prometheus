@@ -247,6 +247,7 @@ NUBIS_PROMETHEUS_BUCKET="${element(aws_s3_bucket.prometheus.*.id, count.index)}"
 NUBIS_PROMETHEUS_SLACK_URL="${var.slack_url}"
 NUBIS_PROMETHEUS_SLACK_CHANNEL="${var.slack_channel}"
 NUBIS_PROMETHEUS_NOTIFICATION_EMAIL="${var.notification_email}"
+NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY="${var.pagerduty_service_key}"
 EOF
 }
 
