@@ -61,3 +61,11 @@ variable notification_email {
 variable pagerduty_service_key {
   default = ""
 }
+
+variable nubis_sudo_groups {
+  default = "nubis_sudo_groups"
+}
+
+variable nubis_user_groups {
+  default = ""
+}
