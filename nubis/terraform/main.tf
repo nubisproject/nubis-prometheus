@@ -95,9 +95,10 @@ resource "aws_security_group" "prometheus" {
     to_port   = 443
     protocol  = "tcp"
 
+    cidr_blocks = ["0.0.0.0/0"]
+
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
-      "0.0.0.0/0",
     ]
   }
 
@@ -106,6 +107,8 @@ resource "aws_security_group" "prometheus" {
     from_port = 8082
     to_port   = 8082
     protocol  = "tcp"
+
+    cidr_blocks = ["0.0.0.0/0"]
 
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
@@ -119,6 +122,8 @@ resource "aws_security_group" "prometheus" {
     to_port   = 9093
     protocol  = "tcp"
 
+    cidr_blocks = ["0.0.0.0/0"]
+
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
     ]
@@ -129,6 +134,8 @@ resource "aws_security_group" "prometheus" {
     from_port = 3000
     to_port   = 3000
     protocol  = "tcp"
+
+    cidr_blocks = ["0.0.0.0/0"]
 
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
