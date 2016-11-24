@@ -469,7 +469,9 @@ resource "aws_route53_record" "traefik-wildcard" {
   name = "*.mon.${element(split(",",var.environments), count.index)}"
   type = "CNAME"
   ttl = "30"
-  records = ["mon.${element(split(",",var.environments), count.index)}"]
+  records = [
+    "mon.${element(split(",",var.environments), count.index)}.${var.aws_region}.${var.service_name}.${var.nubis_domain}"
+  ]
 }
 
 resource "aws_route53_record" "traefik" {
