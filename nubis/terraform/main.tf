@@ -362,7 +362,7 @@ resource "aws_autoscaling_group" "prometheus" {
 }
 
 resource "aws_security_group" "traefik" {
-  count = "${var.enabled * length(split(",", var.environments)) * signum(length(var.public_subnet_ids))}"
+  count = "${var.enabled * length(split(",", var.environments)) * signum(length(split(",",var.public_subnet_ids)))}"
 
   lifecycle {
     create_before_destroy = true
