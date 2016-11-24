@@ -111,6 +111,7 @@ resource "aws_security_group" "prometheus" {
 
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
+
     ]
   }
 
@@ -357,5 +358,96 @@ resource "aws_autoscaling_group" "prometheus" {
     key                 = "ServiceName"
     value               = "${var.project}"
     propagate_at_launch = true
+  }
+}
+
+resource "aws_security_group" "traefik" {
+  count = "${var.enabled * length(split(",", var.environments)) * signum(length(var.public_subnet_ids))}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  name        = "traefik-${element(split(",",var.environments), count.index)}"
+  description = "Allow inbound traffic for traefik"
+
+  vpc_id = "${element(split(",",var.vpc_ids), count.index)}"
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Put back Amazon Default egress all rule
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
+resource "aws_elb" "traefik" {
+  count = "${var.enabled * length(split(",", var.environments)) * signum(length(var.public_subnet_ids))}"
+
+  #XXX
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  name = "traefik-${element(split(",",var.environments), count.index)}"
+
+  #XXX: Fugly, assumes 3 subnets per environments, bad assumption, but valid ATM
+  subnets = [
+    "${element(split(",",var.public_subnet_ids), (count.index * 3) + 0 )}",
+    "${element(split(",",var.public_subnet_ids), (count.index * 3) + 1 )}",
+    "${element(split(",",var.public_subnet_ids), (count.index * 3) + 2 )}",
+  ]
+
+  # This is an internet facing ELB
+  internal = false
+
+  listener {
+    instance_port      = 80
+    instance_protocol  = "http"
+    lb_port            = 80
+    lb_protocol        = "http"
+  }
+
+  listener {
+    instance_port      = 443
+    instance_protocol  = "tcp"
+    lb_port            = 443
+    lb_protocol        = "tcp"
+  }
+
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    target              = "TCP:80"
+    interval            = 60
+  }
+
+  cross_zone_load_balancing = true
+
+  security_groups = [
+    "${element(aws_security_group.traefik.*.id, count.index)}",
+  ]
+
+  tags = {
+    Name        = "traefik-${element(split(",",var.environments), count.index)}"
+    Region      = "${var.aws_region}"
+    Environment = "${element(split(",",var.environments), count.index)}"
   }
 }
