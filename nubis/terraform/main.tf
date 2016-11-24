@@ -82,10 +82,9 @@ resource "aws_security_group" "prometheus" {
     from_port = 80
     to_port   = 80
     protocol  = "tcp"
-
+    cidr_blocks = ["0.0.0.0/0"]
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
-      "0.0.0.0/0",
     ]
   }
 
@@ -112,7 +111,6 @@ resource "aws_security_group" "prometheus" {
 
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
-      "0.0.0.0/0",
     ]
   }
 
@@ -237,9 +235,28 @@ resource "aws_iam_role_policy" "prometheus" {
                 "s3:DeleteObject"
               ],
               "Resource": "${element(aws_s3_bucket.prometheus.*.arn, count.index)}/*"
-            },
+            }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy" "grafana" {
+  count = "${var.enabled * length(split(",", var.environments))}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  name = "${var.project}-grafana-${element(split(",",var.environments), count.index)}-${var.aws_region}"
+  role = "${element(aws_iam_role.prometheus.*.id, count.index)}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
             {
-              "Sid": "Grafana",
+              "Sid": "CloudWatchReadOnly",
               "Effect": "Allow",
               "Action": [
                 "cloudwatch:List*",
