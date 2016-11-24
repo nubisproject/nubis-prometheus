@@ -82,9 +82,10 @@ resource "aws_security_group" "prometheus" {
     from_port = 80
     to_port   = 80
     protocol  = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
+      "${element(aws_security_group.elb-traefik.*.id, count.index)}",
     ]
   }
 
@@ -94,10 +95,9 @@ resource "aws_security_group" "prometheus" {
     to_port   = 443
     protocol  = "tcp"
 
-    cidr_blocks = ["0.0.0.0/0"]
-
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
+      "${element(aws_security_group.elb-traefik.*.id, count.index)}",
     ]
   }
 
@@ -106,12 +106,12 @@ resource "aws_security_group" "prometheus" {
     from_port = 8082
     to_port   = 8082
     protocol  = "tcp"
+    self = true
 
     cidr_blocks = ["0.0.0.0/0"]
 
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
-
     ]
   }
 
@@ -120,6 +120,7 @@ resource "aws_security_group" "prometheus" {
     from_port = 9093
     to_port   = 9093
     protocol  = "tcp"
+    self = true
 
     cidr_blocks = ["0.0.0.0/0"]
 
@@ -133,8 +134,8 @@ resource "aws_security_group" "prometheus" {
     from_port = 3000
     to_port   = 3000
     protocol  = "tcp"
-
-    cidr_blocks = ["0.0.0.0/0"]
+    
+    self = true
 
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
@@ -361,14 +362,15 @@ resource "aws_autoscaling_group" "prometheus" {
   }
 }
 
-resource "aws_security_group" "traefik" {
-  count = "${var.enabled * length(split(",", var.environments)) * signum(length(split(",",var.public_subnet_ids)))}"
+resource "aws_security_group" "elb-traefik" {
+  count = "${var.enabled * length(split(",", var.environments))}"
+  # * length(split(",",var.public_subnet_ids))}"
 
   lifecycle {
     create_before_destroy = true
   }
 
-  name        = "traefik-${element(split(",",var.environments), count.index)}"
+  name        = "elb-traefik-${element(split(",",var.environments), count.index)}"
   description = "Allow inbound traffic for traefik"
 
   vpc_id = "${element(split(",",var.vpc_ids), count.index)}"
@@ -396,9 +398,8 @@ resource "aws_security_group" "traefik" {
   }
 }
 
-
 resource "aws_elb" "traefik" {
-  count = "${var.enabled * length(split(",", var.environments)) * signum(length(var.public_subnet_ids))}"
+  count = "${var.enabled * length(split(",", var.environments))}"
 
   #XXX
   lifecycle {
@@ -442,7 +443,7 @@ resource "aws_elb" "traefik" {
   cross_zone_load_balancing = true
 
   security_groups = [
-    "${element(aws_security_group.traefik.*.id, count.index)}",
+    "${element(aws_security_group.elb-traefik.*.id, count.index)}",
   ]
 
   tags = {

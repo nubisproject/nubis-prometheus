@@ -36,7 +36,6 @@ variable subnet_ids {
 }
 
 variable public_subnet_ids {
-  default = ""
 }
 
 variable ssh_security_groups {
