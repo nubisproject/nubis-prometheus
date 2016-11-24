@@ -338,6 +338,10 @@ resource "aws_autoscaling_group" "prometheus" {
 
   wait_for_capacity_timeout = "60m"
 
+  load_balancers = [
+    "${element(aws_elb.traefik.*.name, count.index)}",
+  ]
+
   enabled_metrics = [
     "GroupMinSize",
     "GroupMaxSize",
@@ -358,6 +362,12 @@ resource "aws_autoscaling_group" "prometheus" {
   tag {
     key                 = "ServiceName"
     value               = "${var.project}"
+    propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "Environment"
+    value               = "${element(split(",",var.environments), count.index)}"
     propagate_at_launch = true
   }
 }
