@@ -13,6 +13,9 @@ variable nubis_version {
 variable nubis_domain {
 }
 
+variable zone_id {
+}
+
 variable service_name {
 }
 

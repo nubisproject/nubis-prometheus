@@ -462,3 +462,26 @@ resource "aws_elb" "traefik" {
     Environment = "${element(split(",",var.environments), count.index)}"
   }
 }
+
+resource "aws_route53_record" "traefik-wildcard" {
+  count   = "${var.enabled * length(split(",", var.environments))}"
+  zone_id = "${var.zone_id}"
+  name = "*.mon.${element(split(",",var.environments), count.index)}"
+  type = "CNAME"
+  ttl = "30"
+  records = ["mon.${element(split(",",var.environments), count.index)}"]
+}
+
+resource "aws_route53_record" "traefik" {
+   count   = "${var.enabled * length(split(",", var.environments))}"
+   zone_id = "${var.zone_id}"
+
+   name = "mon.${element(split(",",var.environments), count.index)}"
+   type = "A"
+
+   alias {
+     name                   = "${element(aws_elb.traefik.*.dns_name,count.index)}"
+     zone_id                = "${element(aws_elb.traefik.*.zone_id,count.index)}"
+     evaluate_target_health = true
+   }
+}
