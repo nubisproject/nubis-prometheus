@@ -77,7 +77,7 @@ resource "aws_security_group" "prometheus" {
     ]
   }
 
-  # Prometheus itself
+  # Traefik
   ingress {
     from_port = 80
     to_port   = 80
@@ -85,6 +85,31 @@ resource "aws_security_group" "prometheus" {
 
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
+      "0.0.0.0/0",
+    ]
+  }
+
+  # Traefik 
+  ingress {
+    from_port = 443
+    to_port   = 443
+    protocol  = "tcp"
+
+    security_groups = [
+      "${element(split(",",var.ssh_security_groups), count.index)}",
+      "0.0.0.0/0",
+    ]
+  }
+
+  # Traefik  Admin
+  ingress {
+    from_port = 8082
+    to_port   = 8082
+    protocol  = "tcp"
+
+    security_groups = [
+      "${element(split(",",var.ssh_security_groups), count.index)}",
+      "0.0.0.0/0",
     ]
   }
 
@@ -205,6 +230,15 @@ resource "aws_iam_role_policy" "prometheus" {
                 "s3:DeleteObject"
               ],
               "Resource": "${element(aws_s3_bucket.prometheus.*.arn, count.index)}/*"
+            },
+            {
+              "Sid": "Grafana",
+              "Effect": "Allow",
+              "Action": [
+                "cloudwatch:List*",
+                "cloudwatch:Describe*"
+              ],
+              "Resource": "*"
             }
   ]
 }

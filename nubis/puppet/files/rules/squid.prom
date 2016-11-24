@@ -1,0 +1,2 @@
+squid:squid_cacheServerRequests:rate5m = rate(squid_cacheServerRequests[5m])
+squid:squid_cacheServerRequests:rate60m = rate(squid_cacheServerRequests[60m])
