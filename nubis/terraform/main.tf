@@ -262,6 +262,7 @@ resource "aws_iam_role_policy" "grafana" {
               "Effect": "Allow",
               "Action": [
                 "cloudwatch:List*",
+                "cloudwatch:Get*",
                 "cloudwatch:Describe*"
               ],
               "Resource": "*"
