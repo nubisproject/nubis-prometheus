@@ -430,9 +430,9 @@ resource "aws_elb" "traefik" {
 
   listener {
     instance_port      = 80
-    instance_protocol  = "http"
+    instance_protocol  = "tcp"
     lb_port            = 80
-    lb_protocol        = "http"
+    lb_protocol        = "tcp"
   }
 
   listener {
