@@ -32,6 +32,9 @@ restore() {
   fi
 
   aws --region "$REGION" s3 sync --quiet --delete --exclude PRISTINE "s3://$BUCKET/" "$FROM/"
+
+  # We can now delete our pristine marker, we've restored once
+  rm -f $FROM/PRISTINE
 }
 
 case "$1" in
