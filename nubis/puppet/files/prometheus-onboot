@@ -56,3 +56,16 @@ if [ "$NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY" != "" ]; then
 else
   consulate kv rm "$KV_PREFIX/PagerDuty/ServiceKey"
 fi
+
+NUBIS_MON_DOMAIN="mon.$NUBIS_ENVIRONMENT.$NUBIS_REGION.$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)"
+consulate kv set "$KV_PREFIX/MonDomain" "$NUBIS_MON_DOMAIN"
+
+ADMIN_PASSWORD=$(consulate kv get "$KV_PREFIX/Admin/Password")
+if [[ "$ADMIN_PASSWORD" == "None" || "$ADMIN_PASSWORD" == "" ]]; then
+  #XXX: Needs to come from credstash
+  ADMIN_PASSWORD=$(openssl rand -base64 15)
+  ADMIN_HTPASSWORD=$(htpasswd -nb admin "$ADMIN_PASSWORD")
+
+  consulate kv set "$KV_PREFIX/Admin/Password" "$ADMIN_PASSWORD"
+  consulate kv set "$KV_PREFIX/Admin/HTPassword" "$ADMIN_HTPASSWORD"
+fi
