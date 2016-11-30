@@ -1,5 +1,9 @@
-package { 'awscli':
-  ensure => latest,
+class { 'python':
+    pip => 'present',
+}
+
+python::pip { 'awscli':
+    ensure => '1.11.15',
 }
 
 file { '/usr/local/bin/nubis-prometheus-backup':
