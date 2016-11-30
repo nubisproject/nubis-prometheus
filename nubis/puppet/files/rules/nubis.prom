@@ -23,7 +23,6 @@ ALERT ConsulServiceDown
   FOR 5m
   LABELS {
     severity = "critical",
-    service = "consul"
   }
   ANNOTATIONS {
     summary = "Consul service problem for {{ $labels.service }}",
@@ -67,7 +66,6 @@ ALERT ConsulProxyAvailable
   FOR 5m
   LABELS {
     severity = "critical",
-    service = "proxy"
   }
   ANNOTATIONS {
     summary = "Unexpected number of healthy proxy nodes",
@@ -79,7 +77,6 @@ ALERT ConsulConsulAvailable
   FOR 5m
   LABELS {
     severity = "critical",
-    service = "consul"
   }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Consul nodes",
@@ -91,7 +88,6 @@ ALERT ConsulFluentAvailable
   FOR 5m
   LABELS {
     severity = "critical",
-    service = "fluentd"
   }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Fluentd nodes",
@@ -103,7 +99,6 @@ ALERT ConsulPrometheusAvailable
   FOR 5m
   LABELS {
     severity = "critical",
-    service = "prometheus"
   }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Fluentd nodes",
@@ -115,7 +110,6 @@ ALERT ConsulAlertmanagerAvailable
   FOR 5m
   LABELS {
     severity = "critical",
-    service = "alertmanager"
   }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Fluentd nodes",
@@ -124,7 +118,7 @@ ALERT ConsulAlertmanagerAvailable
 
 ALERT PredictDiskFull24h
   IF predict_linear(node_filesystem_free{job='node'}[1h], 24*60*60) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws < 0
-  FOR 5m
+  FOR 30m
   LABELS {
     severity="critical",
     type="predictive"
