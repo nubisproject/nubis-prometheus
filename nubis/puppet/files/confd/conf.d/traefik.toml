@@ -1,0 +1,15 @@
+[template]
+src = "traefik.toml.tmpl"
+dest = "/etc/traefik/traefik.toml"
+prefix = "/%%PROJECT%%/%%ENVIRONMENT%%"
+
+uid = 0
+gid = 0
+mode = "0640"
+
+keys = [
+    "/config/*",
+    "/config"
+]
+
+reload_cmd = "/sbin/reload traefik || /sbin/restart traefik || /sbin/start traefik"

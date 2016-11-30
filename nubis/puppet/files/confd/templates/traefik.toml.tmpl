@@ -1,0 +1,47 @@
+defaultEntryPoints = ["http","https"]
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+{{if exists "/config/Admin/HTPassword"}}
+    [entryPoints.http.auth.basic]
+      users = ["{{ getv "/config/Admin/HTPassword" }}"]
+{{ end }}
+#    [entryPoints.http.redirect]
+#      entryPoint = "https"
+  [entryPoints.https]
+    address = ":443"
+    [entryPoints.https.tls]
+{{if exists "/config/Admin/HTPassword"}}
+    [entryPoints.https.auth.basic]
+      users = ["{{ getv "/config/Admin/HTPassword" }}"]
+{{ end }}
+
+[web]
+address = ":8082"
+
+[consulCatalog]
+endpoint = "127.0.0.1:8500"
+domain = "{{ getv "/config/MonDomain" }}"
+constraints = [ "tag==monitoring" ]
+
+[consul]
+endpoint = "127.0.0.1:8500"
+watch = true
+prefix = "nubis/traefik/{{ getv "/config/EnvironmentName" }}/config"
+
+[acme]
+# Handle when this isn't set
+email="{{ getv "/config/Email/Destination" }}"
+storage = "nubis/traefik/{{ getv "/config/EnvironmentName" }}/acme"
+entryPoint = "https"
+
+# Disable for prod
+caServer = "https://acme-staging.api.letsencrypt.org/directory"
+
+onDemand = true
+[[acme.domains]]
+   main = "{{ getv "/config/MonDomain" }}"
+
+#[file]
+#watch = true
+#filename = "/etc/traefik/rules.toml"
