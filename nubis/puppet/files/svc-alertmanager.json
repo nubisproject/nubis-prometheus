@@ -3,10 +3,11 @@
     "name": "alertmanager",
     "port": 9093,
     "tags": [
-      "nubis-alertmanager.service.consul/"
+      "traefik.tags=monitoring",
+      "traefik.frontend.rule=PathPrefix:/alertmanager" 
     ],
     "check": {
-       "http": "http://localhost:9093/",
+       "http": "http://localhost:9093/alertmanager/",
        "interval": "10s",
        "timeout": "1s"
     }
