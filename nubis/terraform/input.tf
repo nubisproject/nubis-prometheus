@@ -75,3 +75,10 @@ variable nubis_sudo_groups {
 variable nubis_user_groups {
   default = ""
 }
+
+variable "credstash_key" {
+  description = "KMS Key ID used for Credstash (aaaabbbb-cccc-dddd-1111-222233334444)"
+}
+
+variable "credstash_dynamodb_table" {
+}
