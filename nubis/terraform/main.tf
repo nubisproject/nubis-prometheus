@@ -309,6 +309,7 @@ NUBIS_PROMETHEUS_SLACK_URL="${var.slack_url}"
 NUBIS_PROMETHEUS_SLACK_CHANNEL="${var.slack_channel}"
 NUBIS_PROMETHEUS_NOTIFICATION_EMAIL="${var.notification_email}"
 NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY="${var.pagerduty_service_key}"
+NUBIS_PROMETHEUS_FEDERATE="${element(split("/", concat(var.environments, "/", "")), signum(count.index))}"
 NUBIS_SUDO_GROUPS="${var.nubis_sudo_groups}"
 NUBIS_USER_GROUPS="${var.nubis_user_groups}"
 EOF
@@ -487,4 +488,41 @@ resource "aws_route53_record" "traefik" {
      zone_id                = "${element(aws_elb.traefik.*.zone_id,count.index)}"
      evaluate_target_health = true
    }
+}
+
+# This null resource is responsible for storing our secret authentication into KMS
+resource "null_resource" "secrets" {
+  count = "${var.enabled * length(split(",", var.environments))}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  # Important to list here every variable that affects what needs to be put into KMS
+  triggers {
+    secret    = "${var.credstash_key}"   region    = "${var.aws_region}"
+    version   = "${var.nubis_version}"
+    federation = "${template_file.federation.rendered}"
+    context   = "-E region:${var.aws_region} -E environment:${element(split(",",var.environments), count.index)} -E service:${var.project}"
+    unicreds         = "unicreds -r ${var.aws_region} put -k ${var.credstash_key} ${var.project}/${element(split(",",var.environments), count.index)}"
+    unicreds_file    = "unicreds -r ${var.aws_region} put-file -k ${var.credstash_key} ${var.project}/${element(split(",",var.environments), count.index)}"
+  }
+
+  provisioner "local-exec" {
+    command = "${self.triggers.unicreds}/federation/password ${template_file.federation.rendered} ${self.triggers.context}"
+  }
+}
+
+# TF 0.6 limitation
+# Used as a stable random-number generator since we don't have random provider yet
+resource "tls_private_key" "federation" {
+  algorithm = "ECDSA"
+}
+
+resource "template_file" "federation" {
+  template = "${password32}"
+
+  vars = {
+    password32 = "${replace(tls_private_key.federation.id,"/^(.{32}).*/","$1")}"
+  }
 }
