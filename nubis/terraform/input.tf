@@ -82,3 +82,8 @@ variable "credstash_key" {
 
 variable "credstash_dynamodb_table" {
 }
+
+variable "password" {
+  description = "Password for the Web UI"
+  default = ""
+}

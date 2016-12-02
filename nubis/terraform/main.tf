@@ -500,10 +500,11 @@ resource "null_resource" "secrets" {
 
   # Important to list here every variable that affects what needs to be put into KMS
   triggers {
-    secret    = "${var.credstash_key}"   region    = "${var.aws_region}"
-    version   = "${var.nubis_version}"
+    secret     = "${var.credstash_key}"   region    = "${var.aws_region}"
+    version    = "${var.nubis_version}"
     federation = "${template_file.federation.rendered}"
-    context   = "-E region:${var.aws_region} -E environment:${element(split(",",var.environments), count.index)} -E service:${var.project}"
+    password   = "${var.password}"
+    context    = "-E region:${var.aws_region} -E environment:${element(split(",",var.environments), count.index)} -E service:${var.project}"
     unicreds         = "unicreds -r ${var.aws_region} put -k ${var.credstash_key} ${var.project}/${element(split(",",var.environments), count.index)}"
     unicreds_file    = "unicreds -r ${var.aws_region} put-file -k ${var.credstash_key} ${var.project}/${element(split(",",var.environments), count.index)}"
   }
@@ -511,18 +512,51 @@ resource "null_resource" "secrets" {
   provisioner "local-exec" {
     command = "${self.triggers.unicreds}/federation/password ${template_file.federation.rendered} ${self.triggers.context}"
   }
+
+  provisioner "local-exec" {
+    command = "${self.triggers.unicreds}/admin/password ${template_file.password.rendered} ${self.triggers.context}"
+  }
 }
 
 # TF 0.6 limitation
 # Used as a stable random-number generator since we don't have random provider yet
+
 resource "tls_private_key" "federation" {
   algorithm = "ECDSA"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "tls_private_key" "password" {
+  algorithm = "ECDSA"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "template_file" "federation" {
-  template = "${password32}"
+  template = "${password}"
 
   vars = {
-    password32 = "${replace(tls_private_key.federation.id,"/^(.{32}).*/","$1")}"
+    password = "${replace(tls_private_key.federation.id,"/^(.{32}).*/","$1")}"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "template_file" "password" {
+  template = "${password}"
+
+  vars = {
+    password = "${coalesce(var.password, replace(tls_private_key.federation.id,"/^(.{32}).*/","$1"))}"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }

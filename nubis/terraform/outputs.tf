@@ -5,3 +5,7 @@ output "iam_roles" {
 output "federation_password" {
   value = "${template_file.federation.rendered}"
 }
+
+output "admin_password" {
+  value = "${template_file.password.rendered}"
+}
