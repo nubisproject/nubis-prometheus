@@ -69,3 +69,13 @@ if [ "$FEDERATION_PASSWORD" != "$SECRET_FEDERATION_PASSWORD" ]; then
   consulate kv set "$KV_PREFIX/Federation/Password" "$SECRET_FEDERATION_PASSWORD"
   consulate kv set "$KV_PREFIX/Federation/HTPassword" "$FEDERATION_HTPASSWORD"
 fi
+
+SECRET_ADMIN_PASSWORD=$(nubis-secret get admin/password)
+ADMIN_PASSWORD=$(consulate kv get "$KV_PREFIX/admin/Password")
+if [ "$ADMIN_PASSWORD" != "$SECRET_ADMIN_PASSWORD" ]; then
+
+  ADMIN_HTPASSWORD=$(htpasswd -nb admin "$SECRET_ADMIN_PASSWORD")
+
+  consulate kv set "$KV_PREFIX/Admin/Password" "$SECRET_ADMIN_PASSWORD"
+  consulate kv set "$KV_PREFIX/Admin/HTPassword" "$ADMIN_HTPASSWORD"
+fi
