@@ -2,15 +2,8 @@ defaultEntryPoints = ["http","https"]
 [entryPoints]
   [entryPoints.http]
     address = ":80"
-{{if exists "/config/Federation/HTPassword"}}
-    [entryPoints.http.auth.basic]
-      users = [
-        "{{ getv "/config/Federation/HTPassword" }}",
-        "{{ getv "/config/Admin/HTPassword" }}"
-     ]
-{{ end }}
-#    [entryPoints.http.redirect]
-#      entryPoint = "https"
+    [entryPoints.http.redirect]
+      entryPoint = "https"
   [entryPoints.https]
     address = ":443"
     [entryPoints.https.tls]
@@ -42,7 +35,7 @@ storage = "nubis/traefik/{{ getv "/config/EnvironmentName" }}/acme"
 entryPoint = "https"
 
 # Disable for prod
-caServer = "https://acme-staging.api.letsencrypt.org/directory"
+#caServer = "https://acme-staging.api.letsencrypt.org/directory"
 
 onDemand = true
 [[acme.domains]]

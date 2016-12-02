@@ -11,7 +11,7 @@ class { 'grafana':
   version        => '3.1.1-1470047149',
   cfg            => {
     app_mode          => 'production',
-    'server' => {
+    'server'          => {
       protocol => 'http',
       root_url => '/grafana',
     },
@@ -38,9 +38,18 @@ grafana_datasource { 'prometheus':
   grafana_user     => 'admin',
   grafana_password => 'admin',
   type             => 'prometheus',
-  url              => 'http://localhost:81',
+  url              => 'http://localhost:81/prometheus',
   access_mode      => 'proxy',
   is_default       => true,
+}->
+grafana_datasource { 'elasticsearch':
+  grafana_url      => 'http://localhost:3000',
+  grafana_user     => 'admin',
+  grafana_password => 'admin',
+  type             => 'elasticsearch',
+  url              => 'http://es.service.consul:8080',
+  database         => '[logstash-]YYYY.MM.DD',
+  access_mode      => 'proxy',
 }->
 #grafana_datasource { 'cloudwatch': is not supported ;-(
 exec {'create cloudwatch datasource':
