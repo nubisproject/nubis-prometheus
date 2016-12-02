@@ -7,9 +7,9 @@ staging::file { '/usr/local/bin/traefik':
   source => $traefik_url,
   target => '/usr/local/bin/traefik',
 }->
-exec { "chmod /usr/local/bin/traefik":
-  command => "chmod 755 /usr/local/bin/traefik",
-  path => ['/sbin','/bin','/usr/sbin','/usr/bin','/usr/local/sbin','/usr/local/bin'],
+exec { 'chmod /usr/local/bin/traefik':
+  command => 'chmod 755 /usr/local/bin/traefik',
+  path    => ['/sbin','/bin','/usr/sbin','/usr/bin','/usr/local/sbin','/usr/local/bin'],
 }
 
 file { '/etc/traefik':
@@ -62,11 +62,11 @@ fi
 }
 
 file { '/etc/consul/svc-traefik.json':
-  ensure  => file,
-  owner   => root,
-  group   => root,
-  mode    => '0644',
-  source  => 'puppet:///nubis/files/svc-traefik.json',
+  ensure => file,
+  owner  => root,
+  group  => root,
+  mode   => '0644',
+  source => 'puppet:///nubis/files/svc-traefik.json',
 }
 
 # Normally, we should be able to have a static rule for this

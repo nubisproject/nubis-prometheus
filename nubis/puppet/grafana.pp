@@ -11,7 +11,7 @@ class { 'grafana':
   version        => '3.1.1-1470047149',
   cfg            => {
     app_mode          => 'production',
-    'server' => {
+    'server'          => {
       protocol => 'http',
       root_url => '/grafana',
     },
