@@ -4,7 +4,10 @@ defaultEntryPoints = ["http","https"]
     address = ":80"
 {{if exists "/config/Federation/HTPassword"}}
     [entryPoints.http.auth.basic]
-      users = ["{{ getv "/config/Federation/HTPassword" }}"]
+      users = [
+        "{{ getv "/config/Federation/HTPassword" }}",
+        "{{ getv "/config/Admin/HTPassword" }}"
+     ]
 {{ end }}
 #    [entryPoints.http.redirect]
 #      entryPoint = "https"
@@ -13,7 +16,10 @@ defaultEntryPoints = ["http","https"]
     [entryPoints.https.tls]
 {{if exists "/config/Federation/HTPassword"}}
     [entryPoints.https.auth.basic]
-      users = ["{{ getv "/config/Federation/HTPassword" }}"]
+      users = [
+        "{{ getv "/config/Federation/HTPassword" }}",
+        "{{ getv "/config/Admin/HTPassword" }}"
+      ]
 {{ end }}
 
 [web]
