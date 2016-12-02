@@ -1,6 +1,6 @@
-$prometheus_version = '1.2.1'
-$alertmanager_version = '0.4.2'
-$blackbox_version = '0.2.0'
+$prometheus_version = '1.4.1'
+$alertmanager_version = '0.5.1'
+$blackbox_version = '0.3.0'
 
 $prometheus_url = "https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-amd64.tar.gz"
 $alertmanager_url = "https://github.com/prometheus/alertmanager/releases/download/v${alertmanager_version}/alertmanager-${alertmanager_version}.linux-amd64.tar.gz"
@@ -38,6 +38,24 @@ file { '/etc/prometheus/nubis.rules.d/platform.prom':
     group   => root,
     mode    => '0755',
     source  => 'puppet:///nubis/files/rules/nubis.prom',
+    require => File['/etc/prometheus/nubis.rules.d'],
+}
+
+file { '/etc/prometheus/nubis.rules.d/squid.prom':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    source  => 'puppet:///nubis/files/rules/squid.prom',
+    require => File['/etc/prometheus/nubis.rules.d'],
+}
+
+file { '/etc/prometheus/nubis.rules.d/apache.prom':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    source  => 'puppet:///nubis/files/rules/apache.prom',
     require => File['/etc/prometheus/nubis.rules.d'],
 }
 
@@ -82,14 +100,6 @@ file { '/etc/consul/svc-prometheus.json':
     source => 'puppet:///nubis/files/svc-prometheus.json',
 }
 
-file { '/etc/consul/svc-grafana.json':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0644',
-    source => 'puppet:///nubis/files/svc-grafana.json',
-}
-
 file { '/etc/consul/svc-alertmanager.json':
     ensure => file,
     owner  => root,
@@ -131,32 +141,6 @@ staging::extract { "blackbox.${blackbox_version}.tar.gz":
   require => File['/opt/prometheus'],
 }
 
-# XXX: This is just too ugly
-exec { 'apt-get-update-grafana':
-  command => '/usr/bin/apt-get update',
-}->
-class { 'grafana':
-  install_method => 'repo',
-  cfg            => {
-    app_mode => 'production',
-    users    => {
-      allow_sign_up => false,
-    },
-  },
-}->
-exec {'wait-for grafana startup':
-  command => '/bin/sleep 15',
-}->
-grafana_datasource { 'prometheus':
-  grafana_url      => 'http://localhost:3000',
-  grafana_user     => 'admin',
-  grafana_password => 'admin',
-  type             => 'prometheus',
-  url              => 'http://localhost:80',
-  access_mode      => 'proxy',
-  is_default       => true,
-}
-
 include 'upstart'
 
 upstart::job { 'alertmanager':
@@ -178,7 +162,7 @@ upstart::job { 'alertmanager':
     . /etc/profile.d/proxy.sh
   fi
 
-  exec /opt/prometheus/alertmanager -config.file /etc/prometheus/alertmanager.yml -web.external-url http://alertmanager.service.consul:9093/
+  exec /opt/prometheus/alertmanager -config.file /etc/prometheus/alertmanager.yml -web.external-url "http://mon.$(nubis-metadata NUBIS_ENVIRONMENT).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/alertmanager"
 ',
     post_stop      => '
 goal=$(initctl status $UPSTART_JOB | awk \'{print $2}\' | cut -d \'/\' -f 1)
@@ -207,7 +191,14 @@ upstart::job { 'blackbox':
     },
     user           => 'root',
     group          => 'root',
-    exec           => '/opt/prometheus/blackbox_exporter -config.file /etc/prometheus/blackbox.yml -log.level info -log.format "logger:syslog?appname=blackbox_exporter&local=7"',
+    script         => '
+  if [ -r /etc/profile.d/proxy.sh ]; then
+    echo "Loading Proxy settings"
+    . /etc/profile.d/proxy.sh
+  fi
+
+  exec /opt/prometheus/blackbox_exporter -config.file /etc/prometheus/blackbox.yml -log.level info -log.format "logger:syslog?appname=blackbox_exporter&local=7"
+',
     post_stop      => '
 goal=$(initctl status $UPSTART_JOB | awk \'{print $2}\' | cut -d \'/\' -f 1)
 if [ $goal != "stop" ]; then

@@ -1,12 +1,13 @@
 {
   "service": {
     "name": "prometheus",
-    "port": 80,
+    "port": 81,
     "tags": [
-      "nubis-prometheus.service.consul/"
+      "traefik.tags=monitoring",
+      "traefik.frontend.rule=PathPrefix:/prometheus"
     ],
     "check": {
-       "http": "http://localhost:80/status",
+       "http": "http://localhost:81/prometheus/status",
        "interval": "10s",
        "timeout": "1s"
     }

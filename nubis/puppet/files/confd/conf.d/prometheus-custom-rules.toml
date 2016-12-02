@@ -1,0 +1,14 @@
+[template]
+src = "prometheus-custom-rules.prom.tmpl"
+dest = "/etc/prometheus/rules.d/custom-rules.prom"
+prefix = "/monitoring/%%ENVIRONMENT%%"
+
+uid = 0
+gid = 0
+mode = "0640"
+
+keys = [
+    "/"
+]
+
+reload_cmd = "/sbin/reload prometheus || /sbin/restart prometheus || /sbin/start prometheus"

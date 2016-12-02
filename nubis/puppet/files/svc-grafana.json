@@ -3,7 +3,8 @@
     "name": "grafana",
     "port": 3000,
     "tags": [
-      "nubis-grafana.service.consul/"
+        "traefik.tags=monitoring",
+        "traefik.frontend.rule=PathPrefixStrip:/grafana"
     ],
     "check": {
        "http": "http://localhost:3000/login",

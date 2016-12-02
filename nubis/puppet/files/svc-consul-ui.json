@@ -1,0 +1,14 @@
+{
+  "service": {
+    "name": "kv",
+    "port": 8500,
+    "tags": [
+      "traefik.tags=monitoring"
+    ],
+    "check": {
+       "http": "http://localhost:8500/v1/status/peers",
+       "interval": "10s",
+       "timeout": "1s"
+    }
+  }
+}

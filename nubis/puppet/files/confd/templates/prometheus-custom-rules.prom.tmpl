@@ -1,0 +1,6 @@
+# Generated form Confd
+{{ range $dir := lsdir "/" }}
+## From: {{$dir}}
+{{ $path := print "/" $dir "/"}} {{ range $rule := ls $path }} {{ $rule_path := print $path  $rule }}
+## Rule: {{ $rule }}
+{{ getv $rule_path }} {{ end }} {{ end }}

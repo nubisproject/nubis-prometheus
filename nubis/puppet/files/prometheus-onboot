@@ -56,3 +56,16 @@ if [ "$NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY" != "" ]; then
 else
   consulate kv rm "$KV_PREFIX/PagerDuty/ServiceKey"
 fi
+
+NUBIS_MON_DOMAIN="mon.$NUBIS_ENVIRONMENT.$NUBIS_REGION.$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)"
+consulate kv set "$KV_PREFIX/MonDomain" "$NUBIS_MON_DOMAIN"
+
+SECRET_FEDERATION_PASSWORD=$(nubis-secret get federation/password)
+FEDERATION_PASSWORD=$(consulate kv get "$KV_PREFIX/Federation/Password")
+if [ "$FEDERATION_PASSWORD" != "$SECRET_FEDERATION_PASSWORD" ]; then
+
+  FEDERATION_HTPASSWORD=$(htpasswd -nb federation "$SECRET_FEDERATION_PASSWORD")
+
+  consulate kv set "$KV_PREFIX/Federation/Password" "$SECRET_FEDERATION_PASSWORD"
+  consulate kv set "$KV_PREFIX/Federation/HTPassword" "$FEDERATION_HTPASSWORD"
+fi

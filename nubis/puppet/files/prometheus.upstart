@@ -20,9 +20,14 @@ pre-start script
 end script
 
 script
+  if [ -r /etc/profile.d/proxy.sh ]; then
+    echo "Loading Proxy settings"
+    . /etc/profile.d/proxy.sh
+  fi
+
   exec >> /var/log/prometheus.log
   exec 2>&1
-  exec /opt/prometheus/prometheus -web.listen-address :80 -storage.local.path /var/lib/prometheus -config.file /etc/prometheus/config.yml -alertmanager.url http://alertmanager.service.consul:9093 -web.external-url http://prometheus.service.consul/
+  exec /opt/prometheus/prometheus -storage.local.retention 744h -storage.local.dirty=true -web.listen-address :81 -storage.local.path /var/lib/prometheus -config.file /etc/prometheus/config.yml -alertmanager.url http://alertmanager.service.consul:9093/alertmanager -web.external-url "http://mon.$(nubis-metadata NUBIS_ENVIRONMENT).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/prometheus"
 end script
 
 post-stop script
