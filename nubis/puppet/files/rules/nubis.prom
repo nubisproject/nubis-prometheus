@@ -42,7 +42,7 @@ ALERT SustainedLoadHigh
 
 ALERT OutlierLoad1
   IF (node_load1 > 0.25 > ON(job) GROUP_LEFT(account) (avg(node_load1) BY (job)  + ON(job) 2 * stddev(node_load1) BY (job))) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
-  FOR 5m
+  FOR 15m
   LABELS {
     severity = "critical",
     type = "anomaly"

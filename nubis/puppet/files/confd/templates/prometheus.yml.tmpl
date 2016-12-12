@@ -147,6 +147,23 @@ scrape_configs:
         - apache-exporter
         - apache
 
+  - job_name: 'fluentd-elasticsearch'
+    scrape_interval: 5s
+    relabel_configs:
+    - source_labels: ['__meta_consul_address']
+      regex:         '(.*)'
+      target_label:  '__address__'
+      replacement:   '$1:9105'
+    - source_labels: ['__meta_consul_node']
+      regex:         '(.*)'
+      target_label:  'instance'
+      replacement:   '$1'
+
+    consul_sd_configs:
+    - server: 'localhost:8500'
+      services:
+        - es
+
   - job_name: 'jenkins'
     metrics_path: '/prometheus/'
     relabel_configs:
