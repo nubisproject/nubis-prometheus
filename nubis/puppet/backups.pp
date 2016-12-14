@@ -29,5 +29,5 @@ file { '/var/lib/prometheus/PRISTINE':
 
 cron::hourly { 'prometheus-backup':
     user    => 'root',
-    command => '/usr/local/bin/nubis-prometheus-backup save'
+    command => 'nubis-cron prometheus-backup /usr/local/bin/nubis-prometheus-backup save'
 }
