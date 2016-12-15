@@ -200,13 +200,13 @@ ALERT IpForwardingEnabledNonNAT
   }
 
 ALERT CronJobFailing
-  IF count(nubis_cron_status * ON(instance) GROUP_LEFT(project, environment, account) nubis{project!="nat"} * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws != 0) by(cronjob,environment) !=0
+  IF count(nubis_cron_status != 0) by(cronjob) !=0
   FOR 15m
   LABELS {
     severity="critical",
     type="failure"
   }
   ANNOTATIONS {
-    summary = "Cronjob {{ $labels.cronjob }} has been failing in {{ $labels.environment }}",
-    description = "Instances of a cronjob called {{ $labels.cronjob }} in {{ $label.environment }} has failed {{ $value }} times in the last 15 minutes",
+    summary = "Cronjob {{ $labels.cronjob }} has been failing",
+    description = "Instances of a cronjob called {{ $labels.cronjob }} has failed {{ $value }} times in the last 15 minutes",
   }
