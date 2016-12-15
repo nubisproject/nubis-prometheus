@@ -24,11 +24,11 @@ Details for the deployment including; naming conventions, relationships, permiss
 
 |Resource Type|Resource Title|Code Location|
 |-------------|--------------|-------------|
-|atlas_artifact|nubis-prometheus|[nubis/terraform/main.tf#6](nubis/terraform/main.tf#6)|
-|aws_s3_bucket|prometheus|[nubis/terraform/main.tf#35](nubis/terraform/main.tf#35)|
-|aws_security_group|prometheus|[nubis/terraform/main.tf#58](nubis/terraform/main.tf#58)|
-|aws_iam_instance_profile|prometheus|[nubis/terraform/main.tf#128](nubis/terraform/main.tf#128)|
-|aws_iam_role|prometheus|[nubis/terraform/main.tf#142](nubis/terraform/main.tf#142)|
-|aws_iam_role_policy|prometheus|[nubis/terraform/main.tf#169](nubis/terraform/main.tf#169)|
-|aws_launch_configuration|prometheus|[nubis/terraform/main.tf#214](nubis/terraform/main.tf#214)|
-|aws_autoscaling_group|prometheus|[nubis/terraform/main.tf#254](nubis/terraform/main.tf#254)|
+|atlas_artifact|nubis-prometheus|[nubis/terraform/main.tf#L6](nubis/terraform/main.tf#L6)|
+|aws_s3_bucket|prometheus|[nubis/terraform/main.tf#L35](nubis/terraform/main.tf#L35)|
+|aws_security_group|prometheus|[nubis/terraform/main.tf#L58](nubis/terraform/main.tf#L58)|
+|aws_iam_instance_profile|prometheus|[nubis/terraform/main.tf#L128](nubis/terraform/main.tf#L128)|
+|aws_iam_role|prometheus|[nubis/terraform/main.tf#L142](nubis/terraform/main.tf#L142)|
+|aws_iam_role_policy|prometheus|[nubis/terraform/main.tf#L169](nubis/terraform/main.tf#L169)|
+|aws_launch_configuration|prometheus|[nubis/terraform/main.tf#L214](nubis/terraform/main.tf#L214)|
+|aws_autoscaling_group|prometheus|[nubis/terraform/main.tf#L254](nubis/terraform/main.tf#L254)|
