@@ -163,3 +163,38 @@ ALERT FluentdRetryRate
     summary = "Fluentd has been retrying to push out",
     description = "The fluentd plugin for {{ $labels.type }} on {{ $labels.instance }} has been forced to retry {{ $value }} times/s recently, possible issue with push destination"
   }
+
+ALERT NATNetConntrackFull
+  IF 100 * node_nf_conntrack_entries / node_nf_conntrack_entries_limit * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws > 90
+  FOR 15m
+    LABELS {
+    severity="critical",
+  }
+  ANNOTATIONS {
+    summary = "IP Connection Tracking Almost Full",
+    description = "IP Connection tracking table almost full ({{ $value }}>90%) on {{ $labes.instance }}"
+  }
+
+ALERT NATIpForwardingNotEnabled
+  IF node_netstat_Ip_Forwarding * ON(instance) GROUP_LEFT(project, environment, account) nubis{project="nat"} * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws != 1
+  FOR 5m
+  LABELS {
+    severity="critical",
+    type="invariant"
+  }
+  ANNOTATIONS {
+    summary = "IP Forwarding not enabled on NAT node",
+    description = "IP Fowarding is not enabled on NAT node {{ $labels.instance }}"
+  }
+
+ALERT IpForwardingEnabledNonNAT
+  IF node_netstat_Ip_Forwarding * ON(instance) GROUP_LEFT(project, environment, account) nubis{project!="nat"} * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws != 2
+  FOR 5m
+  LABELS {
+    severity="critical",
+    type="invariant"
+  }
+  ANNOTATIONS {
+    summary = "IP Forwarding enabled on non-NAT node",
+    description = "IP Fowarding is enabled on non-NAT node {{ $labels.instance }}"
+  }
