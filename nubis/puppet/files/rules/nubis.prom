@@ -208,5 +208,5 @@ ALERT CronJobFailing
   }
   ANNOTATIONS {
     summary = "Cronjob {{ $labels.cronjob }} has been failing",
-    description = "Instances of a cronjob called {{ $labels.cronjob }} has failed {{ $value }} times in the last 15 minutes",
+    description = "Instances of a cronjob called {{ $labels.cronjob }} has failed {{ $value }} times in the last 15 minutes"
   }
