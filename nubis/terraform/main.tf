@@ -332,8 +332,8 @@ resource "aws_autoscaling_group" "prometheus" {
   name                      = "${var.project}-${element(split(",",var.environments), count.index)} (LC ${element(aws_launch_configuration.prometheus.*.name, count.index)})"
   max_size                  = "2"
   min_size                  = "1"
-  health_check_grace_period = 10
-  health_check_type         = "EC2"
+  health_check_grace_period = 300
+  health_check_type         = "ELB"
   desired_capacity          = "1"
   force_delete              = true
   launch_configuration      = "${element(aws_launch_configuration.prometheus.*.name, count.index)}"
@@ -449,7 +449,15 @@ resource "aws_elb" "traefik" {
     unhealthy_threshold = 2
     timeout             = 3
     target              = "TCP:80"
-    interval            = 60
+    interval            = 30
+  }
+
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    target              = "TCP:443"
+    interval            = 30
   }
 
   cross_zone_load_balancing = true
