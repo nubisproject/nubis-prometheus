@@ -275,10 +275,6 @@ POLICY
 resource "aws_launch_configuration" "prometheus" {
   count = "${var.enabled * length(split(",", var.environments))}"
 
-  lifecycle {
-    create_before_destroy = true
-  }
-
   name_prefix = "${var.project}-${element(split(",",var.environments), count.index)}-${var.aws_region}-"
 
   # Somewhat nasty, since Atlas doesn't have an elegant way to access the id for a region
@@ -317,10 +313,6 @@ EOF
 
 resource "aws_autoscaling_group" "prometheus" {
   count = "${var.enabled * length(split(",", var.environments))}"
-
-  lifecycle {
-    create_before_destroy = true
-  }
 
   #XXX: Fugly, assumes 3 subnets per environments, bad assumption, but valid ATM
   vpc_zone_identifier = [
