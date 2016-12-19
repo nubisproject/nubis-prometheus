@@ -33,16 +33,16 @@ ALERT ConsulServiceDown
 
 ALERT SustainedLoadHigh
   IF avg_over_time(node_load1[5m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws > 2
-  FOR 10m
+  FOR 15m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Sustained HIGH load on {{ $labels.instance }}",
-    description = "{{ $labels.instance }} average 1 minute load is averaging over 2 for more than 10 minutes",
+    description = "{{ $labels.instance }} average 1 minute load is averaging over 2 for more than 15 minutes",
   }
 
 ALERT OutlierLoad1
   IF (node_load1 > 0.25 > ON(job) GROUP_LEFT(account) (avg(node_load1) BY (job)  + ON(job) 2 * stddev(node_load1) BY (job))) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
-  FOR 15m
+  FOR 30m
   LABELS {
     severity = "critical",
     type = "anomaly"
