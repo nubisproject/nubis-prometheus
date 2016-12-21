@@ -5,6 +5,7 @@
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v1.3.0 release [\#34](https://github.com/nubisproject/nubis-prometheus/pull/34) ([tinnightcap](https://github.com/tinnightcap))
 - Update builder artifacts for v1.3.0 release [\#33](https://github.com/nubisproject/nubis-prometheus/pull/33) ([tinnightcap](https://github.com/tinnightcap))
 
 ## [v1.3.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.3.0) (2016-12-21)
