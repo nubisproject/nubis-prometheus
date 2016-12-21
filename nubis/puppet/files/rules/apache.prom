@@ -8,7 +8,7 @@ apache:apache_sent_kilobytes_total:rate1h = rate(apache_sent_kilobytes_total[1h]
 # Alerts
 ALERT ApacheAccessSpike
   IF ( abs((apache:apache_accesses_total:rate5m > 1) - ON(job) GROUP_LEFT(project) avg(apache:apache_accesses_total:rate1h) BY (job)) > 0.05 > ON(job) GROUP_LEFT(project)  ( 2 * stddev(apache:apache_accesses_total:rate1h)  BY (job)) ) / ON(job) GROUP_LEFT() stddev(apache:apache_accesses_total:rate1h)  BY (job) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
-  FOR 5m
+  FOR 15m
   LABELS {
     severity = "critical",
     type = "anomaly"
@@ -20,7 +20,7 @@ ALERT ApacheAccessSpike
 
 ALERT ApacheSentKbSpike
   IF ( abs((apache:apache_sent_kilobytes_total:rate5m > 1) - ON(job) GROUP_LEFT(project) avg(apache:apache_sent_kilobytes_total:rate1h) BY (job)) > 0.05 > ON(job) GROUP_LEFT(project)  ( 2 * stddev(apache:apache_sent_kilobytes_total:rate1h)  BY (job)) ) / ON(job) GROUP_LEFT() stddev(apache:apache_sent_kilobytes_total:rate1h)  BY (job) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
-  FOR 5m
+  FOR 15m
   LABELS {
     severity = "critical",
     type = "anomaly"
