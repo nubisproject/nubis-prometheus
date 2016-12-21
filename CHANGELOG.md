@@ -1,6 +1,13 @@
 # Change Log
 
-## [v1.3.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.3.0) (2016-12-20)
+## [v1.3.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.3.0) (2016-12-21)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.3.0...v1.3.0)
+
+**Merged pull requests:**
+
+- Update builder artifacts for v1.3.0 release [\#33](https://github.com/nubisproject/nubis-prometheus/pull/33) ([tinnightcap](https://github.com/tinnightcap))
+
+## [v1.3.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.3.0) (2016-12-21)
 **Closed issues:**
 
 - Upgrade to Traefik 1.1.2 [\#29](https://github.com/nubisproject/nubis-prometheus/issues/29)
@@ -15,9 +22,11 @@
 - \[cleanup\] Productionize Prometheus [\#3](https://github.com/nubisproject/nubis-prometheus/issues/3)
 - Backup regularly to S3 [\#2](https://github.com/nubisproject/nubis-prometheus/issues/2)
 - Set the Consul environments/\<env\>/global/node\_exporter/config/enabled boolean on startup [\#1](https://github.com/nubisproject/nubis-prometheus/issues/1)
+- Tag v1.3.0 release [\#31](https://github.com/nubisproject/nubis-prometheus/issues/31)
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v1.3.0 release [\#32](https://github.com/nubisproject/nubis-prometheus/pull/32) ([tinnightcap](https://github.com/tinnightcap))
 - Upgrade to Traefik 1.1.2 \(includes our reported fix\) [\#30](https://github.com/nubisproject/nubis-prometheus/pull/30) ([gozer](https://github.com/gozer))
 - Fix Links [\#28](https://github.com/nubisproject/nubis-prometheus/pull/28) ([tinnightcap](https://github.com/tinnightcap))
 - Add Documentation [\#27](https://github.com/nubisproject/nubis-prometheus/pull/27) ([tinnightcap](https://github.com/tinnightcap))
