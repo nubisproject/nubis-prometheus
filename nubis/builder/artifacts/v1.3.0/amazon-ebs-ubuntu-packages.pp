@@ -92,7 +92,7 @@ package { 'binutils':
   ensure => '2.24-5ubuntu14.1',
 }
 package { 'boto3':
-  ensure => '1.4.2',
+  ensure => '1.4.3',
 }
 package { 'botocore':
   ensure => '1.4.72',
@@ -1093,12 +1093,6 @@ package { 'libxtables10':
 package { 'libyaml-0-2':
   ensure => '0.1.4-3ubuntu3.1',
 }
-package { 'linux-headers-3.13.0-105':
-  ensure => '3.13.0-105.152',
-}
-package { 'linux-headers-3.13.0-105-generic':
-  ensure => '3.13.0-105.152',
-}
 package { 'linux-headers-3.13.0-106':
   ensure => '3.13.0-106.153',
 }
@@ -1110,9 +1104,6 @@ package { 'linux-headers-generic':
 }
 package { 'linux-headers-virtual':
   ensure => '3.13.0.106.114',
-}
-package { 'linux-image-3.13.0-105-generic':
-  ensure => '3.13.0-105.152',
 }
 package { 'linux-image-3.13.0-106-generic':
   ensure => '3.13.0-106.153',
@@ -1634,7 +1625,7 @@ package { 'tcpdump':
   ensure => '4.5.1-2ubuntu1.2',
 }
 package { 'td-agent':
-  ensure => '2.3.3-0',
+  ensure => '2.3.4-0',
 }
 package { 'telnet':
   ensure => '0.17-36build2',

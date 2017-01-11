@@ -2,20 +2,12 @@
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 
-FROM=/var/lib/prometheus
-
-REGION=$(nubis-region)
-BUCKET=$(nubis-metadata NUBIS_PROMETHEUS_BUCKET)
-
 cleanup() {
   echo "Starting Prometheus"
   start prometheus BACKUP=SKIP >/dev/null 2>&1
 }
 
 save() {
-  # first backup, possibly slow
-  aws --region "$REGION" s3 sync --quiet --delete --exclude PRISTINE "$FROM/" "s3://$BUCKET/"
-
   # Ensures we start prometheus no matter what once done
   if [ "$UPSTART_JOB" == "" ]; then
     trap cleanup EXIT
@@ -23,7 +15,14 @@ save() {
     # Prometheus backs itself up after stopping
     stop prometheus
 
+    # Prometheus was running, it will call us back once it's done.
+    if [ "$?" == "0" ]; then
+      exit 0
+    fi
   fi
+
+  # Backup, purge old backups and unfinished/failed ones
+  duply prometheus backup_purge_cleanup --force
 }
 
 restore() {
@@ -31,10 +30,11 @@ restore() {
     stop prometheus BACKUP=SKIP
   fi
 
-  aws --region "$REGION" s3 sync --quiet --delete --exclude PRISTINE "s3://$BUCKET/" "$FROM/"
+  # Clean out Prometheus
+  rm -rf "/var/lib/prometheus/*"
 
-  # We can now delete our pristine marker, we've restored once
-  rm -f $FROM/PRISTINE
+  # Recover
+  duply prometheus restore /var/lib/prometheus
 }
 
 case "$1" in
