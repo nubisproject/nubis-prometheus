@@ -31,7 +31,7 @@ restore() {
   fi
 
   # Clean out Prometheus
-  rm -rf "/var/lib/prometheus/*"
+  rm -rf /var/lib/prometheus/*
 
   # Recover
   duply prometheus restore /var/lib/prometheus --force
