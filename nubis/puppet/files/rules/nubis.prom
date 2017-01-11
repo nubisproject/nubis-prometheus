@@ -32,12 +32,12 @@ ALERT ConsulServiceDown
 # Create an alert for tainted istances past their expriry date
 
 ALERT SustainedLoadHigh
-  IF avg_over_time(node_load1[5m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws > 2
+  IF avg_over_time(node_load1[5m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws > 8
   FOR 15m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Sustained HIGH load on {{ $labels.instance }}",
-    description = "{{ $labels.instance }} average 1 minute load is averaging over 2 for more than 15 minutes",
+    description = "{{ $labels.instance }} average 1 minute load {{ $value }} is averaging over 2 for more than 15 minutes",
   }
 
 ALERT OutlierLoad1
