@@ -24,7 +24,12 @@ file { '/var/lib/prometheus/PRISTINE':
 
 cron::hourly { 'prometheus-backup':
     user    => 'root',
-    command => 'nubis-cron prometheus-backup /usr/local/bin/nubis-prometheus-backup save'
+    command => 'nubis-cron prometheus-backup /usr/local/bin/nubis-prometheus-backup save',
+}
+
+cron::daily { 'prometheus-backup-cleanup':
+    user    => 'root',
+    command => 'nubis-cron prometheus-backup-cleanup /usr/local/bin/nubis-prometheus-backup cleanup',
 }
 
 # Duplicity and Duply
