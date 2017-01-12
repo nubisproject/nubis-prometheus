@@ -29,7 +29,7 @@ cron::hourly { 'prometheus-backup':
 
 cron::daily { 'prometheus-backup-cleanup':
     user    => 'root',
-    command => 'nubis-cron prometheus-backup-cleanup /usr/local/bin/nubis-prometheus-backup cleanup',
+    command => 'nubis-cron prometheus-backup-cleanup /usr/local/bin/nubis-prometheus-backup purge',
 }
 
 # Duplicity and Duply

@@ -21,7 +21,7 @@ save() {
     fi
   fi
 
-  # Backup, purge old backups and unfinished/failed ones
+  # Backup
   duply prometheus backup --force --allow-source-mismatch
 }
 
@@ -42,7 +42,7 @@ restore() {
   exit 0
 }
 
-cleanup() {
+purge() {
   # Cleanup and expire backups
   duply prometheus purge_cleanup  --force
 }
@@ -54,8 +54,8 @@ case "$1" in
    restore)
    restore
    ;;
-   cleanup)
-   cleanup
+   purge)
+   purge
    ;;
    *)
    echo "$0 [save|restore]"
