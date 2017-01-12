@@ -168,7 +168,7 @@
         "datasource": "prometheus",
         "dimensions": {},
         "enable": true,
-        "expr": "ALERTS{alertname =~ \"Apache.*\"} == 1",
+        "expr": "ALERTS{alertstate=\"firing\",alertname=~\"Apache.*\"} == 1",
         "iconColor": "rgba(255, 96, 96, 1)",
         "metricName": "",
         "name": "Apache Alerts",
