@@ -67,9 +67,6 @@ package { 'at':
 package { 'augeas-lenses':
   ensure => '1.2.0-0ubuntu1.2',
 }
-package { 'awscli':
-  ensure => '1.11.15',
-}
 package { 'base-files':
   ensure => '7.2ubuntu5.5',
 }
@@ -91,11 +88,14 @@ package { 'bind9-host':
 package { 'binutils':
   ensure => '2.24-5ubuntu14.1',
 }
+package { 'boto':
+  ensure => '2.20.1',
+}
 package { 'boto3':
-  ensure => '1.4.2',
+  ensure => '1.4.3',
 }
 package { 'botocore':
-  ensure => '1.4.72',
+  ensure => '1.4.93',
 }
 package { 'bsdmainutils':
   ensure => '9.0.5ubuntu1',
@@ -231,6 +231,9 @@ package { 'dpkg':
 }
 package { 'dpkg-dev':
   ensure => '1.17.5ubuntu5.7',
+}
+package { 'duplicity':
+  ensure => '0.7.11-0ubuntu0ppa1263~ubuntu14.04.1',
 }
 package { 'e2fslibs':
   ensure => '1.42.9-3ubuntu1.3',
@@ -946,6 +949,9 @@ package { 'libreadline6':
 package { 'libroken18-heimdal':
   ensure => '1.6~git20131207+dfsg-1ubuntu1.1',
 }
+package { 'librsync1':
+  ensure => '0.9.7-10',
+}
 package { 'librtmp0':
   ensure => '2.4+20121230.gitdf6c518-1',
 }
@@ -1093,12 +1099,6 @@ package { 'libxtables10':
 package { 'libyaml-0-2':
   ensure => '0.1.4-3ubuntu3.1',
 }
-package { 'linux-headers-3.13.0-105':
-  ensure => '3.13.0-105.152',
-}
-package { 'linux-headers-3.13.0-105-generic':
-  ensure => '3.13.0-105.152',
-}
 package { 'linux-headers-3.13.0-106':
   ensure => '3.13.0-106.153',
 }
@@ -1110,9 +1110,6 @@ package { 'linux-headers-generic':
 }
 package { 'linux-headers-virtual':
   ensure => '3.13.0.106.114',
-}
-package { 'linux-image-3.13.0-105-generic':
-  ensure => '3.13.0-105.152',
 }
 package { 'linux-image-3.13.0-106-generic':
   ensure => '3.13.0-106.153',
@@ -1128,6 +1125,9 @@ package { 'linux-virtual':
 }
 package { 'locales':
   ensure => '2.13+git20120306-12.1',
+}
+package { 'lockfile':
+  ensure => '0.8',
 }
 package { 'lockfile-progs':
   ensure => '0.1.17',
@@ -1270,6 +1270,9 @@ package { 'perl-base':
 package { 'perl-modules':
   ensure => '5.18.2-2ubuntu1.1',
 }
+package { 'pexpect':
+  ensure => '3.1',
+}
 package { 'plymouth':
   ensure => '0.8.8-0ubuntu17.1',
 }
@@ -1321,9 +1324,6 @@ package { 'puppetlabs-release':
 package { 'pyOpenSSL':
   ensure => '0.13',
 }
-package { 'pyasn1':
-  ensure => '0.1.9',
-}
 package { 'pycrypto':
   ensure => '2.6.1',
 }
@@ -1341,6 +1341,9 @@ package { 'python-apt':
 }
 package { 'python-apt-common':
   ensure => '0.9.3.5ubuntu2',
+}
+package { 'python-boto':
+  ensure => '2.20.1-2ubuntu2',
 }
 package { 'python-chardet':
   ensure => '2.0.1-2build2',
@@ -1366,6 +1369,9 @@ package { 'python-dateutil':
 package { 'python-debian':
   ensure => '0.1.21+nmu2ubuntu2',
 }
+package { 'python-dev':
+  ensure => '2.7.5-5ubuntu3',
+}
 package { 'python-distlib':
   ensure => '0.1.8-1ubuntu1',
 }
@@ -1390,6 +1396,9 @@ package { 'python-json-pointer':
 package { 'python-jsonpatch':
   ensure => '1.3-4',
 }
+package { 'python-lockfile':
+  ensure => '1:0.8-2ubuntu2',
+}
 package { 'python-minimal':
   ensure => '2.7.5-5ubuntu3',
 }
@@ -1401,6 +1410,9 @@ package { 'python-openssl':
 }
 package { 'python-pam':
   ensure => '0.4.2-13.1ubuntu3',
+}
+package { 'python-pexpect':
+  ensure => '3.1-1ubuntu0.1',
 }
 package { 'python-pip':
   ensure => '1.5.4-1ubuntu4',
@@ -1537,9 +1549,6 @@ package { 'requests':
 package { 'resolvconf':
   ensure => '1.69ubuntu1.1',
 }
-package { 'rsa':
-  ensure => '3.4.2',
-}
 package { 'rsync':
   ensure => '3.1.0-2ubuntu0.2',
 }
@@ -1634,7 +1643,7 @@ package { 'tcpdump':
   ensure => '4.5.1-2ubuntu1.2',
 }
 package { 'td-agent':
-  ensure => '2.3.3-0',
+  ensure => '2.3.4-0',
 }
 package { 'telnet':
   ensure => '0.17-36build2',
