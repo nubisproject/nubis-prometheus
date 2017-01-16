@@ -23,11 +23,16 @@ file { '/var/lib/prometheus/PRISTINE':
 }
 
 cron::hourly { 'prometheus-backup':
+    minute  => fqdn_rand(60),
     user    => 'root',
     command => 'nubis-cron prometheus-backup /usr/local/bin/nubis-prometheus-backup save',
 }
 
+# We want this cronjob to be 30 minutes offset from the backup one, just to avoid overlap
 cron::daily { 'prometheus-backup-cleanup':
+    minute  => ( fqdn_rand(60) + 30 ) % 60,
+    # Run between midnight and 4 am
+    hour    => fqdn_rand(4),
     user    => 'root',
     command => 'nubis-cron prometheus-backup-cleanup /usr/local/bin/nubis-prometheus-backup purge',
 }
