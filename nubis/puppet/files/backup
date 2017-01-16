@@ -22,7 +22,7 @@ save() {
   fi
 
   # Backup
-  duply prometheus backup --force --allow-source-mismatch
+  run_duply prometheus backup --force --allow-source-mismatch
 }
 
 restore() {
@@ -34,7 +34,7 @@ restore() {
   rm -rf /var/lib/prometheus/*
 
   # Recover
-  duply prometheus restore /var/lib/prometheus --force
+  run_duply prometheus restore /var/lib/prometheus --force
 
   # Cleanup just to be certain
   rm -f /var/lib/prometheus/PRISTINE
@@ -44,7 +44,16 @@ restore() {
 
 purge() {
   # Cleanup and expire backups
-  duply prometheus purge_cleanup  --force
+  run_duply prometheus purge_cleanup  --force
+}
+
+# We run duply under an exclusive lock, to avoid parallel execution
+# shellcheck disable=SC2094
+run_duply() {
+  (
+    flock -x 9
+    /usr/local/bin/duply "$@"
+  ) 9< /usr/local/bin/duply
 }
 
 case "$1" in
