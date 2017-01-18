@@ -106,7 +106,7 @@ resource "aws_security_group" "prometheus" {
     from_port = 8082
     to_port   = 8082
     protocol  = "tcp"
-    self = true
+    self      = true
 
     cidr_blocks = ["0.0.0.0/0"]
 
@@ -120,7 +120,7 @@ resource "aws_security_group" "prometheus" {
     from_port = 9093
     to_port   = 9093
     protocol  = "tcp"
-    self = true
+    self      = true
 
     cidr_blocks = ["0.0.0.0/0"]
 
@@ -134,7 +134,7 @@ resource "aws_security_group" "prometheus" {
     from_port = 3000
     to_port   = 3000
     protocol  = "tcp"
-    
+
     self = true
 
     security_groups = [
@@ -368,31 +368,27 @@ resource "aws_autoscaling_group" "prometheus" {
 
 resource "aws_security_group" "elb-traefik" {
   count = "${var.enabled * length(split(",", var.environments))}"
+
   # * length(split(",",var.public_subnet_ids))}"
 
   lifecycle {
     create_before_destroy = true
   }
-
   name        = "elb-traefik-${element(split(",",var.environments), count.index)}"
   description = "Allow inbound traffic for traefik"
-
   vpc_id = "${element(split(",",var.vpc_ids), count.index)}"
-
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   # Put back Amazon Default egress all rule
   egress {
     from_port   = 0
@@ -423,17 +419,17 @@ resource "aws_elb" "traefik" {
   internal = false
 
   listener {
-    instance_port      = 80
-    instance_protocol  = "tcp"
-    lb_port            = 80
-    lb_protocol        = "tcp"
+    instance_port     = 80
+    instance_protocol = "tcp"
+    lb_port           = 80
+    lb_protocol       = "tcp"
   }
 
   listener {
-    instance_port      = 443
-    instance_protocol  = "tcp"
-    lb_port            = 443
-    lb_protocol        = "tcp"
+    instance_port     = 443
+    instance_protocol = "tcp"
+    lb_port           = 443
+    lb_protocol       = "tcp"
   }
 
   health_check {
@@ -460,26 +456,27 @@ resource "aws_elb" "traefik" {
 resource "aws_route53_record" "traefik-wildcard" {
   count   = "${var.enabled * length(split(",", var.environments))}"
   zone_id = "${var.zone_id}"
-  name = "*.mon.${element(split(",",var.environments), count.index)}"
-  type = "CNAME"
-  ttl = "30"
+  name    = "*.mon.${element(split(",",var.environments), count.index)}"
+  type    = "CNAME"
+  ttl     = "30"
+
   records = [
-    "mon.${element(split(",",var.environments), count.index)}.${var.aws_region}.${var.service_name}.${var.nubis_domain}"
+    "mon.${element(split(",",var.environments), count.index)}.${var.aws_region}.${var.service_name}.${var.nubis_domain}",
   ]
 }
 
 resource "aws_route53_record" "traefik" {
-   count   = "${var.enabled * length(split(",", var.environments))}"
-   zone_id = "${var.zone_id}"
+  count   = "${var.enabled * length(split(",", var.environments))}"
+  zone_id = "${var.zone_id}"
 
-   name = "mon.${element(split(",",var.environments), count.index)}"
-   type = "A"
+  name = "mon.${element(split(",",var.environments), count.index)}"
+  type = "A"
 
-   alias {
-     name                   = "${element(aws_elb.traefik.*.dns_name,count.index)}"
-     zone_id                = "${element(aws_elb.traefik.*.zone_id,count.index)}"
-     evaluate_target_health = true
-   }
+  alias {
+    name                   = "${element(aws_elb.traefik.*.dns_name,count.index)}"
+    zone_id                = "${element(aws_elb.traefik.*.zone_id,count.index)}"
+    evaluate_target_health = true
+  }
 }
 
 # This null resource is responsible for storing our secret authentication into KMS
@@ -492,13 +489,15 @@ resource "null_resource" "secrets" {
 
   # Important to list here every variable that affects what needs to be put into KMS
   triggers {
-    secret     = "${var.credstash_key}"   region    = "${var.aws_region}"
-    version    = "${var.nubis_version}"
-    federation = "${template_file.federation.rendered}"
-    password   = "${var.password}"
-    context    = "-E region:${var.aws_region} -E environment:${element(split(",",var.environments), count.index)} -E service:${var.project}"
-    unicreds         = "unicreds -r ${var.aws_region} put -k ${var.credstash_key} ${var.project}/${element(split(",",var.environments), count.index)}"
-    unicreds_file    = "unicreds -r ${var.aws_region} put-file -k ${var.credstash_key} ${var.project}/${element(split(",",var.environments), count.index)}"
+    secret = "${var.credstash_key}"
+
+    region        = "${var.aws_region}"
+    version       = "${var.nubis_version}"
+    federation    = "${template_file.federation.rendered}"
+    password      = "${var.password}"
+    context       = "-E region:${var.aws_region} -E environment:${element(split(",",var.environments), count.index)} -E service:${var.project}"
+    unicreds      = "unicreds -r ${var.aws_region} put -k ${var.credstash_key} ${var.project}/${element(split(",",var.environments), count.index)}"
+    unicreds_file = "unicreds -r ${var.aws_region} put-file -k ${var.credstash_key} ${var.project}/${element(split(",",var.environments), count.index)}"
   }
 
   provisioner "local-exec" {
@@ -511,6 +510,7 @@ resource "null_resource" "secrets" {
 }
 
 # TF 0.6 limitation
+
 # Used as a stable random-number generator since we don't have random provider yet
 
 resource "tls_private_key" "federation" {
