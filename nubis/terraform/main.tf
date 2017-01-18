@@ -288,7 +288,7 @@ resource "aws_launch_configuration" "prometheus" {
   iam_instance_profile = "${element(aws_iam_instance_profile.prometheus.*.name, count.index)}"
 
   root_block_device = {
-    volume_size = "32G"
+    volume_size = "32"
   }
 
   security_groups = [
