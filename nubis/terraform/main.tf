@@ -287,6 +287,10 @@ resource "aws_launch_configuration" "prometheus" {
   key_name             = "${var.key_name}"
   iam_instance_profile = "${element(aws_iam_instance_profile.prometheus.*.name, count.index)}"
 
+  root_block_device = {
+    volume_size = "32G"
+  }
+
   security_groups = [
     "${element(aws_security_group.prometheus.*.id, count.index)}",
     "${element(split(",",var.internet_access_security_groups), count.index)}",
@@ -376,7 +380,7 @@ resource "aws_security_group" "elb-traefik" {
   }
   name        = "elb-traefik-${element(split(",",var.environments), count.index)}"
   description = "Allow inbound traffic for traefik"
-  vpc_id = "${element(split(",",var.vpc_ids), count.index)}"
+  vpc_id      = "${element(split(",",var.vpc_ids), count.index)}"
   ingress {
     from_port   = 80
     to_port     = 80
