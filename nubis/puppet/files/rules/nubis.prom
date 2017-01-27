@@ -41,7 +41,7 @@ ALERT SustainedLoadHigh
   }
 
 ALERT OutlierLoad1
-  IF (node_load1 > 0.25 > ON(job) GROUP_LEFT(account) (avg(node_load1) BY (job)  + ON(job) 2 * stddev(node_load1) BY (job))) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
+  IF up * node_load5 * ON(instance) GROUP_LEFT(project, environment, account) nubis > 0.25 > ON(project) GROUP_LEFT avg(up * node_load5 * ON(instance) GROUP_LEFT(project, environment, account) nubis) by (project) + ( 2*stddev(up * node_load5 * ON(instance) GROUP_LEFT(project, environment, account) nubis) by (project) )
   FOR 30m
   LABELS {
     severity = "critical",
