@@ -37,7 +37,7 @@ ALERT SustainedLoadHigh
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Sustained HIGH load on {{ $labels.instance }}",
-    description = "{{ $labels.instance }} average 1 minute load {{ $value }} is averaging over 2 for more than 15 minutes",
+    description = "{{ $labels.instance }} average 1 minute load {{ $value }} is averaging over 8 for more than 15 minutes",
   }
 
 ALERT OutlierLoad1
