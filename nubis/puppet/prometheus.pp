@@ -1,4 +1,4 @@
-$prometheus_version = '1.4.1'
+$prometheus_version = '1.5.0'
 $alertmanager_version = '0.5.1'
 $blackbox_version = '0.3.0'
 
