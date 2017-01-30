@@ -289,6 +289,8 @@ resource "aws_launch_configuration" "prometheus" {
 
   root_block_device = {
     volume_size = "32"
+    volume_type = "gp2"
+    delete_on_termination = true
   }
 
   security_groups = [
