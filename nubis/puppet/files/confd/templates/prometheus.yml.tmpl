@@ -28,6 +28,11 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:81']
 
+  - job_name: 'cloudwatch'
+    scrape_interval: 1m
+    static_configs:
+      - targets: ['localhost:9116']
+
   - job_name: 'alertmanager'
     metrics_path: '/alertmanager/metrics'
     relabel_configs:
