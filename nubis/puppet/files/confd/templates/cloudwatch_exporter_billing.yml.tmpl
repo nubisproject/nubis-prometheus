@@ -1,0 +1,9 @@
+---
+region: us-east-1
+metrics:
+ - aws_namespace: AWS/Billing
+   range_seconds: 21600
+   aws_metric_name: EstimatedCharges
+   aws_dimensions: [ServiceName,Currency]
+   aws_dimension_select:
+     Currency: [USD]
