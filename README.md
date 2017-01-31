@@ -33,6 +33,7 @@ Prometheus scrapes different kind of exporters, as it discovers them. Each of th
 | Squid          | 9106 | sd:proxy                     |
 | Consul         | 9107 | sd: consul                   |
 | Fluentd Apache | 9108 | sd:apache sd:apache-exporter |
+| Cloudwatch     | 9116 | Internal                     |
 
 ### Deployment Resources
 Details for the deployment including; naming conventions, relationships, permissions, etcetera, can be found in the [Terraform template](nubis/terraform/main.tf) used for deployment. Links to specific resources can be found in the following table.
