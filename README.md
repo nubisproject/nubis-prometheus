@@ -23,17 +23,18 @@ The Nubis Prometheus deployment consists of:
 
 Prometheus scrapes different kind of exporters, as it discovers them. Each of them needs a distinct TCP port for it, and here is our current list:
 
-| Exporter       | Port | Discovery                    |
-| ---            | :---:|           ---                |
-| Node           | 9100 | sd:datadog sd:node-exporter  |
-| Fluentd        | 9101 | sd: fluentd                  |
-| Consul Statd   | 9102 | sd: consul                   |
-| Apache         | 9103 | sd:apache sd:apache-exporter |
-| ElasticSearch  | 9105 | sd:es                        |
-| Squid          | 9106 | sd:proxy                     |
-| Consul         | 9107 | sd: consul                   |
-| Fluentd Apache | 9108 | sd:apache sd:apache-exporter |
-| Cloudwatch     | 9116 | Internal                     |
+| Exporter               | Port | Discovery                    |
+| ---                    | :---:|           ---                |
+| Node                   | 9100 | sd:datadog sd:node-exporter  |
+| Fluentd                | 9101 | sd: fluentd                  |
+| Consul Statd           | 9102 | sd: consul                   |
+| Apache                 | 9103 | sd:apache sd:apache-exporter |
+| ElasticSearch          | 9105 | sd:es                        |
+| Squid                  | 9106 | sd:proxy                     |
+| Consul                 | 9107 | sd: consul                   |
+| Fluentd Apache         | 9108 | sd:apache sd:apache-exporter |
+| Cloudwatch             | 9116 | Internal                     |
+| Cloudwatch Billing     | 9117 | Internal                     |
 
 ### Deployment Resources
 Details for the deployment including; naming conventions, relationships, permissions, etcetera, can be found in the [Terraform template](nubis/terraform/main.tf) used for deployment. Links to specific resources can be found in the following table.
