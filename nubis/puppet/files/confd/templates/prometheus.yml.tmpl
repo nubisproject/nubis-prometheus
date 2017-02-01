@@ -34,7 +34,7 @@ scrape_configs:
       - targets: ['localhost:9116']
 
   - job_name: 'cloudwatch-billing'
-    scrape_interval: 1h
+    scrape_interval: 5m
     static_configs:
       - targets: ['localhost:9117']
 
