@@ -23,9 +23,13 @@ file { '/var/lib/prometheus/PRISTINE':
 }
 
 cron::hourly { 'prometheus-backup':
-    minute  => fqdn_rand(60),
-    user    => 'root',
-    command => 'nubis-cron prometheus-backup /usr/local/bin/nubis-prometheus-backup save',
+    minute      => fqdn_rand(60),
+    user        => 'root',
+    # add 10 minutes of jitter
+    command     => 'sleep $(( RANDOM \% 60*10 )) && nubis-cron prometheus-backup /usr/local/bin/nubis-prometheus-backup save',
+    environment => [
+      'SHELL=/bin/bash',
+    ],
 }
 
 # We want this cronjob to be 30 minutes offset from the backup one, just to avoid overlap
