@@ -536,7 +536,7 @@ resource "tls_private_key" "password" {
 }
 
 resource "template_file" "federation" {
-  template = "${password}"
+  template = "$${password}"
 
   vars = {
     password = "${replace(tls_private_key.federation.id,"/^(.{32}).*/","$1")}"
@@ -548,7 +548,7 @@ resource "template_file" "federation" {
 }
 
 resource "template_file" "password" {
-  template = "${password}"
+  template = "$${password}"
 
   vars = {
     password = "${coalesce(var.password, replace(tls_private_key.federation.id,"/^(.{32}).*/","$1"))}"
