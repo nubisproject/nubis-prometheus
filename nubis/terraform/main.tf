@@ -311,7 +311,6 @@ NUBIS_PROMETHEUS_SLACK_URL="${var.slack_url}"
 NUBIS_PROMETHEUS_SLACK_CHANNEL="${var.slack_channel}"
 NUBIS_PROMETHEUS_NOTIFICATION_EMAIL="${var.notification_email}"
 NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY="${var.pagerduty_service_key}"
-NUBIS_PROMETHEUS_FEDERATE="${element(split("/", concat(var.environments, "/", "")), signum(count.index))}"
 NUBIS_SUDO_GROUPS="${var.nubis_sudo_groups}"
 NUBIS_USER_GROUPS="${var.nubis_user_groups}"
 EOF
