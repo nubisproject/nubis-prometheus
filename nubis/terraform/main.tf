@@ -532,10 +532,6 @@ data "template_file" "federation" {
   vars = {
     password = "${replace(tls_private_key.federation.id,"/^(.{32}).*/","$1")}"
   }
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 data "template_file" "password" {
@@ -543,9 +539,5 @@ data "template_file" "password" {
 
   vars = {
     password = "${coalesce(var.password, replace(tls_private_key.federation.id,"/^(.{32}).*/","$1"))}"
-  }
-
-  lifecycle {
-    create_before_destroy = true
   }
 }
