@@ -1,10 +1,10 @@
 ALERT InstanceDown
   IF up{job="node"} * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws == 0
-  FOR 1m
+  FOR 10m
   LABELS { severity = "critical" }
   ANNOTATIONS {
     summary = "Instance {{ $labels.instance }} down",
-    description = "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.",
+    description = "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 10 minutes.",
   }
 
 ALERT ConsulDown
