@@ -3,14 +3,10 @@ provider "aws" {
   region  = "${var.aws_region}"
 }
 
-resource "atlas_artifact" "nubis-prometheus" {
+data "atlas_artifact" "nubis-prometheus" {
   count = "${var.enabled}"
   name  = "nubisproject/nubis-prometheus"
   type  = "amazon.image"
-
-  lifecycle {
-    create_before_destroy = true
-  }
 
   metadata {
     project_version = "${var.nubis_version}"
@@ -276,12 +272,8 @@ resource "aws_launch_configuration" "prometheus" {
   count = "${var.enabled * length(split(",", var.environments))}"
 
   name_prefix = "${var.project}-${element(split(",",var.environments), count.index)}-${var.aws_region}-"
-
-  # Somewhat nasty, since Atlas doesn't have an elegant way to access the id for a region
-  # the id is "region:ami,region:ami,region:ami"
-  # so we split it all and find the index of the region
-  # add on, and pick that element
-  image_id = "${ element(split(",",replace(atlas_artifact.nubis-prometheus.id,":",",")) ,1 + index(split(",",replace(atlas_artifact.nubis-prometheus.id,":",",")), var.aws_region)) }"
+  
+  image_id = "${data.atlas_artifact.nubis-prometheus.metadata_full["region-${var.aws_region}"]}"
 
   instance_type        = "t2.small"
   key_name             = "${var.key_name}"
@@ -311,7 +303,6 @@ NUBIS_PROMETHEUS_SLACK_URL="${var.slack_url}"
 NUBIS_PROMETHEUS_SLACK_CHANNEL="${var.slack_channel}"
 NUBIS_PROMETHEUS_NOTIFICATION_EMAIL="${var.notification_email}"
 NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY="${var.pagerduty_service_key}"
-NUBIS_PROMETHEUS_FEDERATE="${element(split("/", concat(var.environments, "/", "")), signum(count.index))}"
 NUBIS_SUDO_GROUPS="${var.nubis_sudo_groups}"
 NUBIS_USER_GROUPS="${var.nubis_user_groups}"
 EOF
@@ -499,7 +490,7 @@ resource "null_resource" "secrets" {
 
     region        = "${var.aws_region}"
     version       = "${var.nubis_version}"
-    federation    = "${template_file.federation.rendered}"
+    federation    = "${data.template_file.federation.rendered}"
     password      = "${var.password}"
     context       = "-E region:${var.aws_region} -E environment:${element(split(",",var.environments), count.index)} -E service:${var.project}"
     unicreds      = "unicreds -r ${var.aws_region} put -k ${var.credstash_key} ${var.project}/${element(split(",",var.environments), count.index)}"
@@ -507,11 +498,11 @@ resource "null_resource" "secrets" {
   }
 
   provisioner "local-exec" {
-    command = "${self.triggers.unicreds}/federation/password ${template_file.federation.rendered} ${self.triggers.context}"
+    command = "${self.triggers.unicreds}/federation/password ${data.template_file.federation.rendered} ${self.triggers.context}"
   }
 
   provisioner "local-exec" {
-    command = "${self.triggers.unicreds}/admin/password ${template_file.password.rendered} ${self.triggers.context}"
+    command = "${self.triggers.unicreds}/admin/password ${data.template_file.password.rendered} ${self.triggers.context}"
   }
 }
 
@@ -535,26 +526,18 @@ resource "tls_private_key" "password" {
   }
 }
 
-resource "template_file" "federation" {
-  template = "${password}"
+data "template_file" "federation" {
+  template = "$${password}"
 
   vars = {
     password = "${replace(tls_private_key.federation.id,"/^(.{32}).*/","$1")}"
   }
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
-resource "template_file" "password" {
-  template = "${password}"
+data "template_file" "password" {
+  template = "$${password}"
 
   vars = {
     password = "${coalesce(var.password, replace(tls_private_key.federation.id,"/^(.{32}).*/","$1"))}"
-  }
-
-  lifecycle {
-    create_before_destroy = true
   }
 }
