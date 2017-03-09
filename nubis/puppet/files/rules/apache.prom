@@ -11,6 +11,7 @@ ALERT ApacheAccessSpike
   FOR 15m
   LABELS {
     severity = "critical",
+    platform = "nubis",
     type = "anomaly"
   }
   ANNOTATIONS {
@@ -23,6 +24,7 @@ ALERT ApacheSentKbSpike
   FOR 15m
   LABELS {
     severity = "critical",
+    platform = "nubis",
     type = "anomaly"
   }
   ANNOTATIONS {
