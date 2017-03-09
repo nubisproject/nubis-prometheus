@@ -15,6 +15,7 @@ ALERT SquidRequestsSpike
   FOR 15m
   LABELS {
     severity = "critical",
+    platform = "nubis",
     type = "anomaly"
   }
   ANNOTATIONS {
@@ -27,6 +28,7 @@ ALERT SquidOutKbSpike
   FOR 15m
   LABELS {
     severity = "critical",
+    platform = "nubis",
     type = "anomaly"
   }
   ANNOTATIONS {
@@ -39,6 +41,7 @@ ALERT SquidInKbSpike
   FOR 15m
   LABELS {
     severity = "critical",
+    platform = "nubis",
     type = "anomaly"
   }
   ANNOTATIONS {

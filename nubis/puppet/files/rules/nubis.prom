@@ -1,7 +1,10 @@
 ALERT InstanceDown
   IF up{job="node"} * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws == 0
   FOR 10m
-  LABELS { severity = "critical" }
+  LABELS {
+    severity = "critical",
+    platform = "nubis"
+  }
   ANNOTATIONS {
     summary = "Instance {{ $labels.instance }} down",
     description = "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 10 minutes.",
@@ -10,7 +13,10 @@ ALERT InstanceDown
 ALERT ConsulDown
   IF drop_common_labels(label_replace(label_replace(sum(consul_agent_check{check="serfHealth",job="consul"} == 1) BY (node), "instance", "$1", "node", "(.*)"),"node","XXX","node",".*")) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws != 3
   FOR 5m
-  LABELS { severity = "critical" }
+  LABELS {
+    severity = "critical",
+    platform = "nubis"
+  }
   ANNOTATIONS {
     summary = "Consul not healthy on {{ $labels.node }}",
     description = "{{ $labels.node }} Consul se health reporting unhealthy",
@@ -23,6 +29,7 @@ ALERT ConsulServiceDown
   FOR 5m
   LABELS {
     severity = "critical",
+    platform = "nubis"
   }
   ANNOTATIONS {
     summary = "Consul service problem for {{ $labels.service }}",
@@ -34,7 +41,10 @@ ALERT ConsulServiceDown
 ALERT SustainedLoadHigh
   IF avg_over_time(node_load1[5m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws > 8
   FOR 15m
-  LABELS { severity = "critical" }
+  LABELS {
+    severity = "critical",
+    platform = "nubis"
+  }
   ANNOTATIONS {
     summary = "Sustained HIGH load on {{ $labels.instance }}",
     description = "{{ $labels.instance }} average 1 minute load {{ $value }} is averaging over 8 for more than 15 minutes",
@@ -45,6 +55,7 @@ ALERT OutlierLoad1
   FOR 30m
   LABELS {
     severity = "critical",
+    platform = "nubis",
     type = "anomaly"
   }
   ANNOTATIONS {
@@ -55,7 +66,10 @@ ALERT OutlierLoad1
 ALERT ConsulInsufficientPeers
   IF count(up{job="consul"} == 0) > (count(up{job="consul"}) / 2 - 1)
   FOR 5m
-  LABELS { severity = "critical" }
+  LABELS {
+    severity = "critical",
+    platform = "nubis"
+  }
   ANNOTATIONS {
     summary = "Consul Insufficient Peers",
     description = "The consul has lost sufficient peers and will be unable to achieve Quorum"
@@ -66,6 +80,7 @@ ALERT ConsulProxyAvailable
   FOR 5m
   LABELS {
     severity = "critical",
+    platform = "nubis"
   }
   ANNOTATIONS {
     summary = "Unexpected number of healthy proxy nodes",
@@ -77,6 +92,7 @@ ALERT ConsulConsulAvailable
   FOR 5m
   LABELS {
     severity = "critical",
+    platform = "nubis"
   }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Consul nodes",
@@ -88,6 +104,7 @@ ALERT ConsulFluentAvailable
   FOR 5m
   LABELS {
     severity = "critical",
+    platform = "nubis"
   }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Fluentd nodes",
@@ -99,6 +116,7 @@ ALERT ConsulPrometheusAvailable
   FOR 5m
   LABELS {
     severity = "critical",
+    platform = "nubis"
   }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Fluentd nodes",
@@ -110,6 +128,7 @@ ALERT ConsulAlertmanagerAvailable
   FOR 5m
   LABELS {
     severity = "critical",
+    platform = "nubis"
   }
   ANNOTATIONS {
     summary = "Unexpected number of healthy Fluentd nodes",
@@ -121,6 +140,7 @@ ALERT PredictDiskFull24h
   FOR 30m
   LABELS {
     severity="critical",
+    platform = "nubis",
     type="predictive"
   }
   ANNOTATIONS {
@@ -133,6 +153,7 @@ ALERT FluentdBufferSize
   FOR 5m
   LABELS {
     severity="critical",
+    platform = "nubis",
     type="anomaly"
   }
   ANNOTATIONS {
@@ -145,6 +166,7 @@ ALERT FluentdQueueLength
   FOR 5m
   LABELS {
     severity="critical",
+    platform = "nubis",
     type="anomaly"
   }
   ANNOTATIONS {
@@ -157,6 +179,7 @@ ALERT FluentdRetryRate
   FOR 5m
   LABELS {
     severity="critical",
+    platform = "nubis",
     type="anomaly"
   }
   ANNOTATIONS {
@@ -167,8 +190,9 @@ ALERT FluentdRetryRate
 ALERT NATNetConntrackFull
   IF 100 * node_nf_conntrack_entries / node_nf_conntrack_entries_limit * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws > 90
   FOR 15m
-    LABELS {
+  LABELS {
     severity="critical",
+    platform = "nubis"
   }
   ANNOTATIONS {
     summary = "IP Connection Tracking Almost Full",
@@ -180,6 +204,7 @@ ALERT NATIpForwardingNotEnabled
   FOR 5m
   LABELS {
     severity="critical",
+    platform = "nubis",
     type="invariant"
   }
   ANNOTATIONS {
@@ -192,6 +217,7 @@ ALERT IpForwardingEnabledNonNAT
   FOR 5m
   LABELS {
     severity="critical",
+    platform = "nubis",
     type="invariant"
   }
   ANNOTATIONS {
@@ -204,6 +230,7 @@ ALERT CronJobFailing
   FOR 15m
   LABELS {
     severity="critical",
+    platform = "nubis",
     type="failure"
   }
   ANNOTATIONS {
