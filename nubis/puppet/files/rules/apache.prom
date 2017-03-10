@@ -11,7 +11,6 @@ ALERT ApacheAccessSpike
   FOR 15m
   LABELS {
     severity = "critical",
-    platform = "nubis",
     type = "anomaly"
   }
   ANNOTATIONS {
@@ -24,13 +23,9 @@ ALERT ApacheSentKbSpike
   FOR 15m
   LABELS {
     severity = "critical",
-    platform = "nubis",
     type = "anomaly"
   }
   ANNOTATIONS {
     summary = "Anomalous Outbound KBs spike on {{ $labels.instance }}",
     description = "{{ $labels.instance }} is showing an outbount KBs spike of {{ $value }} stddevs, more than 2 over the average"
   }
-
-
-
