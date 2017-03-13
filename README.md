@@ -29,6 +29,7 @@ Prometheus scrapes different kind of exporters, as it discovers them. Each of th
 | Fluentd                | 9101 | sd: fluentd                  |
 | Consul Statd           | 9102 | sd: consul                   |
 | Apache                 | 9103 | sd:apache sd:apache-exporter |
+| MySQL                  | 9104 | sd:mysqld-exporter           |
 | ElasticSearch          | 9105 | sd:es                        |
 | Squid                  | 9106 | sd:proxy                     |
 | Consul                 | 9107 | sd: consul                   |

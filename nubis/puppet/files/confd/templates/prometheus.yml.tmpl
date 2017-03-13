@@ -212,3 +212,19 @@ scrape_configs:
     - server: 'localhost:8500'
       services:
         - proxy
+
+  - job_name: 'mysql'
+    relabel_configs:
+    - source_labels: ['__meta_consul_address']
+      regex:         '(.*)'
+      target_label:  '__address__'
+      replacement:   '$1:9104'
+    - source_labels: ['__meta_consul_node']
+      regex:         '(.*)'
+      target_label:  'instance'
+      replacement:   '$1'
+
+    consul_sd_configs:
+    - server: 'localhost:8500'
+      services:
+        - mysqld-exporter
