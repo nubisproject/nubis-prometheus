@@ -279,6 +279,8 @@ resource "aws_launch_configuration" "prometheus" {
   key_name             = "${var.key_name}"
   iam_instance_profile = "${element(aws_iam_instance_profile.prometheus.*.name, count.index)}"
 
+  enable_monitoring    = false
+
   root_block_device = {
     volume_size = "32"
     volume_type = "gp2"
