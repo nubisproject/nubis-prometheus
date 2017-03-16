@@ -299,6 +299,7 @@ resource "aws_launch_configuration" "prometheus" {
 NUBIS_PROJECT="${var.project}"
 NUBIS_ENVIRONMENT="${element(split(",",var.environments), count.index)}"
 NUBIS_ACCOUNT="${var.service_name}"
+NUBIS_TECHNICAL_CONTACT="${var.technical_contact}"
 NUBIS_DOMAIN="${var.nubis_domain}"
 NUBIS_PROMETHEUS_BUCKET="${element(aws_s3_bucket.prometheus.*.id, count.index)}"
 NUBIS_PROMETHEUS_SLACK_URL="${var.slack_url}"

@@ -1,13 +1,12 @@
 #!/bin/bash
 
-ENV=$(nubis-metadata NUBIS_ENVIRONMENT)
+NUBIS_ENVIRONMENT=$(nubis-metadata NUBIS_ENVIRONMENT)
 
 echo "Enabling node_exporter"
 
-consulate kv set "environments/$ENV/global/node_exporter/config/enabled" 1
+consulate kv set "environments/$NUBIS_ENVIRONMENT/global/node_exporter/config/enabled" 1
 
 NUBIS_PROJECT=$(nubis-metadata NUBIS_PROJECT)
-NUBIS_ENVIRONMENT=$(nubis-metadata NUBIS_ENVIRONMENT)
 
 KV_PREFIX="$NUBIS_PROJECT/$NUBIS_ENVIRONMENT/config"
 
@@ -42,6 +41,20 @@ if [ "$NUBIS_ACCOUNT" != "" ]; then
   consulate kv set "$KV_PREFIX/AccountName" "$NUBIS_ACCOUNT"
 else
   consulate kv rm "$KV_PREFIX/AccountName"
+fi
+
+NUBIS_TECHNICAL_CONTACT=$(nubis-metadata NUBIS_TECHNICAL_CONTACT)
+if [ "$NUBIS_TECHNICAL_CONTACT" != "" ]; then
+  consulate kv set "$KV_PREFIX/TechnicalContact" "$NUBIS_TECHNICAL_CONTACT"
+else
+  consulate kv rm "$KV_PREFIX/TechnicalContact"
+fi
+
+NUBIS_ACCOUNT_ID=$(curl -retry 5 -fqs http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .accountId)
+if [ "$NUBIS_ACCOUNT_ID" != "" ]; then
+  consulate kv set "$KV_PREFIX/AccountID" "$NUBIS_ACCOUNT_ID"
+else
+  consulate kv rm "$KV_PREFIX/AccountID"
 fi
 
 if [ "$NUBIS_ENVIRONMENT" != "" ]; then
