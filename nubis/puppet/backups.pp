@@ -1,5 +1,6 @@
 $duplicity_version = '0.7.11-0ubuntu0ppa1263~ubuntu14.04.1'
 $duply_version = '2.0.1'
+$lighttpd_version = '1.4.33-1+nmu2ubuntu2'
 
 file { '/usr/local/bin/nubis-prometheus-backup':
     ensure => file,
@@ -61,6 +62,40 @@ package { 'duplicity':
     Class['Apt::Update'],
     Package['python-boto'],
   ]
+}
+
+package { 'lighttpd':
+  ensure => $lighttpd_version,
+}
+
+service { 'lighttpd':
+  ensure  => false,
+  enable  => false,
+  require => [
+    Package['lighttpd'],
+  ],
+}
+
+file { '/etc/lighttpd/lighttpd.conf':
+  source  => 'puppet:///nubis/files/lighttpd.conf',
+  ensure  => file,
+  owner   => root,
+  group   => root,
+  mode    => '0644',
+  require => [
+    Package['lighttpd'],
+  ],
+}
+
+file { '/var/www/index.html':
+  ensure  => file,
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
+  content => 'Backups in progress...',
+  require => [
+    Package['lighttpd'],
+  ],
 }
 
 notice ("Grabbing duply ${duply_version}")
