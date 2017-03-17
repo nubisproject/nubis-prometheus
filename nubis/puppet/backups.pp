@@ -77,11 +77,11 @@ service { 'lighttpd':
 }
 
 file { '/etc/lighttpd/lighttpd.conf':
-  source  => 'puppet:///nubis/files/lighttpd.conf',
   ensure  => file,
   owner   => root,
   group   => root,
   mode    => '0644',
+  source  => 'puppet:///nubis/files/lighttpd.conf',
   require => [
     Package['lighttpd'],
   ],
