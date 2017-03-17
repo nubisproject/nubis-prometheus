@@ -4,6 +4,9 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 
 cleanup() {
   echo "Starting Prometheus"
+
+  /etc/init.d/lighttpd stop
+
   start prometheus BACKUP=SKIP >/dev/null 2>&1
 }
 
@@ -12,14 +15,14 @@ save() {
   if [ "$UPSTART_JOB" == "" ]; then
     trap cleanup EXIT
 
-    # Prometheus backs itself up after stopping
-    stop prometheus
-
     # Prometheus was running, it will call us back once it's done.
-    if [ "$?" == "0" ]; then
+    if stop prometheus; then
       exit 0
     fi
   fi
+
+  # We are now stopped so bring up our Backup Running page
+  /etc/init.d/lighttpd start
 
   # Backup
   run_duply prometheus backup --force --allow-source-mismatch
@@ -29,6 +32,9 @@ restore() {
   if [ "$UPSTART_JOB" == "" ]; then
     stop prometheus BACKUP=SKIP
   fi
+
+  # We are now stopped so bring up our Backup Running page
+  /etc/init.d/lighttpd start
 
   # Clean out Prometheus
   rm -rf /var/lib/prometheus/*
