@@ -98,6 +98,13 @@ else
   consulate kv rm "$KV_PREFIX/Sink/PagerDuty/ServiceKey"
 fi
 
+NUBIS_PROMETHEUS_LIVE_APP=$(nubis-metadata NUBIS_PROMETHEUS_LIVE_APP)
+if [ "NUBIS_PROMETHEUS_LIVE_APP" != "" ]; then
+  consulate kv set "$KV_PREFIX/LiveApp" "NUBIS_PROMETHEUS_LIVE_APP"
+else
+  consulate kv rm "$KV_PREFIX/LiveApp"
+fi
+
 NUBIS_MON_DOMAIN="mon.$NUBIS_ENVIRONMENT.$NUBIS_REGION.$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)"
 consulate kv set "$KV_PREFIX/MonDomain" "$NUBIS_MON_DOMAIN"
 
