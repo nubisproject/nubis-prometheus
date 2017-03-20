@@ -23,6 +23,9 @@ global:
 {{if exists "/config/RegionName"}}
     region: '{{ getv "/config/RegionName" }}'
 {{end}}
+{{if exists "/config/LiveApp"}}
+    live_app: '{{ getv "/config/LiveApp" }}'
+{{end}}
 
 
 rule_files:

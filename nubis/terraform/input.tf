@@ -66,3 +66,7 @@ variable "password" {
   description = "Password for the Web UI"
   default     = ""
 }
+
+variable "live_app" {
+  default = ""
+}
