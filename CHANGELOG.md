@@ -1,16 +1,62 @@
 # Change Log
 
-## [v1.3.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.3.0) (2016-12-21)
-[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.3.0...v1.3.0)
+## [v1.4.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.0) (2017-03-23)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.3.0...v1.4.0)
+
+**Closed issues:**
+
+- Upgrade Traefik to v1.2.0 [\#85](https://github.com/nubisproject/nubis-prometheus/issues/85)
+- Add a configurable live\_app label [\#83](https://github.com/nubisproject/nubis-prometheus/issues/83)
+- Allow sink alerts \(apps\) destination to be configured [\#81](https://github.com/nubisproject/nubis-prometheus/issues/81)
+- Add backup in progress landing page [\#79](https://github.com/nubisproject/nubis-prometheus/issues/79)
+- \[labels\] Add technical\_owner and account\_number labels [\#77](https://github.com/nubisproject/nubis-prometheus/issues/77)
+- Disable detailled monitoring [\#75](https://github.com/nubisproject/nubis-prometheus/issues/75)
+- \[mysql\] Discover mysqld-exporter [\#73](https://github.com/nubisproject/nubis-prometheus/issues/73)
+- Apache alerts are application alerts, don't consider them platform alerts [\#71](https://github.com/nubisproject/nubis-prometheus/issues/71)
+- Alert only for platform alerts, leave application alerting up to upstream federators [\#69](https://github.com/nubisproject/nubis-prometheus/issues/69)
+- \[upgrade\] Prometheus 1.5.2 [\#67](https://github.com/nubisproject/nubis-prometheus/issues/67)
+- \[cron\] Setup random delay on intensive jobs [\#61](https://github.com/nubisproject/nubis-prometheus/issues/61)
+- \[cloudwatch\] Filter metrics on VPCs [\#59](https://github.com/nubisproject/nubis-prometheus/issues/59)
+- \[billing\] Currently reporting in triplicate [\#58](https://github.com/nubisproject/nubis-prometheus/issues/58)
+- \[bug\] Can't scrape metrics less frequently than every 5 minutes [\#56](https://github.com/nubisproject/nubis-prometheus/issues/56)
+- \[cloudwatch\] Billing only exposed in us-east-1 [\#54](https://github.com/nubisproject/nubis-prometheus/issues/54)
+- Add support for ingesting cloudwatch metrics [\#53](https://github.com/nubisproject/nubis-prometheus/issues/53)
+- Upgrade blackbox exporter to 0.4.0 [\#50](https://github.com/nubisproject/nubis-prometheus/issues/50)
+- Convert storage type to gp2 [\#47](https://github.com/nubisproject/nubis-prometheus/issues/47)
+- Upgrade Prometheus to 1.5.0 [\#46](https://github.com/nubisproject/nubis-prometheus/issues/46)
 
 **Merged pull requests:**
 
-- Update CHANGELOG for v1.3.0 release [\#34](https://github.com/nubisproject/nubis-prometheus/pull/34) ([tinnightcap](https://github.com/tinnightcap))
-- Update builder artifacts for v1.3.0 release [\#33](https://github.com/nubisproject/nubis-prometheus/pull/33) ([tinnightcap](https://github.com/tinnightcap))
+- Upgrade duplicity to 0.7.12-0ubuntu0ppa1276~ubuntu14.04.1 [\#87](https://github.com/nubisproject/nubis-prometheus/pull/87) ([gozer](https://github.com/gozer))
+- Upgade Traefik to v1.2.0 [\#86](https://github.com/nubisproject/nubis-prometheus/pull/86) ([gozer](https://github.com/gozer))
+- Add a configurable live\_app label [\#84](https://github.com/nubisproject/nubis-prometheus/pull/84) ([gozer](https://github.com/gozer))
+- Allow notification configuration of alert sink \(app alerts\) [\#82](https://github.com/nubisproject/nubis-prometheus/pull/82) ([gozer](https://github.com/gozer))
+- Add a "Backup in progress..." landing page during backup runs [\#80](https://github.com/nubisproject/nubis-prometheus/pull/80) ([gozer](https://github.com/gozer))
+- Show technical\_owner and account\_id in federated metrics [\#78](https://github.com/nubisproject/nubis-prometheus/pull/78) ([gozer](https://github.com/gozer))
+- Disable detailled EC2 monitoring [\#76](https://github.com/nubisproject/nubis-prometheus/pull/76) ([gozer](https://github.com/gozer))
+- Detect and scrape mysqld-exporter instances [\#74](https://github.com/nubisproject/nubis-prometheus/pull/74) ([gozer](https://github.com/gozer))
+- Remove the platform=nubis tag from Apache alerts [\#72](https://github.com/nubisproject/nubis-prometheus/pull/72) ([gozer](https://github.com/gozer))
+- Ignore non-platform alerts [\#70](https://github.com/nubisproject/nubis-prometheus/pull/70) ([gozer](https://github.com/gozer))
+- Upgrade to Prometheus 1.5.2 [\#68](https://github.com/nubisproject/nubis-prometheus/pull/68) ([gozer](https://github.com/gozer))
+- Update builder artifacts for v1.4.0 release \[skip ci\] [\#65](https://github.com/nubisproject/nubis-prometheus/pull/65) ([tinnightcap](https://github.com/tinnightcap))
+- Terraform 0.8 Upgrade [\#64](https://github.com/nubisproject/nubis-prometheus/pull/64) ([gozer](https://github.com/gozer))
+- Add 10 minute jitter to the backup jobs [\#63](https://github.com/nubisproject/nubis-prometheus/pull/63) ([gozer](https://github.com/gozer))
+- Only scrape our CloudWatch Billing metrifs from the admin VPC [\#62](https://github.com/nubisproject/nubis-prometheus/pull/62) ([gozer](https://github.com/gozer))
+- Filter all CloudWatch resources with an environment filter: [\#60](https://github.com/nubisproject/nubis-prometheus/pull/60) ([gozer](https://github.com/gozer))
+- Set our billing scrape interval to the maximum allowed of 5 minutes [\#57](https://github.com/nubisproject/nubis-prometheus/pull/57) ([gozer](https://github.com/gozer))
+- Create a separete cloudwatch\_exporter\_billing for just AWS/Billing metrics [\#55](https://github.com/nubisproject/nubis-prometheus/pull/55) ([gozer](https://github.com/gozer))
+- Upgrade Blackbox Exporter to 0.4.0 [\#52](https://github.com/nubisproject/nubis-prometheus/pull/52) ([gozer](https://github.com/gozer))
+- Upgrade Prometheus to 1.5.0 [\#51](https://github.com/nubisproject/nubis-prometheus/pull/51) ([gozer](https://github.com/gozer))
+- Fix alert description comment for accuracy [\#49](https://github.com/nubisproject/nubis-prometheus/pull/49) ([gozer](https://github.com/gozer))
+- Switch root storage to gp2\(SSD\) [\#48](https://github.com/nubisproject/nubis-prometheus/pull/48) ([gozer](https://github.com/gozer))
 
-## [v1.3.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.3.0) (2016-12-21)
+## [v1.3.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.3.0) (2017-01-18)
 **Closed issues:**
 
+- Randomize cron::hourly, to avoid concurrent backup runs everywhere [\#43](https://github.com/nubisproject/nubis-prometheus/issues/43)
+- Apache Dashboard alert overlay is wrong [\#41](https://github.com/nubisproject/nubis-prometheus/issues/41)
+- Backup to S3 with duply/duplicity [\#38](https://github.com/nubisproject/nubis-prometheus/issues/38)
+- Lower default metrics retention [\#36](https://github.com/nubisproject/nubis-prometheus/issues/36)
 - Upgrade to Traefik 1.1.2 [\#29](https://github.com/nubisproject/nubis-prometheus/issues/29)
 - Provision the monitoring password from TF [\#20](https://github.com/nubisproject/nubis-prometheus/issues/20)
 - Expose nubis\_sudo\_groups and nubis\_user\_groups userdata [\#18](https://github.com/nubisproject/nubis-prometheus/issues/18)
@@ -27,6 +73,14 @@
 
 **Merged pull requests:**
 
+- Little improvements for Prometheus Backups [\#44](https://github.com/nubisproject/nubis-prometheus/pull/44) ([gozer](https://github.com/gozer))
+- Limit displayed alerts to the firing ones [\#42](https://github.com/nubisproject/nubis-prometheus/pull/42) ([gozer](https://github.com/gozer))
+- Update builder artifacts for v1.4.0-dev release [\#40](https://github.com/nubisproject/nubis-prometheus/pull/40) ([tinnightcap](https://github.com/tinnightcap))
+- Use duply & duplicity to drive backups to S3 [\#39](https://github.com/nubisproject/nubis-prometheus/pull/39) ([gozer](https://github.com/gozer))
+- lower metrics retention to 14 days [\#37](https://github.com/nubisproject/nubis-prometheus/pull/37) ([gozer](https://github.com/gozer))
+- Update CHANGELOG for v1.3.0 release [\#35](https://github.com/nubisproject/nubis-prometheus/pull/35) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.3.0 release [\#34](https://github.com/nubisproject/nubis-prometheus/pull/34) ([tinnightcap](https://github.com/tinnightcap))
+- Update builder artifacts for v1.3.0 release [\#33](https://github.com/nubisproject/nubis-prometheus/pull/33) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v1.3.0 release [\#32](https://github.com/nubisproject/nubis-prometheus/pull/32) ([tinnightcap](https://github.com/tinnightcap))
 - Upgrade to Traefik 1.1.2 \(includes our reported fix\) [\#30](https://github.com/nubisproject/nubis-prometheus/pull/30) ([gozer](https://github.com/gozer))
 - Fix Links [\#28](https://github.com/nubisproject/nubis-prometheus/pull/28) ([tinnightcap](https://github.com/tinnightcap))
