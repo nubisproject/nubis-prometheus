@@ -48,6 +48,22 @@ variable pagerduty_service_key {
   default = ""
 }
 
+variable sink_slack_url {
+  default = ""
+}
+
+variable sink_slack_channel {
+  default = ""
+}
+
+variable sink_notification_email {
+  default = ""
+}
+
+variable sink_pagerduty_service_key {
+  default = ""
+}
+
 variable nubis_sudo_groups {
   default = "nubis_sudo_groups"
 }
@@ -65,4 +81,8 @@ variable "credstash_dynamodb_table" {}
 variable "password" {
   description = "Password for the Web UI"
   default     = ""
+}
+
+variable "live_app" {
+  default = ""
 }

@@ -279,6 +279,8 @@ resource "aws_launch_configuration" "prometheus" {
   key_name             = "${var.key_name}"
   iam_instance_profile = "${element(aws_iam_instance_profile.prometheus.*.name, count.index)}"
 
+  enable_monitoring    = false
+
   root_block_device = {
     volume_size = "32"
     volume_type = "gp2"
@@ -297,12 +299,18 @@ resource "aws_launch_configuration" "prometheus" {
 NUBIS_PROJECT="${var.project}"
 NUBIS_ENVIRONMENT="${element(split(",",var.environments), count.index)}"
 NUBIS_ACCOUNT="${var.service_name}"
+NUBIS_TECHNICAL_CONTACT="${var.technical_contact}"
 NUBIS_DOMAIN="${var.nubis_domain}"
+NUBIS_PROMETHEUS_LIVE_APP="${var.live_app}"
 NUBIS_PROMETHEUS_BUCKET="${element(aws_s3_bucket.prometheus.*.id, count.index)}"
 NUBIS_PROMETHEUS_SLACK_URL="${var.slack_url}"
 NUBIS_PROMETHEUS_SLACK_CHANNEL="${var.slack_channel}"
 NUBIS_PROMETHEUS_NOTIFICATION_EMAIL="${var.notification_email}"
 NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY="${var.pagerduty_service_key}"
+NUBIS_PROMETHEUS_SINK_SLACK_URL="${var.sink_slack_url}"
+NUBIS_PROMETHEUS_SINK_SLACK_CHANNEL="${var.sink_slack_channel}"
+NUBIS_PROMETHEUS_SINK_NOTIFICATION_EMAIL="${var.sink_notification_email}"
+NUBIS_PROMETHEUS_SINK_PAGERDUTY_SERVICE_KEY="${var.sink_pagerduty_service_key}"
 NUBIS_SUDO_GROUPS="${var.nubis_sudo_groups}"
 NUBIS_USER_GROUPS="${var.nubis_user_groups}"
 EOF

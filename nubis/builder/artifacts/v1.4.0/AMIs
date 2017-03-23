@@ -1,11 +1,11 @@
 amazon-ebs-ubuntu:
-ap-northeast-1: ami-97e6adf0
-ap-northeast-2: ami-c705d5a9
-ap-southeast-1: ami-5975c43a
-ap-southeast-2: ami-f0646793
-eu-central-1: ami-387cb657
-eu-west-1: ami-f61f3390
-sa-east-1: ami-4c7f1920
-us-east-1: ami-e6b765f0
-us-west-1: ami-402c7220
-us-west-2: ami-76e56616
+ap-northeast-1: ami-4cefb62b
+ap-northeast-2: ami-a704d7c9
+ap-southeast-1: ami-51358832
+ap-southeast-2: ami-f9d2de9a
+eu-central-1: ami-0a8b5a65
+eu-west-1: ami-5e9fac38
+sa-east-1: ami-c5b2d2a9
+us-east-1: ami-f769dae1
+us-west-1: ami-6b376c0b
+us-west-2: ami-7af67c1a

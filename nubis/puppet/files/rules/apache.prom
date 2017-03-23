@@ -29,6 +29,3 @@ ALERT ApacheSentKbSpike
     summary = "Anomalous Outbound KBs spike on {{ $labels.instance }}",
     description = "{{ $labels.instance }} is showing an outbount KBs spike of {{ $value }} stddevs, more than 2 over the average"
   }
-
-
-

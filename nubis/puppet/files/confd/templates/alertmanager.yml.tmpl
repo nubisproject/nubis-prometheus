@@ -4,14 +4,38 @@ global:
   smtp_from: 'nubis-team@mozilla.com'
 
 route:
-  receiver: 'default'
+  # Ignore unmatched alerts by default
+  receiver: 'sink'
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 4h
   group_by: [account,region,environment,alertname]
+  routes:
+    # Fire off all alerts only for platform alerts, we leave the rest to upstream
+    - receiver: 'all'
+      match:
+        platform: nubis
 
 receivers:
-  - name: 'default'
+  - name: 'sink'
+{{if exists "/config/Sink/Email/Destination"}}
+    email_configs:
+      - to: '{{getv "/config/Sink/Email/Destination"}}'
+        require_tls: false
+        send_resolved: true
+{{end}}
+{{if and (exists "/config/Sink/Slack/Url") (exists "/config/Sink/Slack/Channel")}}
+    slack_configs:
+      - api_url: '{{getv "/config/Sink/Slack/Url"}}'
+        channel: '{{getv "/config/Sink/Slack/Channel"}}'
+        send_resolved: true
+{{end}}
+{{if exists "/config/Sink/PagerDuty/ServiceKey"}}
+    pagerduty_configs:
+      - service_key: '{{getv "/config/Sink/PagerDuty/ServiceKey"}}'
+        send_resolved: true
+{{end}}
+  - name: 'all'
 {{if exists "/config/Email/Destination"}}
     email_configs:
       - to: '{{getv "/config/Email/Destination"}}'
