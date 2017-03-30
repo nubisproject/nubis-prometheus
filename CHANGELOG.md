@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.4.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.0) (2017-03-30)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.4.0...v1.4.0)
+
+**Merged pull requests:**
+
+- Fix typo, missing $ [\#90](https://github.com/nubisproject/nubis-prometheus/pull/90) ([gozer](https://github.com/gozer))
+
 ## [v1.4.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.0) (2017-03-23)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.3.0...v1.4.0)
 
@@ -24,9 +31,12 @@
 - Upgrade blackbox exporter to 0.4.0 [\#50](https://github.com/nubisproject/nubis-prometheus/issues/50)
 - Convert storage type to gp2 [\#47](https://github.com/nubisproject/nubis-prometheus/issues/47)
 - Upgrade Prometheus to 1.5.0 [\#46](https://github.com/nubisproject/nubis-prometheus/issues/46)
+- Tag v1.4.0 release [\#45](https://github.com/nubisproject/nubis-prometheus/issues/45)
 
 **Merged pull requests:**
 
+- Merge v1.4.0 release into develop. \[skip ci\] [\#89](https://github.com/nubisproject/nubis-prometheus/pull/89) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.4.0 release \[skip ci\] [\#88](https://github.com/nubisproject/nubis-prometheus/pull/88) ([tinnightcap](https://github.com/tinnightcap))
 - Upgrade duplicity to 0.7.12-0ubuntu0ppa1276~ubuntu14.04.1 [\#87](https://github.com/nubisproject/nubis-prometheus/pull/87) ([gozer](https://github.com/gozer))
 - Upgade Traefik to v1.2.0 [\#86](https://github.com/nubisproject/nubis-prometheus/pull/86) ([gozer](https://github.com/gozer))
 - Add a configurable live\_app label [\#84](https://github.com/nubisproject/nubis-prometheus/pull/84) ([gozer](https://github.com/gozer))
