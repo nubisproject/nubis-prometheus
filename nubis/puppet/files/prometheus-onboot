@@ -99,7 +99,7 @@ else
 fi
 
 NUBIS_PROMETHEUS_LIVE_APP=$(nubis-metadata NUBIS_PROMETHEUS_LIVE_APP)
-if [ "NUBIS_PROMETHEUS_LIVE_APP" != "" ]; then
+if [ "$NUBIS_PROMETHEUS_LIVE_APP" != "" ]; then
   consulate kv set "$KV_PREFIX/LiveApp" "$NUBIS_PROMETHEUS_LIVE_APP"
 else
   consulate kv rm "$KV_PREFIX/LiveApp"
