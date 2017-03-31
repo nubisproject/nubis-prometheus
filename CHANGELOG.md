@@ -5,9 +5,9 @@
 
 **Merged pull requests:**
 
-- Fixups to pass Travis lint checks [\#94](https://github.com/nubisproject/nubis-prometheus/pull/94) ([tinnightcap](https://github.com/tinnightcap))
+- Don't expose Consul to the internet, because [\#98](https://github.com/nubisproject/nubis-prometheus/pull/98) ([gozer](https://github.com/gozer))
 
-## [v1.4.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.0) (2017-03-30)
+## [v1.4.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.0) (2017-03-31)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.3.0...v1.4.0)
 
 **Closed issues:**
@@ -31,11 +31,15 @@
 - Upgrade blackbox exporter to 0.4.0 [\#50](https://github.com/nubisproject/nubis-prometheus/issues/50)
 - Convert storage type to gp2 [\#47](https://github.com/nubisproject/nubis-prometheus/issues/47)
 - Upgrade Prometheus to 1.5.0 [\#46](https://github.com/nubisproject/nubis-prometheus/issues/46)
+- Tag v1.4.0 release [\#95](https://github.com/nubisproject/nubis-prometheus/issues/95)
 - Tag v1.4.0 release [\#91](https://github.com/nubisproject/nubis-prometheus/issues/91)
 - Tag v1.4.0 release [\#45](https://github.com/nubisproject/nubis-prometheus/issues/45)
 
 **Merged pull requests:**
 
+- Merge v1.4.0 release into develop. \[skip ci\] [\#97](https://github.com/nubisproject/nubis-prometheus/pull/97) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.4.0 release \[skip ci\] [\#96](https://github.com/nubisproject/nubis-prometheus/pull/96) ([tinnightcap](https://github.com/tinnightcap))
+- Fixups to pass Travis lint checks [\#94](https://github.com/nubisproject/nubis-prometheus/pull/94) ([tinnightcap](https://github.com/tinnightcap))
 - Merge v1.4.0 release into develop. \[skip ci\] [\#93](https://github.com/nubisproject/nubis-prometheus/pull/93) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v1.4.0 release \[skip ci\] [\#92](https://github.com/nubisproject/nubis-prometheus/pull/92) ([tinnightcap](https://github.com/tinnightcap))
 - Fix typo, missing $ [\#90](https://github.com/nubisproject/nubis-prometheus/pull/90) ([gozer](https://github.com/gozer))
