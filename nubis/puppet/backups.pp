@@ -92,7 +92,7 @@ file { '/var/www/index.html':
   owner   => 'root',
   group   => 'root',
   mode    => '0644',
-  content => 'Backups in progress...',
+  content => '# Backups in progress...',
   require => [
     Package['lighttpd'],
   ],
