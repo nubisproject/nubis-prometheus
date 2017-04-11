@@ -71,7 +71,7 @@ else
   consulate kv rm "$KV_PREFIX/TechnicalContact"
 fi
 
-NUBIS_ACCOUNT_ID=$(curl -retry 5 -fqs http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .accountId)
+NUBIS_ACCOUNT_ID=$(curl --retry 5 -fqs http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .accountId)
 if [ "$NUBIS_ACCOUNT_ID" != "" ]; then
   consulate kv set "$KV_PREFIX/AccountID" "$NUBIS_ACCOUNT_ID"
 else
