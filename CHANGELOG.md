@@ -1,11 +1,17 @@
 # Change Log
 
-## [v1.4.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.0) (2017-03-31)
-[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.4.0...v1.4.0)
+## [v1.4.1](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.1) (2017-04-11)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.4.0...v1.4.1)
+
+**Closed issues:**
+
+- \[backups\] Make sure in progress page is parseable by Prometheus [\#104](https://github.com/nubisproject/nubis-prometheus/issues/104)
+- \[typo\] curl -retry instead of --retry in prometheus-onboot [\#102](https://github.com/nubisproject/nubis-prometheus/issues/102)
 
 **Merged pull requests:**
 
-- Don't expose Consul to the internet, because [\#98](https://github.com/nubisproject/nubis-prometheus/pull/98) ([gozer](https://github.com/gozer))
+- Make sure the backup in progress landing page is parseable by prometheus [\#105](https://github.com/nubisproject/nubis-prometheus/pull/105) ([gozer](https://github.com/gozer))
+- Fix curl -retry tyop [\#103](https://github.com/nubisproject/nubis-prometheus/pull/103) ([gozer](https://github.com/gozer))
 
 ## [v1.4.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.0) (2017-03-31)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.3.0...v1.4.0)
@@ -31,12 +37,16 @@
 - Upgrade blackbox exporter to 0.4.0 [\#50](https://github.com/nubisproject/nubis-prometheus/issues/50)
 - Convert storage type to gp2 [\#47](https://github.com/nubisproject/nubis-prometheus/issues/47)
 - Upgrade Prometheus to 1.5.0 [\#46](https://github.com/nubisproject/nubis-prometheus/issues/46)
+- Tag v1.4.0 release [\#99](https://github.com/nubisproject/nubis-prometheus/issues/99)
 - Tag v1.4.0 release [\#95](https://github.com/nubisproject/nubis-prometheus/issues/95)
 - Tag v1.4.0 release [\#91](https://github.com/nubisproject/nubis-prometheus/issues/91)
 - Tag v1.4.0 release [\#45](https://github.com/nubisproject/nubis-prometheus/issues/45)
 
 **Merged pull requests:**
 
+- Merge v1.4.0 release into develop. \[skip ci\] [\#101](https://github.com/nubisproject/nubis-prometheus/pull/101) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.4.0 release \[skip ci\] [\#100](https://github.com/nubisproject/nubis-prometheus/pull/100) ([tinnightcap](https://github.com/tinnightcap))
+- Don't expose Consul to the internet, because [\#98](https://github.com/nubisproject/nubis-prometheus/pull/98) ([gozer](https://github.com/gozer))
 - Merge v1.4.0 release into develop. \[skip ci\] [\#97](https://github.com/nubisproject/nubis-prometheus/pull/97) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v1.4.0 release \[skip ci\] [\#96](https://github.com/nubisproject/nubis-prometheus/pull/96) ([tinnightcap](https://github.com/tinnightcap))
 - Fixups to pass Travis lint checks [\#94](https://github.com/nubisproject/nubis-prometheus/pull/94) ([tinnightcap](https://github.com/tinnightcap))
