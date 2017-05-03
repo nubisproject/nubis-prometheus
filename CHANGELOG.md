@@ -1,5 +1,16 @@
 # Change Log
 
+## [v1.4.2](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.2) (2017-05-03)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.4.1...v1.4.2)
+
+**Closed issues:**
+
+- Add nubis/builder/artifacts/AMIs.json to .gitignore [\#111](https://github.com/nubisproject/nubis-prometheus/issues/111)
+
+**Merged pull requests:**
+
+- Add nubis/builder/artifacts/AMIs.json to .gitignore [\#112](https://github.com/nubisproject/nubis-prometheus/pull/112) ([gozer](https://github.com/gozer))
+
 ## [v1.4.1](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.1) (2017-04-11)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.4.0...v1.4.1)
 
@@ -7,9 +18,12 @@
 
 - \[backups\] Make sure in progress page is parseable by Prometheus [\#104](https://github.com/nubisproject/nubis-prometheus/issues/104)
 - \[typo\] curl -retry instead of --retry in prometheus-onboot [\#102](https://github.com/nubisproject/nubis-prometheus/issues/102)
+- Tag v1.4.1 release [\#107](https://github.com/nubisproject/nubis-prometheus/issues/107)
 
 **Merged pull requests:**
 
+- Merge v1.4.1 release into develop. \[skip ci\] [\#109](https://github.com/nubisproject/nubis-prometheus/pull/109) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.4.1 release \[skip ci\] [\#108](https://github.com/nubisproject/nubis-prometheus/pull/108) ([tinnightcap](https://github.com/tinnightcap))
 - Make sure the backup in progress landing page is parseable by prometheus [\#105](https://github.com/nubisproject/nubis-prometheus/pull/105) ([gozer](https://github.com/gozer))
 - Fix curl -retry tyop [\#103](https://github.com/nubisproject/nubis-prometheus/pull/103) ([gozer](https://github.com/gozer))
 
