@@ -6,9 +6,11 @@
 **Closed issues:**
 
 - Add nubis/builder/artifacts/AMIs.json to .gitignore [\#111](https://github.com/nubisproject/nubis-prometheus/issues/111)
+- Tag v1.4.2 release [\#113](https://github.com/nubisproject/nubis-prometheus/issues/113)
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v1.4.2 release \[skip ci\] [\#114](https://github.com/nubisproject/nubis-prometheus/pull/114) ([tinnightcap](https://github.com/tinnightcap))
 - Add nubis/builder/artifacts/AMIs.json to .gitignore [\#112](https://github.com/nubisproject/nubis-prometheus/pull/112) ([gozer](https://github.com/gozer))
 
 ## [v1.4.1](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.1) (2017-04-11)
