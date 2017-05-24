@@ -82,6 +82,7 @@ resource "aws_security_group" "prometheus" {
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
       "${element(aws_security_group.elb-traefik.*.id, count.index)}",
+      "${element(split(",",var.sso_security_groups), count.index)}",
     ]
   }
 
@@ -94,6 +95,7 @@ resource "aws_security_group" "prometheus" {
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
       "${element(aws_security_group.elb-traefik.*.id, count.index)}",
+      "${element(split(",",var.sso_security_groups), count.index)}",
     ]
   }
 
@@ -108,6 +110,7 @@ resource "aws_security_group" "prometheus" {
 
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
+      "${element(split(",",var.sso_security_groups), count.index)}",
     ]
   }
 
@@ -122,6 +125,7 @@ resource "aws_security_group" "prometheus" {
 
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
+      "${element(split(",",var.sso_security_groups), count.index)}",
     ]
   }
 
@@ -135,6 +139,7 @@ resource "aws_security_group" "prometheus" {
 
     security_groups = [
       "${element(split(",",var.ssh_security_groups), count.index)}",
+      "${element(split(",",var.sso_security_groups), count.index)}",
     ]
   }
 
