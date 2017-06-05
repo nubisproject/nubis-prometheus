@@ -35,7 +35,7 @@ them needs a distinct TCP port for it, and here is our current list:
 
 | Exporter               | Port | Discovery                    |
 | ---                    | :---:|           ---                |
-| Node                   | 9100 | sd:datadog sd:node-exporter  |
+| Node                   | 9100 | sd:node-exporter             |
 | Fluentd                | 9101 | sd: fluentd                  |
 | Consul Statd           | 9102 | sd: consul                   |
 | Apache                 | 9103 | sd:apache sd:apache-exporter |
