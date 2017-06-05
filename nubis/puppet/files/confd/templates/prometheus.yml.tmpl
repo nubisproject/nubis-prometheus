@@ -187,7 +187,7 @@ scrape_configs:
         - es
 
   - job_name: 'jenkins'
-    metrics_path: '/prometheus/'
+    metrics_path: '/jenkins/prometheus/'
     relabel_configs:
     - source_labels: ['__meta_consul_address']
       regex:         '(.*)'

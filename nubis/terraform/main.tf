@@ -80,7 +80,6 @@ resource "aws_security_group" "prometheus" {
     protocol  = "tcp"
 
     security_groups = [
-      "${element(split(",",var.ssh_security_groups), count.index)}",
       "${element(aws_security_group.elb-traefik.*.id, count.index)}",
     ]
   }
@@ -92,7 +91,6 @@ resource "aws_security_group" "prometheus" {
     protocol  = "tcp"
 
     security_groups = [
-      "${element(split(",",var.ssh_security_groups), count.index)}",
       "${element(aws_security_group.elb-traefik.*.id, count.index)}",
     ]
   }
@@ -107,7 +105,21 @@ resource "aws_security_group" "prometheus" {
     cidr_blocks = ["0.0.0.0/0"]
 
     security_groups = [
-      "${element(split(",",var.ssh_security_groups), count.index)}",
+      "${element(split(",",var.sso_security_groups), count.index)}",
+    ]
+  }
+
+  # Prometheus
+  ingress {
+    from_port = 81
+    to_port   = 81
+    protocol  = "tcp"
+    self      = true
+
+    cidr_blocks = ["0.0.0.0/0"]
+
+    security_groups = [
+      "${element(split(",",var.sso_security_groups), count.index)}",
     ]
   }
 
@@ -121,7 +133,7 @@ resource "aws_security_group" "prometheus" {
     cidr_blocks = ["0.0.0.0/0"]
 
     security_groups = [
-      "${element(split(",",var.ssh_security_groups), count.index)}",
+      "${element(split(",",var.sso_security_groups), count.index)}",
     ]
   }
 
@@ -134,7 +146,7 @@ resource "aws_security_group" "prometheus" {
     self = true
 
     security_groups = [
-      "${element(split(",",var.ssh_security_groups), count.index)}",
+      "${element(split(",",var.sso_security_groups), count.index)}",
     ]
   }
 
