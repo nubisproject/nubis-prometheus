@@ -23,14 +23,14 @@ class { 'grafana':
       enabled => true,
     },
     'auth.proxy'      => {
-      enabled => true,
-      header_name => 'OIDC_CLAIM_email',
+      enabled         => true,
+      header_name     => 'OIDC_CLAIM_email',
       header_property => 'email',
-      auto_sign_up => true,
-    }
+      auto_sign_up    => true,
+    },
     users             => {
-      allow_sign_up => true,
-      auto_assign_org => true,
+      allow_sign_up        => true,
+      auto_assign_org      => true,
       auto_assign_org_role => 'Editor',
     },
     'dashboards.json' => {
