@@ -1,15 +1,45 @@
 # Change Log
 
-## [v1.4.2](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.2) (2017-05-03)
+## [v1.5.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.5.0) (2017-06-24)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.4.2...v1.5.0)
+
+**Closed issues:**
+
+- \[grafana\] Enable ProxyAuth [\#135](https://github.com/nubisproject/nubis-prometheus/issues/135)
+- Upgrade Prometheus to 1.7.1 and Alertmanager to 0.7.1 [\#131](https://github.com/nubisproject/nubis-prometheus/issues/131)
+- ALlow discovery of custom scraping targets [\#130](https://github.com/nubisproject/nubis-prometheus/issues/130)
+- \[datadog\] Remove support [\#128](https://github.com/nubisproject/nubis-prometheus/issues/128)
+- \[blackbox\] Upgrade to 0.5.0 [\#122](https://github.com/nubisproject/nubis-prometheus/issues/122)
+- \[alertmanager\] Upgrade to 0.6.2 [\#121](https://github.com/nubisproject/nubis-prometheus/issues/121)
+- \[prometheus\] Upgrade to 1.6.2 [\#120](https://github.com/nubisproject/nubis-prometheus/issues/120)
+- \[traefik\] Upgrade to v1.2.3 [\#119](https://github.com/nubisproject/nubis-prometheus/issues/119)
+
+**Merged pull requests:**
+
+- Use OIDC\_CLAIM\_email as logged-in user in Grafana [\#136](https://github.com/nubisproject/nubis-prometheus/pull/136) ([gozer](https://github.com/gozer))
+- Increasing disk space for prometheus federators - Bug 1367263 [\#134](https://github.com/nubisproject/nubis-prometheus/pull/134) ([kfferrando](https://github.com/kfferrando))
+- Version upgrades [\#133](https://github.com/nubisproject/nubis-prometheus/pull/133) ([gozer](https://github.com/gozer))
+- Implement custom scrape target discovery via Consul service tags [\#132](https://github.com/nubisproject/nubis-prometheus/pull/132) ([gozer](https://github.com/gozer))
+- Remove support for DataDog [\#129](https://github.com/nubisproject/nubis-prometheus/pull/129) ([gozer](https://github.com/gozer))
+- Enable SSO for Prometheus [\#127](https://github.com/nubisproject/nubis-prometheus/pull/127) ([gozer](https://github.com/gozer))
+- Upgrade blackbox exporter to 0.5.0 [\#126](https://github.com/nubisproject/nubis-prometheus/pull/126) ([gozer](https://github.com/gozer))
+- Upgrade alertmanager to 0.6.2 [\#125](https://github.com/nubisproject/nubis-prometheus/pull/125) ([gozer](https://github.com/gozer))
+- Upgrade prometheus to v1.6.2 [\#124](https://github.com/nubisproject/nubis-prometheus/pull/124) ([gozer](https://github.com/gozer))
+- Upgrade Traefik to 1.2.3 [\#123](https://github.com/nubisproject/nubis-prometheus/pull/123) ([gozer](https://github.com/gozer))
+
+## [v1.4.2](https://github.com/nubisproject/nubis-prometheus/tree/v1.4.2) (2017-05-05)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.4.1...v1.4.2)
 
 **Closed issues:**
 
 - Add nubis/builder/artifacts/AMIs.json to .gitignore [\#111](https://github.com/nubisproject/nubis-prometheus/issues/111)
+- Tag v1.4.2 release [\#116](https://github.com/nubisproject/nubis-prometheus/issues/116)
 - Tag v1.4.2 release [\#113](https://github.com/nubisproject/nubis-prometheus/issues/113)
 
 **Merged pull requests:**
 
+- Merge v1.4.2 release into develop. \[skip ci\] [\#118](https://github.com/nubisproject/nubis-prometheus/pull/118) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.4.2 release \[skip ci\] [\#117](https://github.com/nubisproject/nubis-prometheus/pull/117) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v1.4.2 release \[skip ci\] [\#114](https://github.com/nubisproject/nubis-prometheus/pull/114) ([tinnightcap](https://github.com/tinnightcap))
 - Add nubis/builder/artifacts/AMIs.json to .gitignore [\#112](https://github.com/nubisproject/nubis-prometheus/pull/112) ([gozer](https://github.com/gozer))
 
