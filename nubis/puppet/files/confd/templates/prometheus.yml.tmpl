@@ -130,7 +130,6 @@ scrape_configs:
     consul_sd_configs:
     - server: 'localhost:8500'
       services:
-        - datadog
         - node-exporter
 
   - job_name: 'apache'
@@ -187,7 +186,7 @@ scrape_configs:
         - es
 
   - job_name: 'jenkins'
-    metrics_path: '/prometheus/'
+    metrics_path: '/jenkins/prometheus/'
     relabel_configs:
     - source_labels: ['__meta_consul_address']
       regex:         '(.*)'
@@ -237,3 +236,26 @@ scrape_configs:
     - server: 'localhost:8500'
       services:
         - mysqld-exporter
+
+  - job_name: 'custom'
+    relabel_configs:
+      # Only services with the metrics tag
+    - source_labels: ['__meta_consul_tags']
+      regex:         '.*,metrics,.*'
+      action:        'keep'
+      # Set job name to Consul service
+    - source_labels: ['__meta_consul_service']
+      target_label:  'job'
+      # Grab optional alternate metrics path
+    - source_labels: ['__meta_consul_tags']
+      regex:         '.*,metrics_path=([^,]*),.*'
+      target_label:  '__metrics_path__'
+      replacement:   '$1'
+      # Use instance-id for node name
+    - source_labels: ['__meta_consul_node']
+      regex:         '(.*)'
+      target_label:  'instance'
+      replacement:   '$1'
+
+    consul_sd_configs:
+    - server: 'localhost:8500'

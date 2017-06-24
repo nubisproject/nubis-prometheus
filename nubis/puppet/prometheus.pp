@@ -1,6 +1,6 @@
-$prometheus_version = '1.5.2'
-$alertmanager_version = '0.5.1'
-$blackbox_version = '0.4.0'
+$prometheus_version = '1.7.1'
+$alertmanager_version = '0.7.1'
+$blackbox_version = '0.5.0'
 
 $prometheus_url = "https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-amd64.tar.gz"
 $alertmanager_url = "https://github.com/prometheus/alertmanager/releases/download/v${alertmanager_version}/alertmanager-${alertmanager_version}.linux-amd64.tar.gz"
@@ -162,7 +162,7 @@ upstart::job { 'alertmanager':
     . /etc/profile.d/proxy.sh
   fi
 
-  exec /opt/prometheus/alertmanager -config.file /etc/prometheus/alertmanager.yml -web.external-url "http://mon.$(nubis-metadata NUBIS_ENVIRONMENT).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/alertmanager"
+  exec /opt/prometheus/alertmanager -config.file /etc/prometheus/alertmanager.yml -web.external-url "https://sso.$(nubis-metadata NUBIS_ENVIRONMENT).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/alertmanager"
 ',
     post_stop      => '
 goal=$(initctl status $UPSTART_JOB | awk \'{print $2}\' | cut -d \'/\' -f 1)
