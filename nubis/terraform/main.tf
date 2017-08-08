@@ -102,8 +102,6 @@ resource "aws_security_group" "prometheus" {
     protocol  = "tcp"
     self      = true
 
-    cidr_blocks = ["0.0.0.0/0"]
-
     security_groups = [
       "${element(split(",",var.sso_security_groups), count.index)}",
     ]
@@ -115,8 +113,6 @@ resource "aws_security_group" "prometheus" {
     to_port   = 81
     protocol  = "tcp"
     self      = true
-
-    cidr_blocks = ["0.0.0.0/0"]
 
     security_groups = [
       "${element(split(",",var.sso_security_groups), count.index)}",
@@ -130,8 +126,6 @@ resource "aws_security_group" "prometheus" {
     protocol  = "tcp"
     self      = true
 
-    cidr_blocks = ["0.0.0.0/0"]
-
     security_groups = [
       "${element(split(",",var.sso_security_groups), count.index)}",
     ]
@@ -142,7 +136,6 @@ resource "aws_security_group" "prometheus" {
     from_port = 3000
     to_port   = 3000
     protocol  = "tcp"
-
     self = true
 
     security_groups = [
