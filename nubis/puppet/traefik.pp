@@ -68,16 +68,3 @@ file { '/etc/consul/svc-traefik.json':
   mode   => '0644',
   source => 'puppet:///nubis/files/svc-traefik.json',
 }
-
-# Normally, we should be able to have a static rule for this
-# But still tracking down a Traefik bug on that so we create
-# a synthethic service here for ourselves, grmbl
-
-file { '/etc/consul/svc-consul-ui.json':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0644',
-    source => 'puppet:///nubis/files/svc-consul-ui.json',
-}
-

@@ -37,7 +37,7 @@ entryPoint = "https"
 # Disable for prod
 #caServer = "https://acme-staging.api.letsencrypt.org/directory"
 
-onDemand = true
+onDemand = false
 [[acme.domains]]
    main = "{{ getv "/config/MonDomain" }}"
 
