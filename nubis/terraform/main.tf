@@ -12,21 +12,6 @@ module "prometheus-image" {
 
 }
 
-module "uuid" {
-  source = "github.com/nubisproject/nubis-deploy///modules/uuid?ref=master"
-
-  enabled = "${var.enabled}"
-
-  aws_profile = "${var.aws_profile}"
-  aws_region  = "${var.aws_region}"
-
-  name = "prometheus"
-
-  environments = "${var.environments}"
-
-  lambda_uuid_arn = "${var.lambda_uuid_arn}"
-}
-
 resource "aws_s3_bucket" "prometheus" {
   count = "${var.enabled * length(split(",", var.environments))}"
 
@@ -34,7 +19,7 @@ resource "aws_s3_bucket" "prometheus" {
     create_before_destroy = true
   }
 
-  bucket = "prometheus-${element(split(",",var.environments), count.index)}-${element(split(",",module.uuid.uuids), count.index)}"
+  bucket_prefix = "prometheus-${element(split(",",var.environments), count.index)}-"
 
   acl           = "private"
   force_destroy = true

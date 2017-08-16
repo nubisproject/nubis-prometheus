@@ -16,8 +16,6 @@ variable environments {}
 
 variable enabled {}
 
-variable lambda_uuid_arn {}
-
 variable technical_contact {}
 
 variable vpc_ids {}
