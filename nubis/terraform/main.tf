@@ -139,9 +139,7 @@ resource "aws_iam_instance_profile" "prometheus" {
 
   name = "${var.project}-${element(split(",",var.environments), count.index)}-${var.aws_region}"
 
-  roles = [
-    "${element(aws_iam_role.prometheus.*.name, count.index)}",
-  ]
+  role = "${element(aws_iam_role.prometheus.*.name, count.index)}"
 }
 
 resource "aws_iam_role" "prometheus" {
