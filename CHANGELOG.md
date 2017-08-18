@@ -1,5 +1,20 @@
 # Change Log
 
+## [v1.5.1](https://github.com/nubisproject/nubis-prometheus/tree/v1.5.1) (2017-08-18)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.5.0...v1.5.1)
+
+**Closed issues:**
+
+- \[security\] Close up access to unneeded ports [\#145](https://github.com/nubisproject/nubis-prometheus/issues/145)
+- Disable external services routing [\#143](https://github.com/nubisproject/nubis-prometheus/issues/143)
+- \[traefik\] Upgrade to 1.3.4 [\#140](https://github.com/nubisproject/nubis-prometheus/issues/140)
+
+**Merged pull requests:**
+
+- Close down unnecessary open tcp ports [\#146](https://github.com/nubisproject/nubis-prometheus/pull/146) ([gozer](https://github.com/gozer))
+- Don't route for \*.mon... anymore, these services are exposed via SSO now [\#144](https://github.com/nubisproject/nubis-prometheus/pull/144) ([gozer](https://github.com/gozer))
+- Upgrade to traefik v1.3.4 [\#141](https://github.com/nubisproject/nubis-prometheus/pull/141) ([gozer](https://github.com/gozer))
+
 ## [v1.5.0](https://github.com/nubisproject/nubis-prometheus/tree/v1.5.0) (2017-06-24)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.4.2...v1.5.0)
 
@@ -13,9 +28,12 @@
 - \[alertmanager\] Upgrade to 0.6.2 [\#121](https://github.com/nubisproject/nubis-prometheus/issues/121)
 - \[prometheus\] Upgrade to 1.6.2 [\#120](https://github.com/nubisproject/nubis-prometheus/issues/120)
 - \[traefik\] Upgrade to v1.2.3 [\#119](https://github.com/nubisproject/nubis-prometheus/issues/119)
+- Tag v1.5.0 release [\#137](https://github.com/nubisproject/nubis-prometheus/issues/137)
 
 **Merged pull requests:**
 
+- Merge v1.5.0 release into develop. \[skip ci\] [\#139](https://github.com/nubisproject/nubis-prometheus/pull/139) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.5.0 release \[skip ci\] [\#138](https://github.com/nubisproject/nubis-prometheus/pull/138) ([tinnightcap](https://github.com/tinnightcap))
 - Use OIDC\_CLAIM\_email as logged-in user in Grafana [\#136](https://github.com/nubisproject/nubis-prometheus/pull/136) ([gozer](https://github.com/gozer))
 - Increasing disk space for prometheus federators - Bug 1367263 [\#134](https://github.com/nubisproject/nubis-prometheus/pull/134) ([kfferrando](https://github.com/kfferrando))
 - Version upgrades [\#133](https://github.com/nubisproject/nubis-prometheus/pull/133) ([gozer](https://github.com/gozer))

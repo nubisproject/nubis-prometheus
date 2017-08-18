@@ -1,4 +1,4 @@
-$traefik_version = '1.2.3'
+$traefik_version = '1.3.4'
 $traefik_url = "https://github.com/containous/traefik/releases/download/v${traefik_version}/traefik_linux-amd64"
 
 notice ("Grabbing traefik ${traefik_version}")
@@ -20,7 +20,7 @@ file { '/etc/traefik':
 }
 
 package {'apache2-utils':
-  ensure => '2.4.7-1ubuntu4.15'
+  ensure => '2.4.7-1ubuntu4.17'
 }
 
 upstart::job { 'traefik':
@@ -68,16 +68,3 @@ file { '/etc/consul/svc-traefik.json':
   mode   => '0644',
   source => 'puppet:///nubis/files/svc-traefik.json',
 }
-
-# Normally, we should be able to have a static rule for this
-# But still tracking down a Traefik bug on that so we create
-# a synthethic service here for ourselves, grmbl
-
-file { '/etc/consul/svc-consul-ui.json':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0644',
-    source => 'puppet:///nubis/files/svc-consul-ui.json',
-}
-
