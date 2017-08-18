@@ -20,7 +20,7 @@ file { '/etc/traefik':
 }
 
 package {'apache2-utils':
-  ensure => '2.4.7-1ubuntu4.15'
+  ensure => '2.4.7-1ubuntu4.17'
 }
 
 upstart::job { 'traefik':
