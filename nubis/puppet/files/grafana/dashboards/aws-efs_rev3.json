@@ -56,7 +56,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_CLOUDWATCH}",
+          "datasource": "cloudwatch",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -274,7 +274,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_CLOUDWATCH}",
+          "datasource": "cloudwatch",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -430,7 +430,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "${DS_CLOUDWATCH}",
+          "datasource": "cloudwatch",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -597,7 +597,7 @@
     "list": [
       {
         "current": {},
-        "datasource": "${DS_CLOUDWATCH}",
+        "datasource": "cloudwatch",
         "hide": 0,
         "includeAll": false,
         "label": "Region",
@@ -610,7 +610,7 @@
       },
       {
         "current": {},
-        "datasource": "${DS_CLOUDWATCH}",
+        "datasource": "cloudwatch",
         "hide": 0,
         "includeAll": false,
         "label": "FileSystemId",
