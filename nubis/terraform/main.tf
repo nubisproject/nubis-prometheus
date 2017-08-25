@@ -84,7 +84,7 @@ resource "aws_security_group" "prometheus" {
     ]
   }
 
-  # Traefik 
+  # Traefik
   ingress {
     from_port = 443
     to_port   = 443
@@ -267,6 +267,14 @@ resource "aws_iam_role_policy" "grafana" {
                 "cloudwatch:Describe*"
               ],
               "Resource": "*"
+            },
+            {
+              "Sid": "EC2Describe",
+              "Effect": "Allow",
+              "Action": [
+                "ec2:DescribeInstances"
+              ],
+              "Resource": "*"
             }
   ]
 }
@@ -277,7 +285,7 @@ resource "aws_launch_configuration" "prometheus" {
   count = "${var.enabled * length(split(",", var.environments))}"
 
   name_prefix = "${var.project}-${element(split(",",var.environments), count.index)}-${var.aws_region}-"
-  
+
   image_id = "${data.atlas_artifact.nubis-prometheus.metadata_full["region-${var.aws_region}"]}"
 
   instance_type        = "t2.small"
