@@ -3,7 +3,7 @@ provider "aws" {
   region  = "${var.aws_region}"
 }
 
-module "sso-image" {
+module "prometheus-image" {
   source = "github.com/nubisproject/nubis-terraform///images?ref=develop"
 
   region  = "${var.aws_region}"
@@ -285,7 +285,7 @@ resource "aws_launch_configuration" "prometheus" {
 
   name_prefix = "${var.project}-${element(split(",",var.environments), count.index)}-${var.aws_region}-"
 
-  image_id = "${module.sso-image.image_id}"
+  image_id = "${module.prometheus-image.image_id}"
 
   instance_type        = "t2.small"
   key_name             = "${var.key_name}"
