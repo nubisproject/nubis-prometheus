@@ -3,14 +3,13 @@ provider "aws" {
   region  = "${var.aws_region}"
 }
 
-data "atlas_artifact" "nubis-prometheus" {
-  count = "${var.enabled}"
-  name  = "nubisproject/nubis-prometheus"
-  type  = "amazon.image"
+module "sso-image" {
+  source = "github.com/nubisproject/nubis-terraform///images?ref=develop"
 
-  metadata {
-    project_version = "${var.nubis_version}"
-  }
+  region  = "${var.aws_region}"
+  version = "${var.nubis_version}"
+  project = "nubis-prometheus"
+
 }
 
 module "uuid" {
@@ -286,7 +285,7 @@ resource "aws_launch_configuration" "prometheus" {
 
   name_prefix = "${var.project}-${element(split(",",var.environments), count.index)}-${var.aws_region}-"
 
-  image_id = "${data.atlas_artifact.nubis-prometheus.metadata_full["region-${var.aws_region}"]}"
+  image_id = "${module.sso-image.image_id}"
 
   instance_type        = "t2.small"
   key_name             = "${var.key_name}"
