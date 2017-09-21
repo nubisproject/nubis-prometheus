@@ -44,6 +44,7 @@ them needs a distinct TCP port for it, and here is our current list:
 | Squid                  | 9106 | sd:proxy                     |
 | Consul                 | 9107 | sd: consul                   |
 | Fluentd Apache         | 9108 | sd:apache sd:apache-exporter |
+| Traefik                | 9109 | sd:sso sd:sso-traefik        |
 | Cloudwatch             | 9116 | Internal                     |
 | Cloudwatch Billing     | 9117 | Internal                     |
 

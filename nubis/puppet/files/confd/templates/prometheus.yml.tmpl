@@ -242,7 +242,7 @@ scrape_configs:
     - source_labels: ['__meta_consul_address']
       regex:        '(.*)'
       target_label: '__address__'
-      replacement:  '$1:8082'
+      replacement:  '$1:9109'
     - source_labels: ['__meta_consul_node']
       regex:        '(.*)'
       target_label: 'instance'
