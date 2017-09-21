@@ -237,6 +237,23 @@ scrape_configs:
       services:
         - mysqld-exporter
 
+  - job_name: 'traefik'
+    relabel_configs:
+    - source_labels: ['__meta_consul_address']
+      regex:        '(.*)'
+      target_label: '__address__'
+      replacement:  '$1:8082'
+    - source_labels: ['__meta_consul_node']
+      regex:        '(.*)'
+      target_label: 'instance'
+      replacement:  '$1'
+
+    consul_sd_configs:
+    - server: 'localhost:8500'
+      services:
+        - traefik
+        - sso-traefik
+
   - job_name: 'custom'
     relabel_configs:
       # Only services with the metrics tag
