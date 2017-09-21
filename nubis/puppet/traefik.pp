@@ -1,4 +1,4 @@
-$traefik_version = '1.3.4'
+$traefik_version = '1.3.8'
 $traefik_url = "https://github.com/containous/traefik/releases/download/v${traefik_version}/traefik_linux-amd64"
 
 notice ("Grabbing traefik ${traefik_version}")
@@ -20,7 +20,7 @@ file { '/etc/traefik':
 }
 
 package {'apache2-utils':
-  ensure => '2.4.7-1ubuntu4.17'
+  ensure => '2.4.7-1ubuntu4.18'
 }
 
 upstart::job { 'traefik':

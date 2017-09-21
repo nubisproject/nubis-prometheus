@@ -1,4 +1,4 @@
-$duplicity_version = '0.7.13.1-0ubuntu0ppa1299~ubuntu14.04.1'
+$duplicity_version = '0.7.14-0ubuntu0ppa1316~ubuntu14.04.1'
 $duply_version = '2.0.1'
 $lighttpd_version = '1.4.33-1+nmu2ubuntu2'
 
