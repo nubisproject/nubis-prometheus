@@ -94,18 +94,6 @@ resource "aws_security_group" "prometheus" {
     ]
   }
 
-  # Traefik  Admin
-  ingress {
-    from_port = 8082
-    to_port   = 8082
-    protocol  = "tcp"
-    self      = true
-
-    security_groups = [
-      "${element(split(",",var.sso_security_groups), count.index)}",
-    ]
-  }
-
   # Prometheus
   ingress {
     from_port = 81
