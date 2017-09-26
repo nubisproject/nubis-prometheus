@@ -7,3 +7,9 @@ mod 'bfraser/grafana',
     :ref => '6d426d5ccc52ff23dbbcfc45290dafd224b5d2bc'
 
 mod 'puppetlabs/java', '1.6.0'
+
+mod 'puppetlabs/concat', '1.2.5'
+
+mod 'jlyheden/tinyproxy',
+    :git => 'https://github.com/jlyheden/puppet-tinyproxy.git',
+    :ref => '80e7f559dff5711416b748308284d79ece3d6fb4'

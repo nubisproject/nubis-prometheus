@@ -9,91 +9,91 @@ metrics:
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Average,Maximum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/ELB
   aws_metric_name: UnHealthyHostCount
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Average,Maximum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/ELB
   aws_metric_name: BackendConnectionErrors
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Sum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/ELB
   aws_metric_name: HTTPCode_Backend_2XX_Count
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Sum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/Backend
   aws_metric_name: HTTPCode_Backend_3XX_Count
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Sum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/Backend
   aws_metric_name: HTTPCode_Backend_4XX_Count
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Sum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/Backend
   aws_metric_name: HTTPCode_Backend_5XX_Count
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Sum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/ELB
   aws_metric_name: HTTPCode_ELB_4XX
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Sum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/ELB
   aws_metric_name: HTTPCode_ELB_5XX
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Sum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/ELB
   aws_metric_name: Latency
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Average,Maximum,Minimum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/ELB
   aws_metric_name: RequestCount
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Sum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/ELB
   aws_metric_name: SurgeQueueLength
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Average,Maximum,Minimum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/ELB
   aws_metric_name: SpilloverCount
   aws_dimensions: [LoadBalancerName]
   aws_statistics: [Sum]
   aws_dimension_select_regex:
-    LoadBalancerName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
   # AWS AutoScaling
 - aws_namespace: AWS/AutoScaling
@@ -101,28 +101,28 @@ metrics:
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Minimum]
   aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/AutoScaling
   aws_metric_name: GroupMaxSize
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Maximum]
   aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/AutoScaling
   aws_metric_name: GroupDesiredCapacity
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Minimum,Maximum]
   aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/AutoScaling
   aws_metric_name: GroupInServiceInstances
   aws_dimensions: [AutoScalingGroupName]
-  aws_statistics: [Minimum,Maximum]
+  aws_statistics: [Minimum,Maximum,Average]
   aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
   # AWS Lambda
 - aws_namespace: AWS/Lambda
@@ -130,18 +130,18 @@ metrics:
   aws_dimensions: [FunctionName]
   aws_statistics: [Minimum,Maximum,Sum]
   aws_dimension_select_regex:
-    FunctionName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    FunctionName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/Lambda
   aws_metric_name: Duration
   aws_dimensions: [FunctionName]
   aws_statistics: [Minimum,Maximum,Sum,Average]
   aws_dimension_select_regex:
-    FunctionName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    FunctionName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/Lambda
   aws_metric_name: Errors
   aws_dimensions: [FunctionName]
   aws_statistics: [Minimum,Maximum,Sum]
   aws_dimension_select_regex:
-    FunctionName: [ "(.*)-{{ getv "/config/EnvironmentName" }}(.*)" ]
+    FunctionName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]

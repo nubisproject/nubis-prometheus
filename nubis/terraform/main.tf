@@ -1,5 +1,4 @@
 provider "aws" {
-  profile = "${var.aws_profile}"
   region  = "${var.aws_region}"
 }
 
@@ -13,13 +12,13 @@ module "prometheus-image" {
 }
 
 resource "aws_s3_bucket" "prometheus" {
-  count = "${var.enabled * length(split(",", var.environments))}"
+  count = "${var.enabled * length(var.arenas)}"
 
   lifecycle {
     create_before_destroy = true
   }
 
-  bucket_prefix = "prometheus-${element(split(",",var.environments), count.index)}-"
+  bucket_prefix = "prometheus-${element(var.arenas, count.index)}-"
 
   acl           = "private"
   force_destroy = true
@@ -29,20 +28,20 @@ resource "aws_s3_bucket" "prometheus" {
   }
 
   tags = {
-    Name        = "${var.project}-${element(split(",",var.environments), count.index)}"
+    Name        = "${var.project}-${element(var.arenas, count.index)}"
     Region      = "${var.aws_region}"
-    Environment = "${element(split(",",var.environments), count.index)}"
+    Arena       = "${element(var.arenas, count.index)}"
   }
 }
 
 resource "aws_security_group" "prometheus" {
-  count = "${var.enabled * length(split(",", var.environments))}"
+  count = "${var.enabled * length(var.arenas)}"
 
   lifecycle {
     create_before_destroy = true
   }
 
-  name_prefix = "${var.project}-${element(split(",",var.environments), count.index)}-"
+  name_prefix = "${var.project}-${element(var.arenas, count.index)}-"
   description = "Prometheus rules"
 
   vpc_id = "${element(split(",",var.vpc_ids), count.index)}"
@@ -124,32 +123,32 @@ resource "aws_security_group" "prometheus" {
   }
 
   tags = {
-    Name        = "${var.project}-${element(split(",",var.environments), count.index)}"
+    Name        = "${var.project}-${element(var.arenas, count.index)}"
     Region      = "${var.aws_region}"
-    Environment = "${element(split(",",var.environments), count.index)}"
+    Arena       = "${element(var.arenas, count.index)}"
   }
 }
 
 resource "aws_iam_instance_profile" "prometheus" {
-  count = "${var.enabled * length(split(",", var.environments))}"
+  count = "${var.enabled * length(var.arenas)}"
 
   lifecycle {
     create_before_destroy = true
   }
 
-  name = "${var.project}-${element(split(",",var.environments), count.index)}-${var.aws_region}"
+  name = "${var.project}-${element(var.arenas, count.index)}-${var.aws_region}"
 
   role = "${element(aws_iam_role.prometheus.*.name, count.index)}"
 }
 
 resource "aws_iam_role" "prometheus" {
-  count = "${var.enabled * length(split(",", var.environments))}"
+  count = "${var.enabled * length(var.arenas)}"
 
   lifecycle {
     create_before_destroy = true
   }
 
-  name = "${var.project}-${element(split(",",var.environments), count.index)}-${var.aws_region}"
+  name = "${var.project}-${element(var.arenas, count.index)}-${var.aws_region}"
   path = "/nubis/${var.project}/"
 
   assume_role_policy = <<POLICY
@@ -170,13 +169,13 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "prometheus" {
-  count = "${var.enabled * length(split(",", var.environments))}"
+  count = "${var.enabled * length(var.arenas)}"
 
   lifecycle {
     create_before_destroy = true
   }
 
-  name = "${var.project}-bucket-${element(split(",",var.environments), count.index)}-${var.aws_region}"
+  name = "${var.project}-bucket-${element(var.arenas, count.index)}-${var.aws_region}"
   role = "${element(aws_iam_role.prometheus.*.id, count.index)}"
 
   policy = <<POLICY
@@ -215,13 +214,13 @@ POLICY
 }
 
 resource "aws_iam_role_policy" "grafana" {
-  count = "${var.enabled * length(split(",", var.environments))}"
+  count = "${var.enabled * length(var.arenas)}"
 
   lifecycle {
     create_before_destroy = true
   }
 
-  name = "${var.project}-grafana-${element(split(",",var.environments), count.index)}-${var.aws_region}"
+  name = "${var.project}-grafana-${element(var.arenas, count.index)}-${var.aws_region}"
   role = "${element(aws_iam_role.prometheus.*.id, count.index)}"
 
   policy = <<POLICY
@@ -252,9 +251,9 @@ POLICY
 }
 
 resource "aws_launch_configuration" "prometheus" {
-  count = "${var.enabled * length(split(",", var.environments))}"
+  count = "${var.enabled * length(var.arenas)}"
 
-  name_prefix = "${var.project}-${element(split(",",var.environments), count.index)}-${var.aws_region}-"
+  name_prefix = "${var.project}-${element(var.arenas, count.index)}-${var.aws_region}-"
 
   image_id = "${module.prometheus-image.image_id}"
 
@@ -280,7 +279,8 @@ resource "aws_launch_configuration" "prometheus" {
 
   user_data = <<EOF
 NUBIS_PROJECT="${var.project}"
-NUBIS_ENVIRONMENT="${element(split(",",var.environments), count.index)}"
+NUBIS_ARENA_INDEX="${count.index}"
+NUBIS_ARENA="${element(var.arenas, count.index)}"
 NUBIS_ACCOUNT="${var.service_name}"
 NUBIS_TECHNICAL_CONTACT="${var.technical_contact}"
 NUBIS_DOMAIN="${var.nubis_domain}"
@@ -300,16 +300,16 @@ EOF
 }
 
 resource "aws_autoscaling_group" "prometheus" {
-  count = "${var.enabled * length(split(",", var.environments))}"
+  count = "${var.enabled * length(var.arenas)}"
 
-  #XXX: Fugly, assumes 3 subnets per environments, bad assumption, but valid ATM
+  #XXX: Fugly, assumes 3 subnets per arenas, bad assumption, but valid ATM
   vpc_zone_identifier = [
     "${element(split(",",var.subnet_ids), (count.index * 3) + 0 )}",
     "${element(split(",",var.subnet_ids), (count.index * 3) + 1 )}",
     "${element(split(",",var.subnet_ids), (count.index * 3) + 2 )}",
   ]
 
-  name                      = "${var.project}-${element(split(",",var.environments), count.index)} (LC ${element(aws_launch_configuration.prometheus.*.name, count.index)})"
+  name                      = "${var.project}-${element(var.arenas, count.index)} (LC ${element(aws_launch_configuration.prometheus.*.name, count.index)})"
   max_size                  = "2"
   min_size                  = "1"
   health_check_grace_period = 300
@@ -337,7 +337,7 @@ resource "aws_autoscaling_group" "prometheus" {
 
   tag {
     key                 = "Name"
-    value               = "Prometheus (${var.nubis_version}) for ${var.service_name} in ${element(split(",",var.environments), count.index)}"
+    value               = "Prometheus (${var.nubis_version}) for ${var.service_name} in ${element(var.arenas, count.index)}"
     propagate_at_launch = true
   }
 
@@ -348,21 +348,21 @@ resource "aws_autoscaling_group" "prometheus" {
   }
 
   tag {
-    key                 = "Environment"
-    value               = "${element(split(",",var.environments), count.index)}"
+    key                 = "Arena"
+    value               = "${element(var.arenas, count.index)}"
     propagate_at_launch = true
   }
 }
 
 resource "aws_security_group" "elb-traefik" {
-  count = "${var.enabled * length(split(",", var.environments))}"
+  count = "${var.enabled * length(var.arenas)}"
 
   # * length(split(",",var.public_subnet_ids))}"
 
   lifecycle {
     create_before_destroy = true
   }
-  name        = "elb-traefik-${element(split(",",var.environments), count.index)}"
+  name        = "elb-traefik-${element(var.arenas, count.index)}"
   description = "Allow inbound traffic for traefik"
   vpc_id      = "${element(split(",",var.vpc_ids), count.index)}"
   ingress {
@@ -386,17 +386,23 @@ resource "aws_security_group" "elb-traefik" {
   }
 }
 
+resource "aws_proxy_protocol_policy" "web" {
+  count = "${var.enabled * length(var.arenas)}"
+  load_balancer  = "${element(aws_elb.traefik.*.name, count.index)}"
+  instance_ports = ["443"]
+}
+
 resource "aws_elb" "traefik" {
-  count = "${var.enabled * length(split(",", var.environments))}"
+  count = "${var.enabled * length(var.arenas)}"
 
   #XXX
   lifecycle {
     create_before_destroy = true
   }
 
-  name = "traefik-${element(split(",",var.environments), count.index)}"
+  name = "traefik-${element(var.arenas, count.index)}"
 
-  #XXX: Fugly, assumes 3 subnets per environments, bad assumption, but valid ATM
+  #XXX: Fugly, assumes 3 subnets per arenas, bad assumption, but valid ATM
   subnets = [
     "${element(split(",",var.public_subnet_ids), (count.index * 3) + 0 )}",
     "${element(split(",",var.public_subnet_ids), (count.index * 3) + 1 )}",
@@ -435,29 +441,29 @@ resource "aws_elb" "traefik" {
   ]
 
   tags = {
-    Name        = "traefik-${element(split(",",var.environments), count.index)}"
+    Name        = "traefik-${element(var.arenas, count.index)}"
     Region      = "${var.aws_region}"
-    Environment = "${element(split(",",var.environments), count.index)}"
+    Arena       = "${element(var.arenas, count.index)}"
   }
 }
 
 resource "aws_route53_record" "traefik-wildcard" {
-  count   = "${var.enabled * length(split(",", var.environments))}"
+  count   = "${var.enabled * length(var.arenas)}"
   zone_id = "${var.zone_id}"
-  name    = "*.mon.${element(split(",",var.environments), count.index)}"
+  name    = "*.mon.${element(var.arenas, count.index)}"
   type    = "CNAME"
   ttl     = "30"
 
   records = [
-    "mon.${element(split(",",var.environments), count.index)}.${var.aws_region}.${var.service_name}.${var.nubis_domain}",
+    "mon.${element(var.arenas, count.index)}.${var.aws_region}.${var.service_name}.${var.nubis_domain}",
   ]
 }
 
 resource "aws_route53_record" "traefik" {
-  count   = "${var.enabled * length(split(",", var.environments))}"
+  count   = "${var.enabled * length(var.arenas)}"
   zone_id = "${var.zone_id}"
 
-  name = "mon.${element(split(",",var.environments), count.index)}"
+  name = "mon.${element(var.arenas, count.index)}"
   type = "A"
 
   alias {
@@ -469,7 +475,7 @@ resource "aws_route53_record" "traefik" {
 
 # This null resource is responsible for storing our secret authentication into KMS
 resource "null_resource" "secrets" {
-  count = "${var.enabled * length(split(",", var.environments))}"
+  count = "${var.enabled * length(var.arenas)}"
 
   lifecycle {
     create_before_destroy = true
@@ -483,9 +489,9 @@ resource "null_resource" "secrets" {
     version       = "${var.nubis_version}"
     federation    = "${data.template_file.federation.rendered}"
     password      = "${var.password}"
-    context       = "-E region:${var.aws_region} -E environment:${element(split(",",var.environments), count.index)} -E service:${var.project}"
-    unicreds      = "unicreds -r ${var.aws_region} put -k ${var.credstash_key} ${var.project}/${element(split(",",var.environments), count.index)}"
-    unicreds_file = "unicreds -r ${var.aws_region} put-file -k ${var.credstash_key} ${var.project}/${element(split(",",var.environments), count.index)}"
+    context       = "-E region:${var.aws_region} -E arena:${element(var.arenas, count.index)} -E service:${var.project}"
+    unicreds      = "unicreds -r ${var.aws_region} put -k ${var.credstash_key} ${var.project}/${element(var.arenas, count.index)}"
+    unicreds_file = "unicreds -r ${var.aws_region} put-file -k ${var.credstash_key} ${var.project}/${element(var.arenas, count.index)}"
   }
 
   provisioner "local-exec" {
