@@ -45,6 +45,7 @@ them needs a distinct TCP port for it, and here is our current list:
 | Traefik                | 9109 | sd:sso sd:sso-traefik        |
 | Cloudwatch             | 9116 | Internal                     |
 | Cloudwatch Billing     | 9117 | Internal                     |
+| Varnish                | 9131 | sd:varnish                   |
 
 ### Deployment Resources
 

@@ -254,6 +254,22 @@ scrape_configs:
         - traefik
         - sso-traefik
 
+  - job_name: 'varnish'
+    relabel_configs:
+    - source_labels: ['__meta_consul_address']
+      regex:        '(.*)'
+      target_label: '__address__'
+      replacement:  '$1:9131'
+    - source_labels: ['__meta_consul_node']
+      regex:        '(.*)'
+      target_label: 'instance'
+      replacement:  '$1'
+
+    consul_sd_configs:
+    - server: 'localhost:8500'
+      services:
+        - varnish
+
   - job_name: 'custom'
     relabel_configs:
       # Only services with the metrics tag
