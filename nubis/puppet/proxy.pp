@@ -7,16 +7,16 @@ class { 'tinyproxy':
 }
 
 tinyproxy::upstream { 'squid':
-    ensure  => present,
-    proxy   => 'proxy.service.consul:3128',
+    ensure => present,
+    proxy  => 'proxy.service.consul:3128',
 }
 
 tinyproxy::noupstream { 'aws-metadata':
-    ensure  => present,
-    match   => '169.254.169.254'
+    ensure => present,
+    match  => '169.254.169.254'
 }
 
 tinyproxy::noupstream { 'consul':
-    ensure  => present,
-    match   => '.consul'
+    ensure => present,
+    match  => '.consul'
 }
