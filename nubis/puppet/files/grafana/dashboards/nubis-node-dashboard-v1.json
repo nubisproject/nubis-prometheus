@@ -19,59 +19,55 @@
   ],
   "__requires": [
     {
+      "type": "datasource",
+      "id": "cloudwatch",
+      "name": "CloudWatch",
+      "version": "1.0.0"
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "4.5.1"
+    },
+    {
       "type": "panel",
       "id": "graph",
       "name": "Graph",
       "version": ""
     },
     {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "3.1.1"
-    },
-    {
       "type": "datasource",
       "id": "prometheus",
       "name": "Prometheus",
       "version": "1.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "cloudwatch",
-      "name": "CloudWatch",
-      "version": "1.0.0"
     }
   ],
-  "id": null,
-  "title": "Nubis - Node Dashboard",
-  "tags": [],
-  "style": "dark",
-  "timezone": "browser",
+  "annotations": {
+    "list": []
+  },
   "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
   "hideControls": false,
-  "sharedCrosshair": false,
+  "id": null,
+  "links": [],
   "rows": [
     {
       "collapse": false,
-      "editable": true,
       "height": 280,
       "panels": [
         {
           "aliasColors": {},
           "bars": false,
+          "dashLength": 10,
+          "dashes": false,
           "datasource": "prometheus",
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 2,
-          "isNew": true,
           "legend": {
             "avg": false,
             "current": false,
@@ -90,6 +86,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
+          "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
@@ -116,6 +113,7 @@
               "step": 40
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Load",
@@ -127,7 +125,11 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -151,26 +153,22 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "cloudwatch",
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "prometheus",
           "decimals": 0,
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 6,
-          "isNew": true,
           "legend": {
-            "alignAsTable": true,
+            "alignAsTable": false,
             "avg": false,
-            "current": false,
-            "max": true,
-            "min": true,
-            "rightSide": true,
+            "current": true,
+            "max": false,
+            "min": false,
+            "rightSide": false,
             "show": true,
             "total": false,
             "values": true
@@ -184,41 +182,29 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
+          "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "alias": "{{metric}}",
-              "dimensions": {
-                "AutoScalingGroupName": "$asg"
-              },
-              "expr": "",
+              "expr": "aws_autoscaling_group_max_size_maximum{auto_scaling_group_name =~ \"$project-$environment.*\"}",
+              "format": "time_series",
               "intervalFactor": 2,
-              "metricName": "GroupInServiceInstances",
-              "namespace": "AWS/AutoScaling",
-              "period": "",
+              "legendFormat": "{{ASG max size}} - {{auto_scaling_group_name}}",
               "refId": "A",
-              "region": "$region",
-              "statistics": [
-                "Average"
-              ]
+              "step": 40
             },
             {
-              "alias": "{{metric}}",
-              "dimensions": {
-                "AutoScalingGroupName": "$asg"
-              },
-              "metricName": "GroupMaxSize",
-              "namespace": "AWS/AutoScaling",
-              "period": "",
+              "expr": "aws_autoscaling_group_in_service_instances_minimum{auto_scaling_group_name =~ \"$project-$environment.*\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "{{ASG in service}}  - {{auto_scaling_group_name}}",
               "refId": "B",
-              "region": "$region",
-              "statistics": [
-                "Average"
-              ]
+              "step": 40
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "AutoScaling",
@@ -230,7 +216,11 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -251,38 +241,38 @@
           ]
         }
       ],
-      "title": "Row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Row",
+      "titleSize": "h6"
     },
     {
       "collapse": false,
-      "editable": true,
       "height": "250px",
       "panels": [
         {
           "aliasColors": {},
           "bars": false,
+          "dashLength": 10,
+          "dashes": false,
           "datasource": "prometheus",
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 1,
-          "isNew": true,
           "legend": {
+            "alignAsTable": false,
             "avg": false,
             "current": false,
             "max": false,
             "min": false,
+            "rightSide": false,
             "show": true,
             "total": false,
-            "values": false,
-            "rightSide": false,
-            "alignAsTable": false
+            "values": false
           },
           "lines": true,
           "linewidth": 2,
@@ -293,6 +283,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
+          "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
@@ -305,6 +296,7 @@
               "step": 40
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory Free",
@@ -316,7 +308,11 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -338,106 +334,108 @@
           ]
         },
         {
-          "title": "Memory Active",
-          "error": false,
-          "span": 6,
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "prometheus",
           "editable": true,
-          "type": "graph",
-          "isNew": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
           "id": 7,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
           "targets": [
             {
               "expr": "rate(node_memory_Active{job=\"node\"}[5m]) * on(instance) GROUP_LEFT(project, environment,account) nubis{project=\"$project\"}",
               "intervalFactor": 2,
+              "legendFormat": "Instance - {{instance}}",
               "refId": "A",
-              "step": 40,
-              "legendFormat": "Instance - {{instance}}"
+              "step": 40
             }
           ],
-          "datasource": "prometheus",
-          "renderer": "flot",
-          "yaxes": [
-            {
-              "label": null,
-              "show": true,
-              "logBase": 1,
-              "min": null,
-              "max": null,
-              "format": "bytes"
-            },
-            {
-              "label": null,
-              "show": true,
-              "logBase": 1,
-              "min": null,
-              "max": null,
-              "format": "short"
-            }
-          ],
-          "xaxis": {
-            "show": true
-          },
-          "grid": {
-            "threshold1": null,
-            "threshold2": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "lines": true,
-          "fill": 1,
-          "linewidth": 2,
-          "points": false,
-          "pointradius": 5,
-          "bars": false,
-          "stack": false,
-          "percentage": false,
-          "legend": {
-            "show": true,
-            "values": false,
-            "min": false,
-            "max": false,
-            "current": false,
-            "total": false,
-            "avg": false
-          },
-          "nullPointMode": "connected",
-          "steppedLine": false,
-          "tooltip": {
-            "value_type": "cumulative",
-            "shared": true,
-            "sort": 0,
-            "msResolution": false
-          },
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "aliasColors": {},
-          "seriesOverrides": [],
-          "links": []
+          "title": "Memory Active",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "bytes",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
         }
       ],
-      "title": "New row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "New row",
+      "titleSize": "h6"
     },
     {
       "collapse": false,
-      "editable": true,
       "height": 281.20001220703125,
       "panels": [
         {
           "aliasColors": {},
           "bars": false,
+          "dashLength": 10,
+          "dashes": false,
           "datasource": "prometheus",
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "height": "",
           "id": 3,
-          "isNew": true,
           "legend": {
             "avg": false,
             "current": false,
@@ -456,8 +454,8 @@
           "points": false,
           "renderer": "flot",
           "repeat": null,
-          "scopedVars": {},
           "seriesOverrides": [],
+          "spaceLength": 10,
           "span": 12,
           "stack": false,
           "steppedLine": false,
@@ -479,6 +477,7 @@
               "step": 40
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Disk IOs per Device",
@@ -490,7 +489,11 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -512,28 +515,28 @@
           ]
         }
       ],
-      "title": "New row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "New row",
+      "titleSize": "h6"
     },
     {
       "collapse": false,
-      "editable": true,
       "height": "250px",
       "panels": [
         {
           "aliasColors": {},
           "bars": false,
+          "dashLength": 10,
+          "dashes": false,
           "datasource": "prometheus",
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 4,
-          "isNew": true,
           "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -556,6 +559,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
+          "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
@@ -567,7 +571,7 @@
               "intervalFactor": 2,
               "legendFormat": "receive - {{device}}",
               "refId": "A",
-              "step": 4
+              "step": 20
             },
             {
               "expr": "irate(node_network_transmit_bytes{job=\"node\",instance=~\"$instance\"}[5m])",
@@ -576,9 +580,10 @@
               "intervalFactor": 2,
               "legendFormat": "transmit - {{device}}",
               "refId": "B",
-              "step": 4
+              "step": 20
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Bytes",
@@ -590,7 +595,11 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -614,18 +623,14 @@
         {
           "aliasColors": {},
           "bars": false,
+          "dashLength": 10,
+          "dashes": false,
           "datasource": "prometheus",
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 5,
-          "isNew": true,
           "legend": {
             "alignAsTable": true,
             "avg": false,
@@ -646,6 +651,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
+          "spaceLength": 10,
           "span": 6,
           "stack": false,
           "steppedLine": false,
@@ -666,6 +672,7 @@
               "step": 40
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Packets",
@@ -677,7 +684,11 @@
           },
           "type": "graph",
           "xaxis": {
-            "show": true
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
           },
           "yaxes": [
             {
@@ -699,9 +710,121 @@
           ]
         }
       ],
-      "title": "New row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "New row",
+      "titleSize": "h6"
     }
   ],
+  "schemaVersion": 14,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "cloudwatch",
+        "hide": 0,
+        "includeAll": false,
+        "label": "region",
+        "multi": false,
+        "name": "region",
+        "options": [],
+        "query": "regions()",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "prometheus",
+        "hide": 0,
+        "includeAll": false,
+        "label": "project",
+        "multi": false,
+        "name": "project",
+        "options": [],
+        "query": "nubis",
+        "refresh": 1,
+        "regex": ".*project=\"(.*?)\".*",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "cloudwatch",
+        "hide": 2,
+        "includeAll": false,
+        "label": "environment",
+        "multi": false,
+        "name": "environment",
+        "options": [],
+        "query": "nubis",
+        "refresh": 1,
+        "regex": ".*environment=\"(.*?)\".*",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "prometheus",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Instance",
+        "multi": false,
+        "name": "instance",
+        "options": [],
+        "query": "nubis{project=\"$project\"}",
+        "refresh": 1,
+        "regex": ".*instance=\"(.*?)\".*",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "cloudwatch",
+        "hide": 2,
+        "includeAll": false,
+        "label": "volume",
+        "multi": false,
+        "name": "volume",
+        "options": [],
+        "query": "ebs_volume_ids($region, $instance)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
   "time": {
     "from": "now-6h",
     "to": "now"
@@ -731,98 +854,7 @@
       "30d"
     ]
   },
-  "templating": {
-    "list": [
-      {
-        "current": {},
-        "datasource": "cloudwatch",
-        "hide": 0,
-        "includeAll": false,
-        "label": "region",
-        "multi": false,
-        "name": "region",
-        "options": [],
-        "query": "regions()",
-        "refresh": 1,
-        "regex": "",
-        "type": "query"
-      },
-      {
-        "current": {},
-        "datasource": "prometheus",
-        "hide": 0,
-        "includeAll": false,
-        "label": "project",
-        "multi": false,
-        "name": "project",
-        "options": [],
-        "query": "nubis",
-        "refresh": 1,
-        "regex": ".*project=\"(.*?)\".*",
-        "type": "query"
-      },
-      {
-        "current": {},
-        "datasource": "prometheus",
-        "hide": 2,
-        "includeAll": false,
-        "label": "environment",
-        "multi": false,
-        "name": "environment",
-        "options": [],
-        "query": "nubis",
-        "refresh": 1,
-        "regex": ".*environment=\"(.*?)\".*",
-        "type": "query"
-      },
-      {
-        "current": {},
-        "datasource": "prometheus",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Instance",
-        "multi": false,
-        "name": "instance",
-        "options": [],
-        "query": "nubis{project=\"$project\"}",
-        "refresh": 1,
-        "regex": ".*instance=\"(.*?)\".*",
-        "type": "query"
-      },
-      {
-        "current": {},
-        "datasource": "cloudwatch",
-        "hide": 2,
-        "includeAll": false,
-        "label": "volume",
-        "multi": false,
-        "name": "volume",
-        "options": [],
-        "query": "ebs_volume_ids($region, $instance)",
-        "refresh": 1,
-        "type": "query"
-      },
-      {
-        "current": {},
-        "datasource": "cloudwatch",
-        "hide": 2,
-        "includeAll": false,
-        "label": "asg",
-        "multi": false,
-        "name": "asg",
-        "options": [],
-        "query": "dimension_values($region, AWS/AutoScaling, GroupTotalInstances, AutoScalingGroupName)",
-        "refresh": 1,
-        "regex": "",
-        "type": "query"
-      }
-    ]
-  },
-  "annotations": {
-    "list": []
-  },
-  "schemaVersion": 12,
-  "version": 6,
-  "links": [],
-  "gnetId": null
+  "timezone": "browser",
+  "title": "Nubis - Node Dashboard",
+  "version": 3
 }
