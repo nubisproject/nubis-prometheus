@@ -17,8 +17,8 @@ global:
 {{if exists "/config/TechnicalContact"}}
     technical_contact: '{{ getv "/config/TechnicalContact" }}'
 {{end}}
-{{if exists "/config/EnvironmentName"}}
-    environment: '{{ getv "/config/EnvironmentName" }}'
+{{if exists "/config/Arena"}}
+    arena: '{{ getv "/config/Arena" }}'
 {{end}}
 {{if exists "/config/RegionName"}}
     region: '{{ getv "/config/RegionName" }}'
@@ -43,8 +43,8 @@ scrape_configs:
     scrape_interval: 1m
     static_configs:
       - targets: ['localhost:9116']
-{{if exists "/config/EnvironmentName"}}
-{{if eq "admin" (getv "/config/EnvironmentName") }}
+{{if exists "/config/ArenaIndex"}}
+{{if eq "0" (getv "/config/ArenaIndex") }}
   - job_name: 'cloudwatch-billing'
     scrape_interval: 5m
     static_configs:
@@ -236,6 +236,39 @@ scrape_configs:
     - server: 'localhost:8500'
       services:
         - mysqld-exporter
+
+  - job_name: 'traefik'
+    relabel_configs:
+    - source_labels: ['__meta_consul_address']
+      regex:        '(.*)'
+      target_label: '__address__'
+      replacement:  '$1:9109'
+    - source_labels: ['__meta_consul_node']
+      regex:        '(.*)'
+      target_label: 'instance'
+      replacement:  '$1'
+
+    consul_sd_configs:
+    - server: 'localhost:8500'
+      services:
+        - traefik
+        - sso-traefik
+
+  - job_name: 'varnish'
+    relabel_configs:
+    - source_labels: ['__meta_consul_address']
+      regex:        '(.*)'
+      target_label: '__address__'
+      replacement:  '$1:9131'
+    - source_labels: ['__meta_consul_node']
+      regex:        '(.*)'
+      target_label: 'instance'
+      replacement:  '$1'
+
+    consul_sd_configs:
+    - server: 'localhost:8500'
+      services:
+        - varnish
 
   - job_name: 'custom'
     relabel_configs:

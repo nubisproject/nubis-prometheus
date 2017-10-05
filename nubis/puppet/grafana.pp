@@ -8,7 +8,7 @@ package {'crudini':
 #}->
 class { 'grafana':
   install_method => 'repo',
-  version        => '3.1.1-1470047149',
+  version        => '4.5.1',
   cfg            => {
     app_mode          => 'production',
     'server'          => {

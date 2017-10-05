@@ -1,5 +1,3 @@
-variable aws_profile {}
-
 variable aws_region {}
 
 variable key_name {}
@@ -12,11 +10,11 @@ variable zone_id {}
 
 variable service_name {}
 
-variable environments {}
+variable arenas {
+  type = "list"
+}
 
 variable enabled {}
-
-variable lambda_uuid_arn {}
 
 variable technical_contact {}
 

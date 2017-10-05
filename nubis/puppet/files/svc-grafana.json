@@ -2,10 +2,6 @@
   "service": {
     "name": "grafana",
     "port": 3000,
-    "tags": [
-        "traefik.tags=monitoring",
-        "traefik.frontend.rule=PathPrefixStrip:/grafana"
-    ],
     "check": {
        "http": "http://localhost:3000/login",
        "interval": "30s",

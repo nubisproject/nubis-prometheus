@@ -1,5 +1,5 @@
 ALERT InstanceDown
-  IF up{job="node"} * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws == 0
+  IF up{job="node"} * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws == 0
   FOR 10m
   LABELS {
     severity = "critical",
@@ -11,7 +11,7 @@ ALERT InstanceDown
   }
 
 ALERT ConsulDown
-  IF drop_common_labels(label_replace(label_replace(sum(consul_agent_check{check="serfHealth",job="consul"} == 1) BY (node), "instance", "$1", "node", "(.*)"),"node","XXX","node",".*")) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws != 3
+  IF drop_common_labels(label_replace(label_replace(sum(consul_agent_check{check="serfHealth",job="consul"} == 1) BY (node), "instance", "$1", "node", "(.*)"),"node","XXX","node",".*")) * on (instance) group_left (project,arena,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws != 3
   FOR 5m
   LABELS {
     severity = "critical",
@@ -25,7 +25,7 @@ ALERT ConsulDown
 # We expect all our Consul services to have at least 1 healthy member
 # Except for tainted instances, these we filter out here
 ALERT ConsulServiceDown
-  IF drop_common_labels(label_replace(label_replace(min(consul_catalog_service_node_healthy{service!="tainted"}) BY (service, node)  - ON  (node) GROUP_LEFT(instance) min(consul_agent_check{check="serfHealth"}) BY (node), "instance", "$1", "node", "(.*)"), "node", "XXX", "node", ".*")) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws < 0
+  IF drop_common_labels(label_replace(label_replace(min(consul_catalog_service_node_healthy{service!="tainted"}) BY (service, node)  - ON  (node) GROUP_LEFT(instance) min(consul_agent_check{check="serfHealth"}) BY (node), "instance", "$1", "node", "(.*)"), "node", "XXX", "node", ".*")) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws < 0
   FOR 5m
   LABELS {
     severity = "critical",
@@ -39,7 +39,7 @@ ALERT ConsulServiceDown
 # Create an alert for tainted istances past their expriry date
 
 ALERT SustainedLoadHigh
-  IF avg_over_time(node_load1[5m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws > 8
+  IF avg_over_time(node_load1[5m]) * on (instance) group_left (project,arena,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws > 8
   FOR 15m
   LABELS {
     severity = "critical",
@@ -51,7 +51,7 @@ ALERT SustainedLoadHigh
   }
 
 ALERT OutlierLoad1
-  IF up * node_load5 * ON(instance) GROUP_LEFT(project, environment, account) nubis > 0.25 > ON(project) GROUP_LEFT avg(up * node_load5 * ON(instance) GROUP_LEFT(project, environment, account) nubis) by (project) + ( 2*stddev(up * node_load5 * ON(instance) GROUP_LEFT(project, environment, account) nubis) by (project) )
+  IF up * node_load5 * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis > 0.25 > ON(project) GROUP_LEFT avg(up * node_load5 * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) by (project) + ( 2*stddev(up * node_load5 * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) by (project) )
   FOR 30m
   LABELS {
     severity = "critical",
@@ -136,7 +136,7 @@ ALERT ConsulAlertmanagerAvailable
   }
 
 ALERT PredictDiskFull24h
-  IF predict_linear(node_filesystem_free{job='node'}[1h], 24*60*60) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws < 0
+  IF predict_linear(node_filesystem_free{job='node'}[1h], 24*60*60) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws < 0
   FOR 30m
   LABELS {
     severity="critical",
@@ -149,7 +149,7 @@ ALERT PredictDiskFull24h
   }
 
 ALERT FluentdBufferSize
-  IF abs(avg_over_time(fluentd_status_buffer_total_bytes[5m]) - avg_over_time(fluentd_status_buffer_total_bytes[60m])) > 1 * stddev_over_time(fluentd_status_buffer_total_bytes[60m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
+  IF abs(avg_over_time(fluentd_status_buffer_total_bytes[5m]) - avg_over_time(fluentd_status_buffer_total_bytes[60m])) > 1 * stddev_over_time(fluentd_status_buffer_total_bytes[60m]) * on (instance) group_left (project,arena,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
   FOR 5m
   LABELS {
     severity="critical",
@@ -162,7 +162,7 @@ ALERT FluentdBufferSize
   }
 
 ALERT FluentdQueueLength
-  IF abs(avg_over_time(fluentd_status_buffer_queue_length[5m]) - avg_over_time(fluentd_status_buffer_queue_length[60m])) > 1 * stddev_over_time(fluentd_status_buffer_queue_length[60m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
+  IF abs(avg_over_time(fluentd_status_buffer_queue_length[5m]) - avg_over_time(fluentd_status_buffer_queue_length[60m])) > 1 * stddev_over_time(fluentd_status_buffer_queue_length[60m]) * on (instance) group_left (project,arena,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
   FOR 5m
   LABELS {
     severity="critical",
@@ -175,7 +175,7 @@ ALERT FluentdQueueLength
   }
 
 ALERT FluentdRetryRate
-  IF irate(fluentd_status_retry_count[5m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws > 0
+  IF irate(fluentd_status_retry_count[5m]) * on (instance) group_left (project,arena,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws > 0
   FOR 5m
   LABELS {
     severity="critical",
@@ -188,7 +188,7 @@ ALERT FluentdRetryRate
   }
 
 ALERT NATNetConntrackFull
-  IF 100 * node_nf_conntrack_entries / node_nf_conntrack_entries_limit * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws > 90
+  IF 100 * node_nf_conntrack_entries / node_nf_conntrack_entries_limit * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws > 90
   FOR 15m
   LABELS {
     severity="critical",
@@ -200,7 +200,7 @@ ALERT NATNetConntrackFull
   }
 
 ALERT NATIpForwardingNotEnabled
-  IF node_netstat_Ip_Forwarding * ON(instance) GROUP_LEFT(project, environment, account) nubis{project="nat"} * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws != 1
+  IF node_netstat_Ip_Forwarding * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis{project="nat"} * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws != 1
   FOR 5m
   LABELS {
     severity="critical",
@@ -213,7 +213,7 @@ ALERT NATIpForwardingNotEnabled
   }
 
 ALERT IpForwardingEnabledNonNAT
-  IF node_netstat_Ip_Forwarding * ON(instance) GROUP_LEFT(project, environment, account) nubis{project!="nat"} * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws != 2
+  IF node_netstat_Ip_Forwarding * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis{project!="nat"} * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws != 2
   FOR 5m
   LABELS {
     severity="critical",

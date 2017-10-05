@@ -1,4 +1,6 @@
 defaultEntryPoints = ["http","https"]
+checkNewVersion = false
+
 [entryPoints]
   [entryPoints.http]
     address = ":80"
@@ -6,6 +8,7 @@ defaultEntryPoints = ["http","https"]
       entryPoint = "https"
   [entryPoints.https]
     address = ":443"
+    proxyprotocol = true
     [entryPoints.https.tls]
 {{if exists "/config/Federation/HTPassword"}}
     [entryPoints.https.auth.basic]
@@ -16,7 +19,8 @@ defaultEntryPoints = ["http","https"]
 {{ end }}
 
 [web]
-address = ":8082"
+address = ":9109"
+[web.metrics.prometheus]
 
 [consulCatalog]
 endpoint = "127.0.0.1:8500"
@@ -26,12 +30,12 @@ constraints = [ "tag==monitoring" ]
 [consul]
 endpoint = "127.0.0.1:8500"
 watch = true
-prefix = "nubis/traefik/{{ getv "/config/EnvironmentName" }}/config"
+prefix = "nubis/traefik/{{ getv "/config/Arena" }}/config"
 
 [acme]
 # Handle when this isn't set
 email="{{ getv "/config/Email/Destination" }}"
-storage = "nubis/traefik/{{ getv "/config/EnvironmentName" }}/acme"
+storage = "nubis/traefik/{{ getv "/config/Arena" }}/acme"
 entryPoint = "https"
 
 # Disable for prod

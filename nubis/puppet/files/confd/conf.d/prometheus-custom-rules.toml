@@ -1,7 +1,7 @@
 [template]
 src = "prometheus-custom-rules.prom.tmpl"
 dest = "/etc/prometheus/rules.d/custom-rules.prom"
-prefix = "/monitoring/%%ENVIRONMENT%%"
+prefix = "/monitoring/%%ARENA%%"
 
 uid = 0
 gid = 0
