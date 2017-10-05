@@ -294,6 +294,7 @@ NUBIS_PROMETHEUS_SINK_SLACK_URL="${var.sink_slack_url}"
 NUBIS_PROMETHEUS_SINK_SLACK_CHANNEL="${var.sink_slack_channel}"
 NUBIS_PROMETHEUS_SINK_NOTIFICATION_EMAIL="${var.sink_notification_email}"
 NUBIS_PROMETHEUS_SINK_PAGERDUTY_SERVICE_KEY="${var.sink_pagerduty_service_key}"
+NUBIS_PROMETHEUS_FSID="${aws_efs_file_system.prometheus.id}"
 NUBIS_SUDO_GROUPS="${var.nubis_sudo_groups}"
 NUBIS_USER_GROUPS="${var.nubis_user_groups}"
 EOF
@@ -537,4 +538,53 @@ data "template_file" "password" {
   vars = {
     password = "${coalesce(var.password, replace(tls_private_key.federation.id,"/^(.{32}).*/","$1"))}"
   }
+}
+
+resource "aws_efs_file_system" "prometheus" {
+  count   = "${var.enabled * length(var.arenas)}"
+  tags = {
+    Name           = "${var.project}-${var.arenas[count.index]}-storage"
+    Arena          = "${var.arenas[count.index]}"
+  }
+}
+
+resource "aws_security_group" "storage" {
+  count   = "${var.enabled * length(var.arenas)}"
+  vpc_id  = "${element(split(",",var.vpc_ids), count.index)}"
+
+  tags = {
+    Name           = "${var.project}-${var.arenas[count.index]}-efs"
+    Region         = "${var.aws_region}"
+    Arena          = "${var.arenas[count.index]}"
+  }
+
+  ingress {
+    from_port = 2049
+    to_port   = 2049
+    protocol  = "tcp"
+
+    security_groups = [
+      "${element(aws_security_group.prometheus.*.id, count.index)}",
+    ]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_efs_mount_target" "prometheus" {
+  # XXX: 3 subnets-per-vpc-count hard-coded
+  count = "${3 * var.enabled * length(var.arenas)}"
+
+  file_system_id = "${element(aws_efs_file_system.prometheus.*.id, count.index)}"
+
+  subnet_id      = "${element(split(",",var.subnet_ids), count.index)}"
+
+  security_groups = [
+    "${element(aws_security_group.storage.*.id, count.index)}",
+  ]
 }
