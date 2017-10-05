@@ -85,7 +85,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "(100 * sum(rate(apache_cnt_code[5m]) * ON(instance) GROUP_LEFT(project, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws) BY (code, project, environment, account, region) / ON(project) GROUP_LEFT(account) sum(rate(apache_cnt_code[5m]) * ON(instance) GROUP_LEFT(project, environment, account) nubis) BY (project))",
+              "expr": "(100 * sum(rate(apache_cnt_code[5m]) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws) BY (code, project, arena, environment, account, region) / ON(project) GROUP_LEFT(account) sum(rate(apache_cnt_code[5m]) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) BY (project))",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "{{project}} HTTP/{{code}}",

@@ -11,7 +11,7 @@ squid:squid_cacheServerOutKb:rate60m = rate(squid_cacheServerOutKb[60m])
 # Alerts
 
 ALERT SquidRequestsSpike
-  IF ( abs(squid:squid_cacheServerRequests:rate5m - avg_over_time(squid:squid_cacheServerRequests:rate5m[60m])) > 2 * stddev_over_time(squid:squid_cacheServerRequests:rate5m[60m]) ) / stddev_over_time(squid:squid_cacheServerRequests:rate5m[60m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
+  IF ( abs(squid:squid_cacheServerRequests:rate5m - avg_over_time(squid:squid_cacheServerRequests:rate5m[60m])) > 2 * stddev_over_time(squid:squid_cacheServerRequests:rate5m[60m]) ) / stddev_over_time(squid:squid_cacheServerRequests:rate5m[60m]) * on (instance) group_left (project,arena,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
   FOR 15m
   LABELS {
     severity = "critical",
@@ -24,7 +24,7 @@ ALERT SquidRequestsSpike
   }
 
 ALERT SquidOutKbSpike
-  IF ( abs(squid:squid_cacheServerOutKb:rate5m - avg_over_time(squid:squid_cacheServerOutKb:rate5m[60m])) > 2 * stddev_over_time(squid:squid_cacheServerOutKb:rate5m[60m]) ) / stddev_over_time(squid:squid_cacheServerOutKb:rate5m[60m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
+  IF ( abs(squid:squid_cacheServerOutKb:rate5m - avg_over_time(squid:squid_cacheServerOutKb:rate5m[60m])) > 2 * stddev_over_time(squid:squid_cacheServerOutKb:rate5m[60m]) ) / stddev_over_time(squid:squid_cacheServerOutKb:rate5m[60m]) * on (instance) group_left (project,arena,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
   FOR 15m
   LABELS {
     severity = "critical",
@@ -37,7 +37,7 @@ ALERT SquidOutKbSpike
   }
 
 ALERT SquidInKbSpike
-  IF ( abs(squid:squid_cacheServerInKb:rate5m - avg_over_time(squid:squid_cacheServerInKb:rate5m[60m])) > 2 * stddev_over_time(squid:squid_cacheServerInKb:rate5m[60m]) ) / stddev_over_time(squid:squid_cacheServerInKb:rate5m[60m]) * on (instance) group_left (project,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
+  IF ( abs(squid:squid_cacheServerInKb:rate5m - avg_over_time(squid:squid_cacheServerInKb:rate5m[60m])) > 2 * stddev_over_time(squid:squid_cacheServerInKb:rate5m[60m]) ) / stddev_over_time(squid:squid_cacheServerInKb:rate5m[60m]) * on (instance) group_left (project,arena,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws
   FOR 15m
   LABELS {
     severity = "critical",

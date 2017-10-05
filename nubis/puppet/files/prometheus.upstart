@@ -7,39 +7,8 @@ env GOMAXPROCS=2
 setuid root
 setgid root
 
-pre-start script
-  if [ "$BACKUP" != "SKIP" ]; then
-    if [ -r /var/lib/prometheus/PRISTINE ]; then
-      echo "Restoring backup from S3 before startup..."
-      /usr/local/bin/nubis-prometheus-backup restore
-      echo " Done"
-    fi
-  fi
-  initctl unset-env BACKUP
-  unset BACKUP
-end script
-
 script
-  if [ -r /etc/profile.d/proxy.sh ]; then
-    echo "Loading Proxy settings"
-    . /etc/profile.d/proxy.sh
-  fi
-
   exec >> /var/log/prometheus.log
   exec 2>&1
-  exec /opt/prometheus/prometheus -storage.local.retention 336h -storage.local.dirty=true -web.listen-address :81 -storage.local.path /var/lib/prometheus -config.file /etc/prometheus/config.yml -alertmanager.url http://alertmanager.service.consul:9093/alertmanager -web.external-url "https://sso.$(nubis-metadata NUBIS_ENVIRONMENT).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/prometheus"
-end script
-
-post-stop script
-  goal=$(initctl status $UPSTART_JOB | awk '{print $2}' | cut -d '/' -f 1)
-  # only backup on explicit stop action, not crashes and the like
-  if [ "$goal" = "stop" ]; then
-    if [ "$BACKUP" != "SKIP" ]; then
-      echo -n "Backing up to S3..."
-      /usr/local/bin/nubis-prometheus-backup save
-      echo " Done"
-   fi
-  fi
-  initctl unset-env BACKUP
-  unset BACKUP
+  exec /opt/prometheus/prometheus -storage.local.retention 336h -storage.local.dirty=true -web.listen-address :81 -storage.local.path /var/lib/prometheus -config.file /etc/prometheus/config.yml -alertmanager.url http://alertmanager.service.consul:9093/alertmanager -web.external-url "https://sso.$(nubis-metadata NUBIS_ARENA).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/prometheus" -log.format "logger:stdout?json=true"
 end script
