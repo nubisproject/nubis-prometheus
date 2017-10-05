@@ -288,7 +288,7 @@ NUBIS_PROMETHEUS_SINK_SLACK_URL="${var.sink_slack_url}"
 NUBIS_PROMETHEUS_SINK_SLACK_CHANNEL="${var.sink_slack_channel}"
 NUBIS_PROMETHEUS_SINK_NOTIFICATION_EMAIL="${var.sink_notification_email}"
 NUBIS_PROMETHEUS_SINK_PAGERDUTY_SERVICE_KEY="${var.sink_pagerduty_service_key}"
-NUBIS_PROMETHEUS_FSID="${aws_efs_file_system.prometheus.id}"
+NUBIS_PROMETHEUS_FSID="${element(aws_efs_file_system.prometheus.*.id, count.index)}"
 NUBIS_SUDO_GROUPS="${var.nubis_sudo_groups}"
 NUBIS_USER_GROUPS="${var.nubis_user_groups}"
 EOF
