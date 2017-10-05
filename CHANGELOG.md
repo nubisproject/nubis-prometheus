@@ -1,5 +1,47 @@
 # Change Log
 
+## [v2.0.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.0) (2017-10-05)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.5.1...v2.0.0)
+
+**Closed issues:**
+
+- Use persistent storage [\#184](https://github.com/nubisproject/nubis-prometheus/issues/184)
+- \[dashboard\] Add ES grafana dashboard [\#182](https://github.com/nubisproject/nubis-prometheus/issues/182)
+- \[traefik\] Move traefik port to 9100 range [\#176](https://github.com/nubisproject/nubis-prometheus/issues/176)
+- \[traefik\] Configure traefik to expose metrics endpoint as well [\#172](https://github.com/nubisproject/nubis-prometheus/issues/172)
+- Scrape traefik metrics [\#171](https://github.com/nubisproject/nubis-prometheus/issues/171)
+- Update packages [\#168](https://github.com/nubisproject/nubis-prometheus/issues/168)
+- Upgrade traefik to v1.3.8 [\#166](https://github.com/nubisproject/nubis-prometheus/issues/166)
+- \[grafana\] Upgrade grafana to stable [\#160](https://github.com/nubisproject/nubis-prometheus/issues/160)
+- Switch from atlas to using terraform image search [\#158](https://github.com/nubisproject/nubis-prometheus/issues/158)
+- Add IAM permission [\#157](https://github.com/nubisproject/nubis-prometheus/issues/157)
+- \[dashboard\] Update grafana json file [\#150](https://github.com/nubisproject/nubis-prometheus/issues/150)
+- \[dashboard\] Add EFS dashboard [\#147](https://github.com/nubisproject/nubis-prometheus/issues/147)
+
+**Merged pull requests:**
+
+- element fix [\#187](https://github.com/nubisproject/nubis-prometheus/pull/187) ([gozer](https://github.com/gozer))
+- Run Prometheus off persistent storage [\#185](https://github.com/nubisproject/nubis-prometheus/pull/185) ([gozer](https://github.com/gozer))
+- Add elasticsearch dashboard [\#183](https://github.com/nubisproject/nubis-prometheus/pull/183) ([limed](https://github.com/limed))
+- Arena support [\#181](https://github.com/nubisproject/nubis-prometheus/pull/181) ([gozer](https://github.com/gozer))
+- Add platform status dashboard [\#180](https://github.com/nubisproject/nubis-prometheus/pull/180) ([limed](https://github.com/limed))
+- Fixing autoscaling grafana graph [\#179](https://github.com/nubisproject/nubis-prometheus/pull/179) ([limed](https://github.com/limed))
+- Added graphs [\#178](https://github.com/nubisproject/nubis-prometheus/pull/178) ([limed](https://github.com/limed))
+- Switch trafik to port 9109 [\#177](https://github.com/nubisproject/nubis-prometheus/pull/177) ([limed](https://github.com/limed))
+- Update nubis-travis to v1.4.2 [\#175](https://github.com/nubisproject/nubis-prometheus/pull/175) ([tinnightcap](https://github.com/tinnightcap))
+- Expose prometheus metrics [\#174](https://github.com/nubisproject/nubis-prometheus/pull/174) ([limed](https://github.com/limed))
+- Add traefik metric to scrape using prometheus [\#173](https://github.com/nubisproject/nubis-prometheus/pull/173) ([limed](https://github.com/limed))
+- Update apache2-util and duplicity [\#170](https://github.com/nubisproject/nubis-prometheus/pull/170) ([limed](https://github.com/limed))
+- Update grafana to version 4.5.1 [\#169](https://github.com/nubisproject/nubis-prometheus/pull/169) ([limed](https://github.com/limed))
+- Update traefik to v1.3.8 [\#167](https://github.com/nubisproject/nubis-prometheus/pull/167) ([limed](https://github.com/limed))
+- AMI search  [\#165](https://github.com/nubisproject/nubis-prometheus/pull/165) ([limed](https://github.com/limed))
+- Update nubis-travis to v1.4.0 [\#164](https://github.com/nubisproject/nubis-prometheus/pull/164) ([tinnightcap](https://github.com/tinnightcap))
+- Migrate to mozilla sslack [\#162](https://github.com/nubisproject/nubis-prometheus/pull/162) ([tinnightcap](https://github.com/tinnightcap))
+- Add ec2 describe instance policy [\#159](https://github.com/nubisproject/nubis-prometheus/pull/159) ([limed](https://github.com/limed))
+- Updating autoscaling dashboard to v3 [\#156](https://github.com/nubisproject/nubis-prometheus/pull/156) ([limed](https://github.com/limed))
+- Add efs dashboard [\#155](https://github.com/nubisproject/nubis-prometheus/pull/155) ([limed](https://github.com/limed))
+- Update apache2-utils package version for release [\#152](https://github.com/nubisproject/nubis-prometheus/pull/152) ([tinnightcap](https://github.com/tinnightcap))
+
 ## [v1.5.1](https://github.com/nubisproject/nubis-prometheus/tree/v1.5.1) (2017-08-18)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.5.0...v1.5.1)
 
@@ -8,9 +50,12 @@
 - \[security\] Close up access to unneeded ports [\#145](https://github.com/nubisproject/nubis-prometheus/issues/145)
 - Disable external services routing [\#143](https://github.com/nubisproject/nubis-prometheus/issues/143)
 - \[traefik\] Upgrade to 1.3.4 [\#140](https://github.com/nubisproject/nubis-prometheus/issues/140)
+- Tag v1.5.1 release [\#151](https://github.com/nubisproject/nubis-prometheus/issues/151)
 
 **Merged pull requests:**
 
+- Merge v1.5.1 release into develop. \[skip ci\] [\#154](https://github.com/nubisproject/nubis-prometheus/pull/154) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v1.5.1 release \[skip ci\] [\#153](https://github.com/nubisproject/nubis-prometheus/pull/153) ([tinnightcap](https://github.com/tinnightcap))
 - Close down unnecessary open tcp ports [\#146](https://github.com/nubisproject/nubis-prometheus/pull/146) ([gozer](https://github.com/gozer))
 - Don't route for \*.mon... anymore, these services are exposed via SSO now [\#144](https://github.com/nubisproject/nubis-prometheus/pull/144) ([gozer](https://github.com/gozer))
 - Upgrade to traefik v1.3.4 [\#141](https://github.com/nubisproject/nubis-prometheus/pull/141) ([gozer](https://github.com/gozer))
