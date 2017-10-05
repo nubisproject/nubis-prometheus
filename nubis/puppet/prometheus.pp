@@ -6,6 +6,8 @@ $prometheus_url = "https://github.com/prometheus/prometheus/releases/download/v$
 $alertmanager_url = "https://github.com/prometheus/alertmanager/releases/download/v${alertmanager_version}/alertmanager-${alertmanager_version}.linux-amd64.tar.gz"
 $blackbox_url = "https://github.com/prometheus/blackbox_exporter/releases/download/v${blackbox_version}/blackbox_exporter-${blackbox_version}.linux-amd64.tar.gz"
 
+include nfs::client
+
 file { '/opt/prometheus':
   ensure => 'directory',
   owner  => 0,
