@@ -263,12 +263,6 @@ resource "aws_launch_configuration" "prometheus" {
 
   enable_monitoring    = false
 
-  root_block_device = {
-    volume_size = "50"
-    volume_type = "gp2"
-    delete_on_termination = true
-  }
-
   security_groups = [
     "${element(aws_security_group.prometheus.*.id, count.index)}",
     "${element(split(",",var.internet_access_security_groups), count.index)}",
