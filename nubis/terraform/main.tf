@@ -505,7 +505,7 @@ resource "null_resource" "secrets" {
 
   provisioner "local-exec" {
     when    = "destroy"
-    command = "${self.triggers.unicreds}/admin/password"
+    command = "${self.triggers.unicreds_rm}/admin/password"
   }
 }
 
