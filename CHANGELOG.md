@@ -1,6 +1,13 @@
 # Change Log
 
 ## [v2.0.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.0) (2017-10-06)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.0...v2.0.0)
+
+**Merged pull requests:**
+
+- fix tyop [\#202](https://github.com/nubisproject/nubis-prometheus/pull/202) ([gozer](https://github.com/gozer))
+
+## [v2.0.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.0) (2017-10-06)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.5.1...v2.0.0)
 
 **Closed issues:**
@@ -18,12 +25,15 @@
 - Add IAM permission [\#157](https://github.com/nubisproject/nubis-prometheus/issues/157)
 - \[dashboard\] Update grafana json file [\#150](https://github.com/nubisproject/nubis-prometheus/issues/150)
 - \[dashboard\] Add EFS dashboard [\#147](https://github.com/nubisproject/nubis-prometheus/issues/147)
+- Tag v2.0.0 release [\#199](https://github.com/nubisproject/nubis-prometheus/issues/199)
 - Tag v2.0.0 release [\#195](https://github.com/nubisproject/nubis-prometheus/issues/195)
 - Tag v2.0.0 release [\#192](https://github.com/nubisproject/nubis-prometheus/issues/192)
 - Tag v2.0.0 release [\#186](https://github.com/nubisproject/nubis-prometheus/issues/186)
 
 **Merged pull requests:**
 
+- Merge v2.0.0 release into develop. \[skip ci\] [\#201](https://github.com/nubisproject/nubis-prometheus/pull/201) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.0 release \[skip ci\] [\#200](https://github.com/nubisproject/nubis-prometheus/pull/200) ([tinnightcap](https://github.com/tinnightcap))
 - Merge v2.0.0 release into develop. \[skip ci\] [\#198](https://github.com/nubisproject/nubis-prometheus/pull/198) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v2.0.0 release \[skip ci\] [\#197](https://github.com/nubisproject/nubis-prometheus/pull/197) ([tinnightcap](https://github.com/tinnightcap))
 - Fix count logic [\#196](https://github.com/nubisproject/nubis-prometheus/pull/196) ([gozer](https://github.com/gozer))
