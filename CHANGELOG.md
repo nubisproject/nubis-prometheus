@@ -3,19 +3,16 @@
 ## [v2.0.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.0) (2017-10-06)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.0...v2.0.0)
 
-**Closed issues:**
-
-- \[unicreds\] Cleanup resources on destruction [\#190](https://github.com/nubisproject/nubis-prometheus/issues/190)
-
 **Merged pull requests:**
 
-- Cleanup unicreds secrets [\#191](https://github.com/nubisproject/nubis-prometheus/pull/191) ([gozer](https://github.com/gozer))
+- Fix count logic [\#196](https://github.com/nubisproject/nubis-prometheus/pull/196) ([gozer](https://github.com/gozer))
 
-## [v2.0.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.0) (2017-10-05)
+## [v2.0.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.0) (2017-10-06)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.5.1...v2.0.0)
 
 **Closed issues:**
 
+- \[unicreds\] Cleanup resources on destruction [\#190](https://github.com/nubisproject/nubis-prometheus/issues/190)
 - Use persistent storage [\#184](https://github.com/nubisproject/nubis-prometheus/issues/184)
 - \[dashboard\] Add ES grafana dashboard [\#182](https://github.com/nubisproject/nubis-prometheus/issues/182)
 - \[traefik\] Move traefik port to 9100 range [\#176](https://github.com/nubisproject/nubis-prometheus/issues/176)
@@ -28,10 +25,14 @@
 - Add IAM permission [\#157](https://github.com/nubisproject/nubis-prometheus/issues/157)
 - \[dashboard\] Update grafana json file [\#150](https://github.com/nubisproject/nubis-prometheus/issues/150)
 - \[dashboard\] Add EFS dashboard [\#147](https://github.com/nubisproject/nubis-prometheus/issues/147)
+- Tag v2.0.0 release [\#192](https://github.com/nubisproject/nubis-prometheus/issues/192)
 - Tag v2.0.0 release [\#186](https://github.com/nubisproject/nubis-prometheus/issues/186)
 
 **Merged pull requests:**
 
+- Merge v2.0.0 release into develop. \[skip ci\] [\#194](https://github.com/nubisproject/nubis-prometheus/pull/194) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.0 release \[skip ci\] [\#193](https://github.com/nubisproject/nubis-prometheus/pull/193) ([tinnightcap](https://github.com/tinnightcap))
+- Cleanup unicreds secrets [\#191](https://github.com/nubisproject/nubis-prometheus/pull/191) ([gozer](https://github.com/gozer))
 - Merge v2.0.0 release into develop. \[skip ci\] [\#189](https://github.com/nubisproject/nubis-prometheus/pull/189) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v2.0.0 release \[skip ci\] [\#188](https://github.com/nubisproject/nubis-prometheus/pull/188) ([tinnightcap](https://github.com/tinnightcap))
 - element fix [\#187](https://github.com/nubisproject/nubis-prometheus/pull/187) ([gozer](https://github.com/gozer))
