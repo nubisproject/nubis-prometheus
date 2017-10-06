@@ -77,6 +77,15 @@ file { '/etc/nubis.d/prometheus':
     source => 'puppet:///nubis/files/prometheus-onboot',
 }
 
+# bootup prometheus actions
+file { '/etc/nubis.d/00-efs':
+    ensure => file,
+    owner  => root,
+    group  => root,
+    mode   => '0755',
+    source => 'puppet:///nubis/files/efs-onboot',
+}
+
 file { '/etc/init/prometheus.conf':
     ensure  => file,
     owner   => root,
