@@ -486,6 +486,7 @@ resource "null_resource" "secrets" {
     password      = "${var.password}"
     context       = "-E region:${var.aws_region} -E arena:${element(var.arenas, count.index)} -E service:${var.project}"
     unicreds      = "unicreds -r ${var.aws_region} put -k ${var.credstash_key} ${var.project}/${element(var.arenas, count.index)}"
+    unicreds_rm   = "unicreds -r ${var.aws_region} delete -k ${var.credstash_key} ${var.project}/${element(var.arenas, count.index)}"
     unicreds_file = "unicreds -r ${var.aws_region} put-file -k ${var.credstash_key} ${var.project}/${element(var.arenas, count.index)}"
   }
 
@@ -494,7 +495,17 @@ resource "null_resource" "secrets" {
   }
 
   provisioner "local-exec" {
+    when    = "destroy"
+    command = "${self.triggers.unicreds_rm}/federation/password"
+  }
+
+  provisioner "local-exec" {
     command = "${self.triggers.unicreds}/admin/password ${data.template_file.password.rendered} ${self.triggers.context}"
+  }
+
+  provisioner "local-exec" {
+    when    = "destroy"
+    command = "${self.triggers.unicreds}/admin/password"
   }
 }
 
