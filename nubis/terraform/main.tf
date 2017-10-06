@@ -585,11 +585,11 @@ resource "aws_efs_mount_target" "prometheus" {
   # XXX: 3 subnets-per-vpc-count hard-coded
   count = "${3 * var.enabled * length(var.arenas)}"
 
-  file_system_id = "${element(aws_efs_file_system.prometheus.*.id, count.index)}"
+  file_system_id = "${element(aws_efs_file_system.prometheus.*.id, count.index / 3)}"
 
   subnet_id      = "${element(split(",",var.subnet_ids), count.index)}"
 
   security_groups = [
-    "${element(aws_security_group.storage.*.id, count.index)}",
+    "${element(aws_security_group.storage.*.id, count.index / 3)}",
   ]
 }
