@@ -1,14 +1,6 @@
 # Change Log
 
 ## [v2.0.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.0) (2017-10-06)
-[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.0...v2.0.0)
-
-**Merged pull requests:**
-
-- fix small delete tyop [\#209](https://github.com/nubisproject/nubis-prometheus/pull/209) ([gozer](https://github.com/gozer))
-- Move EFS mount earlier in boot [\#206](https://github.com/nubisproject/nubis-prometheus/pull/206) ([gozer](https://github.com/gozer))
-
-## [v2.0.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.0) (2017-10-06)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.5.1...v2.0.0)
 
 **Closed issues:**
@@ -26,6 +18,7 @@
 - Add IAM permission [\#157](https://github.com/nubisproject/nubis-prometheus/issues/157)
 - \[dashboard\] Update grafana json file [\#150](https://github.com/nubisproject/nubis-prometheus/issues/150)
 - \[dashboard\] Add EFS dashboard [\#147](https://github.com/nubisproject/nubis-prometheus/issues/147)
+- Tag v2.0.0 release [\#208](https://github.com/nubisproject/nubis-prometheus/issues/208)
 - Tag v2.0.0 release [\#203](https://github.com/nubisproject/nubis-prometheus/issues/203)
 - Tag v2.0.0 release [\#199](https://github.com/nubisproject/nubis-prometheus/issues/199)
 - Tag v2.0.0 release [\#195](https://github.com/nubisproject/nubis-prometheus/issues/195)
@@ -34,6 +27,10 @@
 
 **Merged pull requests:**
 
+- Merge v2.0.0 release into develop. \[skip ci\] [\#211](https://github.com/nubisproject/nubis-prometheus/pull/211) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.0 release \[skip ci\] [\#210](https://github.com/nubisproject/nubis-prometheus/pull/210) ([tinnightcap](https://github.com/tinnightcap))
+- fix small delete tyop [\#209](https://github.com/nubisproject/nubis-prometheus/pull/209) ([gozer](https://github.com/gozer))
+- Move EFS mount earlier in boot [\#206](https://github.com/nubisproject/nubis-prometheus/pull/206) ([gozer](https://github.com/gozer))
 - Merge v2.0.0 release into develop. \[skip ci\] [\#205](https://github.com/nubisproject/nubis-prometheus/pull/205) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v2.0.0 release \[skip ci\] [\#204](https://github.com/nubisproject/nubis-prometheus/pull/204) ([tinnightcap](https://github.com/tinnightcap))
 - fix tyop [\#202](https://github.com/nubisproject/nubis-prometheus/pull/202) ([gozer](https://github.com/gozer))
