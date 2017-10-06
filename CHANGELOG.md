@@ -1,5 +1,16 @@
 # Change Log
 
+## [v2.0.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.0) (2017-10-06)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.0...v2.0.0)
+
+**Closed issues:**
+
+- \[unicreds\] Cleanup resources on destruction [\#190](https://github.com/nubisproject/nubis-prometheus/issues/190)
+
+**Merged pull requests:**
+
+- Cleanup unicreds secrets [\#191](https://github.com/nubisproject/nubis-prometheus/pull/191) ([gozer](https://github.com/gozer))
+
 ## [v2.0.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.0) (2017-10-05)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.5.1...v2.0.0)
 
@@ -17,9 +28,12 @@
 - Add IAM permission [\#157](https://github.com/nubisproject/nubis-prometheus/issues/157)
 - \[dashboard\] Update grafana json file [\#150](https://github.com/nubisproject/nubis-prometheus/issues/150)
 - \[dashboard\] Add EFS dashboard [\#147](https://github.com/nubisproject/nubis-prometheus/issues/147)
+- Tag v2.0.0 release [\#186](https://github.com/nubisproject/nubis-prometheus/issues/186)
 
 **Merged pull requests:**
 
+- Merge v2.0.0 release into develop. \[skip ci\] [\#189](https://github.com/nubisproject/nubis-prometheus/pull/189) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.0 release \[skip ci\] [\#188](https://github.com/nubisproject/nubis-prometheus/pull/188) ([tinnightcap](https://github.com/tinnightcap))
 - element fix [\#187](https://github.com/nubisproject/nubis-prometheus/pull/187) ([gozer](https://github.com/gozer))
 - Run Prometheus off persistent storage [\#185](https://github.com/nubisproject/nubis-prometheus/pull/185) ([gozer](https://github.com/gozer))
 - Add elasticsearch dashboard [\#183](https://github.com/nubisproject/nubis-prometheus/pull/183) ([limed](https://github.com/limed))
