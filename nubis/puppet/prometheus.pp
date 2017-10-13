@@ -1,6 +1,6 @@
-$prometheus_version = '1.7.1'
-$alertmanager_version = '0.7.1'
-$blackbox_version = '0.5.0'
+$prometheus_version = '1.8.0'
+$alertmanager_version = '0.9.1'
+$blackbox_version = '0.10.0'
 
 $prometheus_url = "https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-amd64.tar.gz"
 $alertmanager_url = "https://github.com/prometheus/alertmanager/releases/download/v${alertmanager_version}/alertmanager-${alertmanager_version}.linux-amd64.tar.gz"

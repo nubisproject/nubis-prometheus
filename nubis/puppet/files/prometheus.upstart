@@ -10,5 +10,10 @@ setgid root
 script
   exec >> /var/log/prometheus.log
   exec 2>&1
-  exec /opt/prometheus/prometheus -storage.local.retention 336h -storage.local.dirty=true -web.listen-address :81 -storage.local.path /var/lib/prometheus -config.file /etc/prometheus/config.yml -alertmanager.url http://alertmanager.service.consul:9093/alertmanager -web.external-url "https://sso.$(nubis-metadata NUBIS_ARENA).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/prometheus" -log.format "logger:stdout?json=true"
+
+  # Compute 75% of available RAM for heap
+  MEM_TOTAL=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}')
+  HEAP_SIZE=$(( MEM_TOTAL * 75 / 100 ))
+
+  exec /opt/prometheus/prometheus -storage.local.retention 336h -storage.local.dirty=true -storage.local.target-heap-size="$HEAP_SIZE" -web.listen-address :81 -storage.local.path /var/lib/prometheus -config.file /etc/prometheus/config.yml -alertmanager.url http://alertmanager.service.consul:9093/alertmanager -web.external-url "https://sso.$(nubis-metadata NUBIS_ARENA).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/prometheus" -log.format "logger:stdout?json=true"
 end script
