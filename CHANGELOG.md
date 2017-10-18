@@ -1,5 +1,24 @@
 # Change Log
 
+## [v2.0.1](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.1) (2017-10-13)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.0...v2.0.1)
+
+**Closed issues:**
+
+- Limit heap size to 75% of available RAM [\#219](https://github.com/nubisproject/nubis-prometheus/issues/219)
+- Cronjob alerts are not very specific [\#217](https://github.com/nubisproject/nubis-prometheus/issues/217)
+- Upgrade to Prometheus 1.8.0 [\#215](https://github.com/nubisproject/nubis-prometheus/issues/215)
+- Disable backups in favor of snapshots [\#142](https://github.com/nubisproject/nubis-prometheus/issues/142)
+- \[backups\] Enable some swap [\#110](https://github.com/nubisproject/nubis-prometheus/issues/110)
+- \[backups\] Make the in-progress page expose a backup metric of some sort ? [\#106](https://github.com/nubisproject/nubis-prometheus/issues/106)
+- \[duplicity\] Cleanup orphaned lockfiles [\#66](https://github.com/nubisproject/nubis-prometheus/issues/66)
+
+**Merged pull requests:**
+
+- Keep Heap Size under 75% of available RAM [\#220](https://github.com/nubisproject/nubis-prometheus/pull/220) ([gozer](https://github.com/gozer))
+- Report specific cron jobs that are failing [\#218](https://github.com/nubisproject/nubis-prometheus/pull/218) ([gozer](https://github.com/gozer))
+- Upgrade to Prometheus 1.8.0 [\#216](https://github.com/nubisproject/nubis-prometheus/pull/216) ([gozer](https://github.com/gozer))
+
 ## [v2.0.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.0) (2017-10-06)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v1.5.1...v2.0.0)
 
@@ -18,6 +37,7 @@
 - Add IAM permission [\#157](https://github.com/nubisproject/nubis-prometheus/issues/157)
 - \[dashboard\] Update grafana json file [\#150](https://github.com/nubisproject/nubis-prometheus/issues/150)
 - \[dashboard\] Add EFS dashboard [\#147](https://github.com/nubisproject/nubis-prometheus/issues/147)
+- Tag v2.0.0 release [\#212](https://github.com/nubisproject/nubis-prometheus/issues/212)
 - Tag v2.0.0 release [\#208](https://github.com/nubisproject/nubis-prometheus/issues/208)
 - Tag v2.0.0 release [\#203](https://github.com/nubisproject/nubis-prometheus/issues/203)
 - Tag v2.0.0 release [\#199](https://github.com/nubisproject/nubis-prometheus/issues/199)
@@ -27,6 +47,8 @@
 
 **Merged pull requests:**
 
+- Merge v2.0.0 release into develop. \[skip ci\] [\#214](https://github.com/nubisproject/nubis-prometheus/pull/214) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.0 release \[skip ci\] [\#213](https://github.com/nubisproject/nubis-prometheus/pull/213) ([tinnightcap](https://github.com/tinnightcap))
 - Merge v2.0.0 release into develop. \[skip ci\] [\#211](https://github.com/nubisproject/nubis-prometheus/pull/211) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v2.0.0 release \[skip ci\] [\#210](https://github.com/nubisproject/nubis-prometheus/pull/210) ([tinnightcap](https://github.com/tinnightcap))
 - fix small delete tyop [\#209](https://github.com/nubisproject/nubis-prometheus/pull/209) ([gozer](https://github.com/gozer))
