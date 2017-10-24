@@ -22,11 +22,6 @@ checkNewVersion = false
 address = ":9109"
 [web.metrics.prometheus]
 
-[consulCatalog]
-endpoint = "127.0.0.1:8500"
-domain = "{{ getv "/config/MonDomain" }}"
-constraints = [ "tag==monitoring" ]
-
 [consul]
 endpoint = "127.0.0.1:8500"
 watch = true
@@ -45,6 +40,15 @@ onDemand = false
 [[acme.domains]]
    main = "{{ getv "/config/MonDomain" }}"
 
-#[file]
-#watch = true
-#filename = "/etc/traefik/rules.toml"
+[file]
+[backends]
+  [backends.prometheus]
+    [backends.prometheus.servers.server1]
+    url = "http://127.0.0.1:81"
+
+[frontends]
+  [frontends.prometheus]
+  passHostHeader = true
+  backend="prometheus"
+    [frontends.prometheus.routes.main]
+    rule="PathPrefix:/prometheus"
