@@ -39,7 +39,13 @@ upstart::job { 'traefik':
     },
     user           => 'root',
     group          => 'root',
-    script         => 'exec /usr/local/bin/traefik --web.readonly=true --loglevel=INFO',
+    script         => '
+  if [ -r /etc/profile.d/proxy.sh ]; then
+    echo "Loading Proxy settings"
+    . /etc/profile.d/proxy.sh
+  fi
+  exec /usr/local/bin/traefik --web.readonly=true --loglevel=INFO
+  ',
     post_stop      => '
 goal=$(initctl status $UPSTART_JOB | awk \'{print $2}\' | cut -d \'/\' -f 1)
 if [ $goal != "stop" ]; then
