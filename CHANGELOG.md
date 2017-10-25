@@ -16,6 +16,7 @@
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v2.0.2 release \[skip ci\] [\#243](https://github.com/nubisproject/nubis-prometheus/pull/243) ([tinnightcap](https://github.com/tinnightcap))
 - Merge v2.0.2 release into develop. \[skip ci\] [\#240](https://github.com/nubisproject/nubis-prometheus/pull/240) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v2.0.2 release \[skip ci\] [\#239](https://github.com/nubisproject/nubis-prometheus/pull/239) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v2.0.2 release \[skip ci\] [\#238](https://github.com/nubisproject/nubis-prometheus/pull/238) ([tinnightcap](https://github.com/tinnightcap))
