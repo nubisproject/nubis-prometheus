@@ -1,6 +1,33 @@
 # Change Log
 
-## [v2.0.1](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.1) (2017-10-13)
+## [v2.0.2](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.2) (2017-10-25)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.1...v2.0.2)
+
+**Fixed bugs:**
+
+- Fix broken squid alerts [\#230](https://github.com/nubisproject/nubis-prometheus/issues/230)
+
+**Closed issues:**
+
+- Tag v2.0.2 release [\#237](https://github.com/nubisproject/nubis-prometheus/issues/237)
+- Tag v2.0.2 release [\#234](https://github.com/nubisproject/nubis-prometheus/issues/234)
+- Scrape squid exporter metrics [\#228](https://github.com/nubisproject/nubis-prometheus/issues/228)
+- \[cloudwatch\] Add AWS/Lambda Throttles metric [\#163](https://github.com/nubisproject/nubis-prometheus/issues/163)
+
+**Merged pull requests:**
+
+- Update CHANGELOG for v2.0.2 release \[skip ci\] [\#243](https://github.com/nubisproject/nubis-prometheus/pull/243) ([tinnightcap](https://github.com/tinnightcap))
+- Merge v2.0.2 release into develop. \[skip ci\] [\#240](https://github.com/nubisproject/nubis-prometheus/pull/240) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.2 release \[skip ci\] [\#239](https://github.com/nubisproject/nubis-prometheus/pull/239) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.2 release \[skip ci\] [\#238](https://github.com/nubisproject/nubis-prometheus/pull/238) ([tinnightcap](https://github.com/tinnightcap))
+- Merge v2.0.2 release into develop. \[skip ci\] [\#236](https://github.com/nubisproject/nubis-prometheus/pull/236) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.2 release \[skip ci\] [\#235](https://github.com/nubisproject/nubis-prometheus/pull/235) ([tinnightcap](https://github.com/tinnightcap))
+- Disable service-discovery from the inside [\#233](https://github.com/nubisproject/nubis-prometheus/pull/233) ([gozer](https://github.com/gozer))
+- Scrape AWS/Lambda throttles metric [\#232](https://github.com/nubisproject/nubis-prometheus/pull/232) ([limed](https://github.com/limed))
+- Fixing broken prometheus alerts [\#231](https://github.com/nubisproject/nubis-prometheus/pull/231) ([limed](https://github.com/limed))
+- Scrape squid exporter metrics [\#229](https://github.com/nubisproject/nubis-prometheus/pull/229) ([limed](https://github.com/limed))
+
+## [v2.0.1](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.1) (2017-10-18)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.0...v2.0.1)
 
 **Closed issues:**
@@ -12,9 +39,16 @@
 - \[backups\] Enable some swap [\#110](https://github.com/nubisproject/nubis-prometheus/issues/110)
 - \[backups\] Make the in-progress page expose a backup metric of some sort ? [\#106](https://github.com/nubisproject/nubis-prometheus/issues/106)
 - \[duplicity\] Cleanup orphaned lockfiles [\#66](https://github.com/nubisproject/nubis-prometheus/issues/66)
+- Tag v2.0.1 release [\#225](https://github.com/nubisproject/nubis-prometheus/issues/225)
+- Tag v2.0.1 release [\#221](https://github.com/nubisproject/nubis-prometheus/issues/221)
 
 **Merged pull requests:**
 
+- Merge v2.0.1 release into develop. \[skip ci\] [\#227](https://github.com/nubisproject/nubis-prometheus/pull/227) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.1 release \[skip ci\] [\#226](https://github.com/nubisproject/nubis-prometheus/pull/226) ([tinnightcap](https://github.com/tinnightcap))
+- Fix byte math [\#224](https://github.com/nubisproject/nubis-prometheus/pull/224) ([gozer](https://github.com/gozer))
+- Merge v2.0.1 release into develop. \[skip ci\] [\#223](https://github.com/nubisproject/nubis-prometheus/pull/223) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.1 release \[skip ci\] [\#222](https://github.com/nubisproject/nubis-prometheus/pull/222) ([tinnightcap](https://github.com/tinnightcap))
 - Keep Heap Size under 75% of available RAM [\#220](https://github.com/nubisproject/nubis-prometheus/pull/220) ([gozer](https://github.com/gozer))
 - Report specific cron jobs that are failing [\#218](https://github.com/nubisproject/nubis-prometheus/pull/218) ([gozer](https://github.com/gozer))
 - Upgrade to Prometheus 1.8.0 [\#216](https://github.com/nubisproject/nubis-prometheus/pull/216) ([gozer](https://github.com/gozer))

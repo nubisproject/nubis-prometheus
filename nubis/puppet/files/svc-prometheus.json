@@ -2,10 +2,6 @@
   "service": {
     "name": "prometheus",
     "port": 81,
-    "tags": [
-      "traefik.tags=monitoring",
-      "traefik.frontend.rule=PathPrefix:/prometheus"
-    ],
     "check": {
        "http": "http://localhost:81/prometheus/status",
        "interval": "10s",
