@@ -2,10 +2,6 @@
   "service": {
     "name": "traefik",
     "port": 9109,
-    "tags": [
-      "traefik.tags=monitoring",
-      "traefik.frontend.rule=PathPrefixStrip:/traefik"
-    ],
     "check": {
        "http": "http://localhost:9109/health",
        "interval": "10s",
