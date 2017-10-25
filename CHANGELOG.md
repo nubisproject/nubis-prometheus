@@ -11,9 +11,12 @@
 
 - Scrape squid exporter metrics [\#228](https://github.com/nubisproject/nubis-prometheus/issues/228)
 - \[cloudwatch\] Add AWS/Lambda Throttles metric [\#163](https://github.com/nubisproject/nubis-prometheus/issues/163)
+- Tag v2.0.2 release [\#234](https://github.com/nubisproject/nubis-prometheus/issues/234)
 
 **Merged pull requests:**
 
+- Merge v2.0.2 release into develop. \[skip ci\] [\#236](https://github.com/nubisproject/nubis-prometheus/pull/236) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.2 release \[skip ci\] [\#235](https://github.com/nubisproject/nubis-prometheus/pull/235) ([tinnightcap](https://github.com/tinnightcap))
 - Disable service-discovery from the inside [\#233](https://github.com/nubisproject/nubis-prometheus/pull/233) ([gozer](https://github.com/gozer))
 - Scrape AWS/Lambda throttles metric [\#232](https://github.com/nubisproject/nubis-prometheus/pull/232) ([limed](https://github.com/limed))
 - Fixing broken prometheus alerts [\#231](https://github.com/nubisproject/nubis-prometheus/pull/231) ([limed](https://github.com/limed))
