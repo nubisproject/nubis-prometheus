@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.0.2](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.2) (2017-10-25)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.2...v2.0.2)
+
+**Merged pull requests:**
+
+- Update CHANGELOG for v2.0.2 release \[skip ci\] [\#238](https://github.com/nubisproject/nubis-prometheus/pull/238) ([tinnightcap](https://github.com/tinnightcap))
+
 ## [v2.0.2](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.2) (2017-10-24)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.1...v2.0.2)
 
