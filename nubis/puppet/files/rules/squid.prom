@@ -1,12 +1,12 @@
 # Saved queries
-squid:squid_cacheServerRequests:rate5m = rate(squid_cacheServerRequests[5m])
-squid:squid_cacheServerRequests:rate60m = rate(squid_cacheServerRequests[60m])
+squid:squid_cacheServerRequests:rate5m = rate(squid_server_all_requests[5m])
+squid:squid_cacheServerRequests:rate60m = rate(squid_server_all_requests[60m])
 
-squid:squid_cacheServerInKb:rate5m = rate(squid_cacheServerInKb[5m])
-squid:squid_cacheServerInKb:rate60m = rate(squid_cacheServerInKb[60m])
+squid:squid_cacheServerInKb:rate5m = rate(squid_server_all_kbytes_in[5m])
+squid:squid_cacheServerInKb:rate60m = rate(squid_server_all_kbytes_in[60m])
 
-squid:squid_cacheServerOutKb:rate5m = rate(squid_cacheServerOutKb[5m])
-squid:squid_cacheServerOutKb:rate60m = rate(squid_cacheServerOutKb[60m])
+squid:squid_cacheServerOutKb:rate5m = rate(squid_server_all_kbytes_out[5m])
+squid:squid_cacheServerOutKb:rate60m = rate(squid_server_all_kbytes_out[60m])
 
 # Alerts
 
