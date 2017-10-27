@@ -151,54 +151,38 @@ metrics:
   aws_metric_name: BurstCreditBalance
   aws_dimensions: [FileSystemId]
   aws_statistics: [Minimum, Maximum, Average]
-  aws_dimension_select_regex:
-    FileSystemId: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/EFS
   aws_metric_name: ClientConnections
   aws_dimensions: [FileSystemId]
   aws_statistics: [Sum]
-  aws_dimension_select_regex:
-    FileSystemId: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/EFS
   aws_metric_name: DataReadIOBytes
   aws_dimensions: [FileSystemId]
   aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
-  aws_dimension_select_regex:
-    FileSystemId: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/EFS
   aws_metric_name: DataWriteIOBytes
   aws_dimensions: [FileSystemId]
   aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
-  aws_dimension_select_regex:
-    FileSystemId: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/EFS
   aws_metric_name: MetadataIOBytes
   aws_dimensions: [FileSystemId]
   aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
-  aws_dimension_select_regex:
-    FileSystemId: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/EFS
   aws_metric_name: PercentIOLimit
   aws_dimensions: [FileSystemId]
   aws_statistics: [Percent]
-  aws_dimension_select_regex:
-    FileSystemId: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/EFS
   aws_metric_name: PermittedThroughput
   aws_dimensions: [FileSystemId]
   aws_statistics: [Minimum, Maximum, Average]
-  aws_dimension_select_regex:
-    FileSystemId: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/EFS
   aws_metric_name: TotalIOBytes
   aws_dimensions: [FileSystemId]
   aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
-  aws_dimension_select_regex:
-    FileSystemId: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
