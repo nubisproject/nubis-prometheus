@@ -257,7 +257,7 @@ resource "aws_launch_configuration" "prometheus" {
 
   image_id = "${module.prometheus-image.image_id}"
 
-  instance_type        = "t2.small"
+  instance_type        = "${var.instance_type}"
   key_name             = "${var.key_name}"
   iam_instance_profile = "${element(aws_iam_instance_profile.prometheus.*.name, count.index)}"
 
