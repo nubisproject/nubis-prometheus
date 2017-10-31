@@ -141,3 +141,12 @@ if [ "$ADMIN_PASSWORD" != "$SECRET_ADMIN_PASSWORD" ]; then
   consulate kv set "$KV_PREFIX/Admin/Password" "$SECRET_ADMIN_PASSWORD"
   consulate kv set "$KV_PREFIX/Admin/HTPassword" "$ADMIN_HTPASSWORD"
 fi
+
+MEM_TOTAL=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+SWAP_TOTAL=$(( MEM_TOTAL * 2 / 1024 ))
+SWAP_FILE=/var/swap
+
+echo "Making $SWAP_TOTAL Mb of swap in $SWAP_FILE"
+dd if=/dev/zero of=$SWAP_FILE bs="1M" count="$SWAP_TOTAL"
+mkswap $SWAP_FILE
+swapon $SWAP_FILE
