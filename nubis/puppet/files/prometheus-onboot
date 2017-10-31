@@ -148,5 +148,6 @@ SWAP_FILE=/var/swap
 
 echo "Making $SWAP_TOTAL Mb of swap in $SWAP_FILE"
 dd if=/dev/zero of=$SWAP_FILE bs="1M" count="$SWAP_TOTAL"
+chmod 600 $SWAP_FILE
 mkswap $SWAP_FILE
 swapon $SWAP_FILE
