@@ -66,6 +66,10 @@ variable sink_pagerduty_service_key {
   default = ""
 }
 
+variable swap_size_meg {
+  default = "2048"
+}
+
 variable nubis_sudo_groups {
   default = "nubis_sudo_groups"
 }
@@ -87,4 +91,8 @@ variable "password" {
 
 variable "live_app" {
   default = ""
+}
+
+variable "instance_type" {
+  default = "t2.small"
 }

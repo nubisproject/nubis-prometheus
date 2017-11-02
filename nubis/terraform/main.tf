@@ -257,7 +257,7 @@ resource "aws_launch_configuration" "prometheus" {
 
   image_id = "${module.prometheus-image.image_id}"
 
-  instance_type        = "t2.small"
+  instance_type        = "${var.instance_type}"
   key_name             = "${var.key_name}"
   iam_instance_profile = "${element(aws_iam_instance_profile.prometheus.*.name, count.index)}"
 
@@ -278,6 +278,7 @@ NUBIS_ARENA="${element(var.arenas, count.index)}"
 NUBIS_ACCOUNT="${var.service_name}"
 NUBIS_TECHNICAL_CONTACT="${var.technical_contact}"
 NUBIS_DOMAIN="${var.nubis_domain}"
+NUBIS_PROMETEHUS_SWAP_SIZE_MEG="${var.swap_size_meg}"
 NUBIS_PROMETHEUS_LIVE_APP="${var.live_app}"
 NUBIS_PROMETHEUS_BUCKET="${element(aws_s3_bucket.prometheus.*.id, count.index)}"
 NUBIS_PROMETHEUS_SLACK_URL="${var.slack_url}"
