@@ -25,7 +25,7 @@ ALERT ConsulDown
 # We expect all our Consul services to have at least 1 healthy member
 # Except for tainted instances, these we filter out here
 ALERT ConsulServiceDown
-  IF drop_common_labels(label_replace(label_replace(min(consul_catalog_service_node_healthy{service!="tainted"}) BY (service, node)  - ON  (node) GROUP_LEFT(instance) min(consul_agent_check{check="serfHealth"}) BY (node), "instance", "$1", "node", "(.*)"), "node", "XXX", "node", ".*")) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws < 0
+  IF drop_common_labels(label_replace(label_replace(min(consul_catalog_service_node_healthy{service_name!="tainted"}) BY (service, node)  - ON  (node) GROUP_LEFT(instance) min(consul_agent_check{check="serfHealth"}) BY (node), "instance", "$1", "node", "(.*)"), "node", "XXX", "node", ".*")) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws < 0
   FOR 5m
   LABELS {
     severity = "critical",
@@ -76,7 +76,7 @@ ALERT ConsulInsufficientPeers
   }
 
 ALERT ConsulProxyAvailable
-  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="proxy"} == 1) by (node)) == 2)
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service_name="proxy"} == 1) by (node)) == 2)
   FOR 5m
   LABELS {
     severity = "critical",
@@ -88,7 +88,7 @@ ALERT ConsulProxyAvailable
   }
 
 ALERT ConsulConsulAvailable
-  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="consul"} == 1) by (node)) == 3)
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service_name="consul"} == 1) by (node)) == 3)
   FOR 5m
   LABELS {
     severity = "critical",
@@ -100,7 +100,7 @@ ALERT ConsulConsulAvailable
   }
 
 ALERT ConsulFluentAvailable
-  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="fluentd"} == 1) by (node)) == 1)
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service_name="fluentd"} == 1) by (node)) == 1)
   FOR 5m
   LABELS {
     severity = "critical",
@@ -112,7 +112,7 @@ ALERT ConsulFluentAvailable
   }
 
 ALERT ConsulPrometheusAvailable
-  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="prometheus"} == 1) by (node)) == 1)
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service_name="prometheus"} == 1) by (node)) == 1)
   FOR 5m
   LABELS {
     severity = "critical",
@@ -124,7 +124,7 @@ ALERT ConsulPrometheusAvailable
   }
 
 ALERT ConsulAlertmanagerAvailable
-  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service="alertmanager"} == 1) by (node)) == 1)
+  IF absent(count(count(consul_catalog_service_node_healthy{job="consul",service_name="alertmanager"} == 1) by (node)) == 1)
   FOR 5m
   LABELS {
     severity = "critical",
@@ -210,19 +210,6 @@ ALERT NATIpForwardingNotEnabled
   ANNOTATIONS {
     summary = "IP Forwarding not enabled on NAT node",
     description = "IP Fowarding is not enabled on NAT node {{ $labels.instance }}"
-  }
-
-ALERT IpForwardingEnabledNonNAT
-  IF node_netstat_Ip_Forwarding * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis{project!="nat"} * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws != 2
-  FOR 5m
-  LABELS {
-    severity="critical",
-    platform = "nubis",
-    type="invariant"
-  }
-  ANNOTATIONS {
-    summary = "IP Forwarding enabled on non-NAT node",
-    description = "IP Fowarding is enabled on non-NAT node {{ $labels.instance }}"
   }
 
 ALERT CronJobFailing

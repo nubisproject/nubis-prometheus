@@ -100,29 +100,21 @@ metrics:
   aws_metric_name: GroupMinSize
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Minimum]
-  aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/AutoScaling
   aws_metric_name: GroupMaxSize
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Maximum]
-  aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/AutoScaling
   aws_metric_name: GroupDesiredCapacity
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Minimum,Maximum]
-  aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/AutoScaling
   aws_metric_name: GroupInServiceInstances
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Minimum,Maximum,Average]
-  aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
   # AWS Lambda
 - aws_namespace: AWS/Lambda
@@ -145,3 +137,44 @@ metrics:
   aws_statistics: [Minimum,Maximum,Sum]
   aws_dimension_select_regex:
     FunctionName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+# AWS EFS
+- aws_namespace: AWS/EFS
+  aws_metric_name: BurstCreditBalance
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: ClientConnections
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Sum]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: DataReadIOBytes
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: DataWriteIOBytes
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: MetadataIOBytes
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: PercentIOLimit
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Percent]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: PermittedThroughput
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: TotalIOBytes
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
