@@ -100,29 +100,21 @@ metrics:
   aws_metric_name: GroupMinSize
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Minimum]
-  aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/AutoScaling
   aws_metric_name: GroupMaxSize
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Maximum]
-  aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/AutoScaling
   aws_metric_name: GroupDesiredCapacity
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Minimum,Maximum]
-  aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
 - aws_namespace: AWS/AutoScaling
   aws_metric_name: GroupInServiceInstances
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Minimum,Maximum,Average]
-  aws_dimension_select_regex:
-    AutoScalingGroupName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
   # AWS Lambda
 - aws_namespace: AWS/Lambda
