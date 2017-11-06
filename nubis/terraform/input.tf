@@ -92,3 +92,7 @@ variable "password" {
 variable "live_app" {
   default = ""
 }
+
+variable "instance_type" {
+  default = "t2.small"
+}
