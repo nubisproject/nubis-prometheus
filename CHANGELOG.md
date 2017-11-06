@@ -10,9 +10,12 @@
 - \[memory\] Create some swap on startup [\#246](https://github.com/nubisproject/nubis-prometheus/issues/246)
 - \[dashboard\] Update rules for consul\_exporter 0.3.0 [\#161](https://github.com/nubisproject/nubis-prometheus/issues/161)
 - \[cloudwatch\] Scrape EFS metrics [\#148](https://github.com/nubisproject/nubis-prometheus/issues/148)
+- Tag v2.0.3 release [\#261](https://github.com/nubisproject/nubis-prometheus/issues/261)
 
 **Merged pull requests:**
 
+- Merge v2.0.3 release into develop. \[skip ci\] [\#263](https://github.com/nubisproject/nubis-prometheus/pull/263) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.3 release \[skip ci\] [\#262](https://github.com/nubisproject/nubis-prometheus/pull/262) ([tinnightcap](https://github.com/tinnightcap))
 - Fix cloudwatch scraping for ASG [\#259](https://github.com/nubisproject/nubis-prometheus/pull/259) ([limed](https://github.com/limed))
 - Fixing consul prometheus alert rules [\#257](https://github.com/nubisproject/nubis-prometheus/pull/257) ([limed](https://github.com/limed))
 - Patch v2.0.2 [\#256](https://github.com/nubisproject/nubis-prometheus/pull/256) ([gozer](https://github.com/gozer))
