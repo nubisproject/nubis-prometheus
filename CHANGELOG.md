@@ -1,5 +1,30 @@
 # Change Log
 
+## [v2.0.3](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.3) (2017-11-03)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.2...v2.0.3)
+
+**Closed issues:**
+
+- \[traefik\] Upgrade traefik to 1.4.1 [\#249](https://github.com/nubisproject/nubis-prometheus/issues/249)
+- \[rules\] Get rid of IpForwardingEnabledNonNAT [\#248](https://github.com/nubisproject/nubis-prometheus/issues/248)
+- \[memory\] Create some swap on startup [\#246](https://github.com/nubisproject/nubis-prometheus/issues/246)
+- \[dashboard\] Update rules for consul\_exporter 0.3.0 [\#161](https://github.com/nubisproject/nubis-prometheus/issues/161)
+- \[cloudwatch\] Scrape EFS metrics [\#148](https://github.com/nubisproject/nubis-prometheus/issues/148)
+- Tag v2.0.3 release [\#261](https://github.com/nubisproject/nubis-prometheus/issues/261)
+
+**Merged pull requests:**
+
+- Merge v2.0.3 release into develop. \[skip ci\] [\#263](https://github.com/nubisproject/nubis-prometheus/pull/263) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.3 release \[skip ci\] [\#262](https://github.com/nubisproject/nubis-prometheus/pull/262) ([tinnightcap](https://github.com/tinnightcap))
+- Fix cloudwatch scraping for ASG [\#259](https://github.com/nubisproject/nubis-prometheus/pull/259) ([limed](https://github.com/limed))
+- Fixing consul prometheus alert rules [\#257](https://github.com/nubisproject/nubis-prometheus/pull/257) ([limed](https://github.com/limed))
+- Patch v2.0.2 [\#256](https://github.com/nubisproject/nubis-prometheus/pull/256) ([gozer](https://github.com/gozer))
+- Upgrade to Traefik v1.4.1 [\#255](https://github.com/nubisproject/nubis-prometheus/pull/255) ([gozer](https://github.com/gozer))
+- Make swapfile a tunable [\#254](https://github.com/nubisproject/nubis-prometheus/pull/254) ([gozer](https://github.com/gozer))
+- Remove IpForwardingEnabledNonNAT alert [\#251](https://github.com/nubisproject/nubis-prometheus/pull/251) ([limed](https://github.com/limed))
+- Efs scrape [\#250](https://github.com/nubisproject/nubis-prometheus/pull/250) ([limed](https://github.com/limed))
+- Merge my changes back in [\#247](https://github.com/nubisproject/nubis-prometheus/pull/247) ([limed](https://github.com/limed))
+
 ## [v2.0.2](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.2) (2017-10-25)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.1...v2.0.2)
 
@@ -9,13 +34,16 @@
 
 **Closed issues:**
 
-- Tag v2.0.2 release [\#237](https://github.com/nubisproject/nubis-prometheus/issues/237)
-- Tag v2.0.2 release [\#234](https://github.com/nubisproject/nubis-prometheus/issues/234)
 - Scrape squid exporter metrics [\#228](https://github.com/nubisproject/nubis-prometheus/issues/228)
 - \[cloudwatch\] Add AWS/Lambda Throttles metric [\#163](https://github.com/nubisproject/nubis-prometheus/issues/163)
+- Tag v2.0.2 release [\#241](https://github.com/nubisproject/nubis-prometheus/issues/241)
+- Tag v2.0.2 release [\#237](https://github.com/nubisproject/nubis-prometheus/issues/237)
+- Tag v2.0.2 release [\#234](https://github.com/nubisproject/nubis-prometheus/issues/234)
 
 **Merged pull requests:**
 
+- Merge v2.0.2 release into develop. \[skip ci\] [\#245](https://github.com/nubisproject/nubis-prometheus/pull/245) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.2 release \[skip ci\] [\#244](https://github.com/nubisproject/nubis-prometheus/pull/244) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v2.0.2 release \[skip ci\] [\#243](https://github.com/nubisproject/nubis-prometheus/pull/243) ([tinnightcap](https://github.com/tinnightcap))
 - Merge v2.0.2 release into develop. \[skip ci\] [\#240](https://github.com/nubisproject/nubis-prometheus/pull/240) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v2.0.2 release \[skip ci\] [\#239](https://github.com/nubisproject/nubis-prometheus/pull/239) ([tinnightcap](https://github.com/tinnightcap))
