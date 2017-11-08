@@ -8,7 +8,7 @@ checkNewVersion = false
       entryPoint = "https"
   [entryPoints.https]
     address = ":443"
-    proxyprotocol = true
+    [entryPoints.https.proxyProtocol]
     [entryPoints.https.tls]
 {{if exists "/config/Federation/HTPassword"}}
     [entryPoints.https.auth.basic]
