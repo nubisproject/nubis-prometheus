@@ -9,6 +9,7 @@ checkNewVersion = false
   [entryPoints.https]
     address = ":443"
     [entryPoints.https.proxyProtocol]
+        trustedIPs = [ "127.0.0.1/32", "172.16.0.0/16" ]
     [entryPoints.https.tls]
 {{if exists "/config/Federation/HTPassword"}}
     [entryPoints.https.auth.basic]
