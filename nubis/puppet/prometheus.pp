@@ -208,7 +208,7 @@ upstart::job { 'blackbox':
     . /etc/profile.d/proxy.sh
   fi
 
-  exec /opt/prometheus/blackbox_exporter -config.file /etc/prometheus/blackbox.yml -log.level info -log.format "logger:syslog?appname=blackbox_exporter&local=7"
+  exec /opt/prometheus/blackbox_exporter --config.file /etc/prometheus/blackbox.yml --log.level info
 ',
     post_stop      => '
 goal=$(initctl status $UPSTART_JOB | awk \'{print $2}\' | cut -d \'/\' -f 1)
