@@ -96,3 +96,8 @@ variable "live_app" {
 variable "instance_type" {
   default = "t2.small"
 }
+
+#In gigabytes
+variable "volume_size" {
+  default = "128"
+}
