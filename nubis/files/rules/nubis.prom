@@ -11,7 +11,7 @@ ALERT InstanceDown
   }
 
 ALERT ConsulDown
-  IF drop_common_labels(label_replace(label_replace(sum(consul_agent_check{check="serfHealth",job="consul"} == 1) BY (node), "instance", "$1", "node", "(.*)"),"node","XXX","node",".*")) * on (instance) group_left (project,arena,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws != 3
+  IF label_replace(label_replace(sum(consul_agent_check{check="serfHealth",job="consul"} == 1) BY (node), "instance", "$1", "node", "(.*)"),"node","XXX","node",".*") * on (instance) group_left (project,arena,environment,account) nubis  * on (instance) group_left(instance_type, availability_zone, region) aws != 3
   FOR 5m
   LABELS {
     severity = "critical",
@@ -25,7 +25,7 @@ ALERT ConsulDown
 # We expect all our Consul services to have at least 1 healthy member
 # Except for tainted instances, these we filter out here
 ALERT ConsulServiceDown
-  IF drop_common_labels(label_replace(label_replace(min(consul_catalog_service_node_healthy{service_name!="tainted"}) BY (service, node)  - ON  (node) GROUP_LEFT(instance) min(consul_agent_check{check="serfHealth"}) BY (node), "instance", "$1", "node", "(.*)"), "node", "XXX", "node", ".*")) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws < 0
+  IF count(label_replace(min(consul_catalog_service_node_healthy{service!="tainted"}) BY (service, node) - ON(node) GROUP_LEFT(instance) min(consul_agent_check{check="serfHealth"}) BY (node), "instance", "$1", "node", "(.*)") < 0) by (service, instance) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
   FOR 5m
   LABELS {
     severity = "critical",
