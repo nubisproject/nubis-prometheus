@@ -1,0 +1,10 @@
+#!/bin/bash -l
+
+FORCE=$1
+
+BUCKET=$(nubis-metadata NUBIS_PROMETHEUS_BUCKET)
+
+if [ -e "/var/lib/prometheus/PRISTINE" ] || [ ! -z "$FORCE" ]; then
+  echo "Restoring from S3"
+  aws --region "$(nubis-region)" s3 sync --delete --exclude WHEN "s3://${BUCKET}/" "/var/lib/prometheus/" 
+fi

@@ -1,0 +1,57 @@
+groups:
+- name: squid.prom
+  rules:
+  - record: squid:squid_cacheServerRequests:rate5m
+    expr: rate(squid_server_all_requests[5m])
+  - record: squid:squid_cacheServerRequests:rate60m
+    expr: rate(squid_server_all_requests[1h])
+  - record: squid:squid_cacheServerInKb:rate5m
+    expr: rate(squid_server_all_kbytes_in[5m])
+  - record: squid:squid_cacheServerInKb:rate60m
+    expr: rate(squid_server_all_kbytes_in[1h])
+  - record: squid:squid_cacheServerOutKb:rate5m
+    expr: rate(squid_server_all_kbytes_out[5m])
+  - record: squid:squid_cacheServerOutKb:rate60m
+    expr: rate(squid_server_all_kbytes_out[1h])
+  - alert: SquidRequestsSpike
+    expr: (abs(squid:squid_cacheServerRequests:rate5m - avg_over_time(squid:squid_cacheServerRequests:rate5m[1h]))
+      > 2 * stddev_over_time(squid:squid_cacheServerRequests:rate5m[1h])) / stddev_over_time(squid:squid_cacheServerRequests:rate5m[1h])
+      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance)
+      GROUP_LEFT(instance_type, availability_zone, region) aws
+    for: 15m
+    labels:
+      platform: nubis
+      severity: critical
+      type: anomaly
+    annotations:
+      description: '{{ $labels.instance }} is showing a request spike of {{ $value
+        }} stddevs, more than 2 over the average'
+      summary: Anomalous request spike on {{ $labels.instance }}
+  - alert: SquidOutKbSpike
+    expr: (abs(squid:squid_cacheServerOutKb:rate5m - avg_over_time(squid:squid_cacheServerOutKb:rate5m[1h]))
+      > 2 * stddev_over_time(squid:squid_cacheServerOutKb:rate5m[1h])) / stddev_over_time(squid:squid_cacheServerOutKb:rate5m[1h])
+      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance)
+      GROUP_LEFT(instance_type, availability_zone, region) aws
+    for: 15m
+    labels:
+      platform: nubis
+      severity: critical
+      type: anomaly
+    annotations:
+      description: '{{ $labels.instance }} is showing an inbound spike of {{ $value
+        }} stddevs, more than 2 over the average'
+      summary: Anomalous request spike on {{ $labels.instance }}
+  - alert: SquidInKbSpike
+    expr: (abs(squid:squid_cacheServerInKb:rate5m - avg_over_time(squid:squid_cacheServerInKb:rate5m[1h]))
+      > 2 * stddev_over_time(squid:squid_cacheServerInKb:rate5m[1h])) / stddev_over_time(squid:squid_cacheServerInKb:rate5m[1h])
+      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance)
+      GROUP_LEFT(instance_type, availability_zone, region) aws
+    for: 15m
+    labels:
+      platform: nubis
+      severity: critical
+      type: anomaly
+    annotations:
+      description: '{{ $labels.instance }} is showing an outbound KB spike of {{ $value
+        }} stddevs, more than 2 over the average'
+      summary: Anomalous request spike on {{ $labels.instance }}

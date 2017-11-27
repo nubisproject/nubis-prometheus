@@ -12,4 +12,4 @@ keys = [
     "/config"
 ]
 
-reload_cmd = "/sbin/reload alertmanager || /sbin/restart alertmanager || /sbin/start alertmanager"
+reload_cmd = "/bin/systemctl restart alertmanager"

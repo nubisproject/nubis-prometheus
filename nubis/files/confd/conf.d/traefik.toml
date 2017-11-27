@@ -12,4 +12,4 @@ keys = [
     "/config"
 ]
 
-reload_cmd = "/sbin/reload traefik || /sbin/restart traefik || /sbin/start traefik"
+reload_cmd = "/bin/systemctl restart traefik"

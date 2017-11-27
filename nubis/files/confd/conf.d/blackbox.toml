@@ -12,4 +12,4 @@ keys = [
     "/config"
 ]
 
-reload_cmd = "/sbin/reload blackbox || /sbin/restart blackbox || /sbin/start blackbox"
+reload_cmd = "/bin/systemctl restart blackbox"

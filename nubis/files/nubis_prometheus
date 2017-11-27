@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# No Proxy for us
+
+exec >> /var/log/prometheus.log
+exec 2>&1
+
+exec /opt/prometheus/prometheus \
+  --web.listen-address :81 \
+  --storage.tsdb.path /var/lib/prometheus \
+  --config.file /etc/prometheus/config.yml \
+  --web.external-url "https://sso.$(nubis-metadata NUBIS_ARENA).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/prometheus" \
+  --storage.tsdb.retention=15d \
+  --web.enable-admin-api
+
+
+#      --storage.tsdb.min-block-duration=2h  
+#                                 Minimum duration of a data block before being persisted.
+#      --storage.tsdb.max-block-duration=<duration>  
+#                                 Maximum duration compacted blocks may span. (Defaults to 10% of the retention period)
