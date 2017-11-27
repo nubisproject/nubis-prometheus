@@ -1,5 +1,6 @@
 defaultEntryPoints = ["http","https"]
 checkNewVersion = false
+traefikLogsFile = "/var/log/traefik_error.log"
 
 [entryPoints]
   [entryPoints.http]
@@ -9,7 +10,7 @@ checkNewVersion = false
   [entryPoints.https]
     address = ":443"
     [entryPoints.https.proxyProtocol]
-        trustedIPs = [ "127.0.0.1/32", "172.16.0.0/16" ]
+      trustedIPs = ["127.0.0.1/32", "10.0.0.0/8", "172.16.0.0/12"]
     [entryPoints.https.tls]
 {{if exists "/config/Federation/HTPassword"}}
     [entryPoints.https.auth.basic]
