@@ -21,32 +21,10 @@ file { '/usr/share/cloudwatch_exporter/cloudwatch_exporter.jar':
   target => "cloudwatch_exporter-${cloudwatch_exporter_version}.jar"
 }
 
-upstart::job { 'cloudwatch_exporter':
-    description    => 'CloudWatch Exporter',
-    service_ensure => 'stopped',
-    require        => [
-      Staging::File["cloudwatch.${cloudwatch_exporter_version}.jar"],
-    ],
-    # Never give up
-    respawn        => true,
-    respawn_limit  => 'unlimited',
-    start_on       => '(local-filesystems and net-device-up IFACE!=lo)',
-    user           => 'root',
-    group          => 'root',
-    exec           => "java -Dhttps.proxyHost=proxy.service.consul -Dhttps.proxyPort=3128 -jar /usr/share/cloudwatch_exporter/cloudwatch_exporter.jar ${cloudwatch_exporter_port} /etc/cloudwatch_exporter.yml",
+systemd::unit_file { 'cloudwatch_exporter.service':
+  source => 'puppet:///nubis/files/cloudwatch_exporter.systemd',
 }
 
-upstart::job { 'cloudwatch_exporter_billing':
-    description    => 'CloudWatch Exporter for Billing',
-    service_ensure => 'stopped',
-    require        => [
-      Staging::File["cloudwatch.${cloudwatch_exporter_version}.jar"],
-    ],
-    # Never give up
-    respawn        => true,
-    respawn_limit  => 'unlimited',
-    start_on       => '(local-filesystems and net-device-up IFACE!=lo)',
-    user           => 'root',
-    group          => 'root',
-    exec           => "java -Dhttps.proxyHost=proxy.service.consul -Dhttps.proxyPort=3128 -jar /usr/share/cloudwatch_exporter/cloudwatch_exporter.jar ${cloudwatch_exporter_billing_port} /etc/cloudwatch_exporter_billing.yml",
+systemd::unit_file { 'cloudwatch_exporter_billing.service':
+  source => 'puppet:///nubis/files/cloudwatch_exporter_billing.systemd',
 }
