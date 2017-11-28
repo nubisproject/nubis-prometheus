@@ -1,0 +1,16 @@
+[Unit]
+Description=Prometheus
+Wants=basic.target
+After=basic.target network.target
+
+[Service]
+Restart=on-failure
+RestartSec=10s
+LimitNOFILE=65536
+
+ExecStartPre=/usr/local/bin/prometheus-restore
+ExecStart=/usr/local/bin/nubis_prometheus
+ExecStop=/usr/local/bin/prometheus-backup
+
+[Install]
+WantedBy=multi-user.target

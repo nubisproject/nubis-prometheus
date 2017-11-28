@@ -1,5 +1,5 @@
-$prometheus_version = '1.8.0'
-$alertmanager_version = '0.9.1'
+$prometheus_version = '2.0.0'
+$alertmanager_version = '0.10.0'
 $blackbox_version = '0.10.0'
 
 $prometheus_url = "https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-amd64.tar.gz"
@@ -34,30 +34,39 @@ file { '/etc/prometheus/nubis.rules.d':
   mode   => '0755',
 }
 
-file { '/etc/prometheus/nubis.rules.d/platform.prom':
+file { '/etc/prometheus/nubis.rules.d/platform.yml':
     ensure  => file,
     owner   => root,
     group   => root,
     mode    => '0755',
-    source  => 'puppet:///nubis/files/rules/nubis.prom',
+    source  => 'puppet:///nubis/files/rules/nubis.yml',
     require => File['/etc/prometheus/nubis.rules.d'],
 }
 
-file { '/etc/prometheus/nubis.rules.d/squid.prom':
+file { '/etc/prometheus/nubis.rules.d/squid.yml':
     ensure  => file,
     owner   => root,
     group   => root,
     mode    => '0755',
-    source  => 'puppet:///nubis/files/rules/squid.prom',
+    source  => 'puppet:///nubis/files/rules/squid.yml',
     require => File['/etc/prometheus/nubis.rules.d'],
 }
 
-file { '/etc/prometheus/nubis.rules.d/apache.prom':
+file { '/etc/prometheus/nubis.rules.d/apache.yml':
     ensure  => file,
     owner   => root,
     group   => root,
     mode    => '0755',
-    source  => 'puppet:///nubis/files/rules/apache.prom',
+    source  => 'puppet:///nubis/files/rules/apache.yml',
+    require => File['/etc/prometheus/nubis.rules.d'],
+}
+
+file { '/etc/prometheus/nubis.rules.d/mysql.yml':
+    ensure  => file,
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    source  => 'puppet:///nubis/files/rules/mysql.yml',
     require => File['/etc/prometheus/nubis.rules.d'],
 }
 
@@ -77,32 +86,6 @@ file { '/etc/nubis.d/prometheus':
     source => 'puppet:///nubis/files/prometheus-onboot',
 }
 
-# bootup prometheus actions
-file { '/etc/nubis.d/00-efs':
-    ensure => file,
-    owner  => root,
-    group  => root,
-    mode   => '0755',
-    source => 'puppet:///nubis/files/efs-onboot',
-}
-
-file { '/etc/init/prometheus.conf':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0644',
-    source  => 'puppet:///nubis/files/prometheus.upstart',
-    require => File['/etc/prometheus'],
-}
-
-file { '/etc/init/prometheus.override':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0644',
-    content => 'manual',
-}
-
 file { '/etc/consul/svc-prometheus.json':
     ensure => file,
     owner  => root,
@@ -117,6 +100,14 @@ file { '/etc/consul/svc-alertmanager.json':
     group  => root,
     mode   => '0644',
     source => 'puppet:///nubis/files/svc-alertmanager.json',
+}
+
+file { '/usr/local/bin/nubis_prometheus':
+    ensure => file,
+    owner  => root,
+    group  => root,
+    mode   => '0755',
+    source => 'puppet:///nubis/files/nubis_prometheus',
 }
 
 notice ("Grabbing prometheus ${prometheus_version}")
@@ -152,75 +143,23 @@ staging::extract { "blackbox.${blackbox_version}.tar.gz":
   require => File['/opt/prometheus'],
 }
 
-include 'upstart'
-
-upstart::job { 'alertmanager':
-    description    => 'Prometheus Alert Manager',
-    service_ensure => 'stopped',
-    # Never give up
-    respawn        => true,
-    respawn_limit  => 'unlimited',
-    start_on       => '(local-filesystems and net-device-up IFACE!=lo)',
-    env            => {
-      'SLEEP_TIME' => 1,
-      'GOMAXPROCS' => 2,
-    },
-    user           => 'root',
-    group          => 'root',
-    script         => '
-  if [ -r /etc/profile.d/proxy.sh ]; then
-    echo "Loading Proxy settings"
-    . /etc/profile.d/proxy.sh
-  fi
-
-  exec /opt/prometheus/alertmanager -config.file /etc/prometheus/alertmanager.yml -web.external-url "https://sso.$(nubis-metadata NUBIS_ARENA).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/alertmanager"
-',
-    post_stop      => '
-goal=$(initctl status $UPSTART_JOB | awk \'{print $2}\' | cut -d \'/\' -f 1)
-if [ $goal != "stop" ]; then
-    echo "Backoff for $SLEEP_TIME seconds"
-    sleep $SLEEP_TIME
-    NEW_SLEEP_TIME=`expr 2 \* $SLEEP_TIME`
-    if [ $NEW_SLEEP_TIME -ge 60 ]; then
-        NEW_SLEEP_TIME=60
-    fi
-    initctl set-env SLEEP_TIME=$NEW_SLEEP_TIME
-fi
-',
+systemd::unit_file { 'prometheus.service':
+  source => 'puppet:///nubis/files/prometheus.systemd',
+}->
+service { 'prometheus':
+  enable => true,
 }
 
-upstart::job { 'blackbox':
-    description    => 'Prometheus Blackbox Exporter',
-    service_ensure => 'stopped',
-    # Never give up
-    respawn        => true,
-    respawn_limit  => 'unlimited',
-    start_on       => '(local-filesystems and net-device-up IFACE!=lo)',
-    env            => {
-      'SLEEP_TIME' => 1,
-      'GOMAXPROCS' => 2,
-    },
-    user           => 'root',
-    group          => 'root',
-    script         => '
-  if [ -r /etc/profile.d/proxy.sh ]; then
-    echo "Loading Proxy settings"
-    . /etc/profile.d/proxy.sh
-  fi
-
-  exec /opt/prometheus/blackbox_exporter --config.file /etc/prometheus/blackbox.yml --log.level info
-',
-    post_stop      => '
-goal=$(initctl status $UPSTART_JOB | awk \'{print $2}\' | cut -d \'/\' -f 1)
-if [ $goal != "stop" ]; then
-    echo "Backoff for $SLEEP_TIME seconds"
-    sleep $SLEEP_TIME
-    NEW_SLEEP_TIME=`expr 2 \* $SLEEP_TIME`
-    if [ $NEW_SLEEP_TIME -ge 60 ]; then
-        NEW_SLEEP_TIME=60
-    fi
-    initctl set-env SLEEP_TIME=$NEW_SLEEP_TIME
-fi
-',
+systemd::unit_file { 'alertmanager.service':
+  source => 'puppet:///nubis/files/alertmanager.systemd',
+}->
+service { 'alertmanager':
+  enable => true,
 }
 
+systemd::unit_file { 'blackbox.service':
+  source => 'puppet:///nubis/files/blackbox.systemd',
+}->
+service { 'blackbox':
+  enable => true,
+}

@@ -12,4 +12,4 @@ keys = [
     "/config"
 ]
 
-reload_cmd = "/sbin/reload cloudwatch_exporter_billing || /sbin/restart cloudwatch_exporter_billing || /sbin/start cloudwatch_exporter_billing"
+reload_cmd = "/bin/systemctl restart cloudwatch_exporter_billing"

@@ -1,0 +1,5 @@
+groups:
+- name: mysql.prom
+  rules:
+  - record: mysql_slave_lag_seconds
+    expr: mysql_slave_status_seconds_behind_master - mysql_slave_status_sql_delay

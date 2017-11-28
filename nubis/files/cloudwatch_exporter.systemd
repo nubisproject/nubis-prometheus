@@ -1,0 +1,13 @@
+[Unit]
+Description=Cloudwatch Exporter Billing
+Wants=basic.target
+After=basic.target network.target
+
+[Service]
+Restart=on-failure
+RestartSec=10s
+
+ExecStart=/usr/bin/java -Dhttps.proxyHost=proxy.service.consul -Dhttps.proxyPort=3128 -jar /usr/share/cloudwatch_exporter/cloudwatch_exporter.jar 9116 /etc/cloudwatch_exporter.yml
+
+[Install]
+WantedBy=multi-user.target

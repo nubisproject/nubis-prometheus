@@ -15,13 +15,6 @@ if [ "$NUBIS_REGION" != "" ]; then
   consulate kv set "$KV_PREFIX/RegionName" "$NUBIS_REGION"
 fi
 
-EFS_ID=$(nubis-metadata NUBIS_PROMETHEUS_FSID)
-if [ "$EFS_ID" != "" ]; then
-  EFS_TARGET="$EFS_ID.efs.$NUBIS_REGION.amazonaws.com"
-  echo "Mounting EFS:$EFS_ID"
-  mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 "$EFS_TARGET:/" "/var/lib/prometheus"
-fi
-
 NUBIS_ARENA_INDEX=$(nubis-metadata NUBIS_ARENA_INDEX)
 if [ "$NUBIS_ARENA_INDEX" != "" ]; then
   consulate kv set "$KV_PREFIX/ArenaIndex" "$NUBIS_ARENA_INDEX"

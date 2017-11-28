@@ -1,4 +1,0 @@
-# Record slave lag seconds for pre-computed timeseries that takes
-# `mysql_slave_status_sql_delay` into account
-
-mysql_slave_lag_seconds = mysql_slave_status_seconds_behind_master - mysql_slave_status_sql_delay
