@@ -113,7 +113,7 @@ groups:
       severity: critical
     annotations:
       description: Healthy prometheus servers count isn't 1
-      summary: Unexpected number of healthy Fluentd nodes
+      summary: Unexpected number of healthy Prometheus nodes
   - alert: ConsulAlertmanagerAvailable
     expr: absent(count(count(consul_catalog_service_node_healthy{job="consul",service="alertmanager"}
       == 1) BY (node)) == 1)
@@ -123,7 +123,7 @@ groups:
       severity: critical
     annotations:
       description: Healthy alertmanager servers count isn't 1
-      summary: Unexpected number of healthy Fluentd nodes
+      summary: Unexpected number of healthy AlertManager nodes
   - alert: PredictDiskFull24h
     expr: predict_linear(node_filesystem_free{job="node"}[1h], 24 * 60 * 60) * ON(instance)
       GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type,
