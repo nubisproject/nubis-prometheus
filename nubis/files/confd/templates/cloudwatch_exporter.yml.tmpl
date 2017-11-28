@@ -138,7 +138,13 @@ metrics:
   aws_dimension_select_regex:
     FunctionName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
 
-<<<<<<< HEAD
+- aws_namespace: AWS/Lambda
+  aws_metric_name: Throttles
+  aws_dimensions: [FunctionName]
+  aws_statistics: [Minimum,Maximum,Sum,Average]
+  aws_dimension_select_regex:
+    FunctionName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
 # AWS EFS
 - aws_namespace: AWS/EFS
   aws_metric_name: BurstCreditBalance
@@ -179,9 +185,3 @@ metrics:
   aws_metric_name: TotalIOBytes
   aws_dimensions: [FileSystemId]
   aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
-- aws_namespace: AWS/Lambda
-  aws_metric_name: Throttles
-  aws_dimensions: [FunctionName]
-  aws_statistics: [Minimum,Maximum,Sum,Average]
-  aws_dimension_select_regex:
-    FunctionName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
