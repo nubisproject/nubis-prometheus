@@ -8,6 +8,6 @@ SNAPSHOT=$(curl -s -X POST http://localhost:81/prometheus/api/v2/admin/tsdb/snap
 
 if [ "$SNAPSHOT" != "" ]; then
   date > "/var/lib/prometheus/snapshots/$SNAPSHOT/WHEN"
-  nice -19 aws --region "$(nubis-region)" s3 sync --exclude lock --exclude snapshots/ --exclude PRISTINE --delete "/var/lib/prometheus/snapshots/$SNAPSHOT/" "s3://${BUCKET}/"
+  nice -n 19 aws --region "$(nubis-region)" s3 sync --exclude lock --exclude snapshots/ --exclude PRISTINE --delete "/var/lib/prometheus/snapshots/$SNAPSHOT/" "s3://${BUCKET}/"
   rm -rf "/var/lib/prometheus/snapshots/$SNAPSHOT"
 fi
