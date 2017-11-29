@@ -311,7 +311,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "count(consul_catalog_service_nodes{service=\"consul\"}) == 3",
+              "expr": "count(consul_raft_leader{job=\"consul\"}) == 3",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
@@ -389,7 +389,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "avg(consul_catalog_service_node_healthy{service=\"fluentd\"}) >= 1",
+              "expr": "avg(consul_catalog_service_node_healthy{service_name=\"fluentd\"}) >= 1",
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
@@ -667,7 +667,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "avg(consul_catalog_service_nodes{job=\"consul\", service=\"es\"})",
+              "expr": "avg(consul_catalog_service_node_healthy{job=\"consul\", service_name=\"es\"}) >= 1",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 1,
@@ -745,5 +745,5 @@
   },
   "timezone": "",
   "title": "Nubis - Platform Status",
-  "version": 6
+  "version": 0
 }

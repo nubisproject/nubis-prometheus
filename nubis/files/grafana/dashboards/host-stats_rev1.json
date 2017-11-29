@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "DS_MAYA",
-      "label": "",
+      "name": "DS_PROMETHEUS",
+      "label": "prometheus",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
@@ -11,59 +11,56 @@
   ],
   "__requires": [
     {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "4.5.1"
+    },
+    {
       "type": "panel",
       "id": "graph",
       "name": "Graph",
       "version": ""
     },
     {
-      "type": "panel",
-      "id": "table",
-      "name": "Table",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "3.1.1"
-    },
-    {
       "type": "datasource",
       "id": "prometheus",
       "name": "Prometheus",
       "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
     }
   ],
-  "id": null,
-  "title": "Host Stats - Prometheus Node Exporter",
-  "tags": [],
-  "style": "dark",
-  "timezone": "browser",
+  "annotations": {
+    "list": []
+  },
+  "description": "Basic host stats: CPU, Memory Usage, Disk Utilisation,  Filesystem usage and Predicted time to filesystems filling",
   "editable": true,
+  "gnetId": 718,
+  "graphTooltip": 0,
   "hideControls": false,
-  "sharedCrosshair": false,
+  "id": null,
+  "links": [],
   "rows": [
     {
       "collapse": false,
-      "editable": true,
       "height": "250px",
       "panels": [
         {
           "aliasColors": {},
           "bars": false,
+          "dashLength": 10,
+          "dashes": false,
           "datasource": "prometheus",
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 1,
-          "isNew": true,
           "legend": {
             "avg": false,
             "current": false,
@@ -82,6 +79,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
+          "spaceLength": 10,
           "span": 6,
           "stack": true,
           "steppedLine": false,
@@ -93,54 +91,55 @@
               "legendFormat": "{{mode}}",
               "metric": "node_cpu",
               "refId": "A",
-              "step": 60
+              "step": 40
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "CPU",
           "tooltip": {
+            "msResolution": false,
             "shared": true,
-            "value_type": "individual",
             "sort": 0,
-            "msResolution": false
+            "value_type": "individual"
           },
           "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
           "yaxes": [
             {
-              "show": true,
-              "min": null,
-              "max": 1,
+              "format": "percentunit",
               "logBase": 1,
-              "format": "percentunit"
+              "max": 1,
+              "min": null,
+              "show": true
             },
             {
-              "show": true,
-              "min": null,
-              "max": null,
+              "format": "short",
               "logBase": 1,
-              "format": "short"
+              "max": null,
+              "min": null,
+              "show": true
             }
-          ],
-          "xaxis": {
-            "show": true
-          }
+          ]
         },
         {
           "aliasColors": {},
           "bars": false,
+          "dashLength": 10,
+          "dashes": false,
           "datasource": "prometheus",
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 2,
-          "isNew": true,
           "legend": {
             "alignAsTable": false,
             "avg": false,
@@ -163,6 +162,7 @@
           "renderer": "flot",
           "repeat": null,
           "seriesOverrides": [],
+          "spaceLength": 10,
           "span": 6,
           "stack": true,
           "steppedLine": false,
@@ -172,21 +172,21 @@
               "intervalFactor": 2,
               "legendFormat": "Used",
               "refId": "A",
-              "step": 60
+              "step": 40
             },
             {
               "expr": "node_memory_Buffers{job='node',instance='$instance'}",
               "intervalFactor": 2,
               "legendFormat": "Buffers",
               "refId": "B",
-              "step": 60
+              "step": 40
             },
             {
               "expr": "node_memory_Cached{job='node',instance='$instance'}",
               "intervalFactor": 2,
               "legendFormat": "Cached",
               "refId": "D",
-              "step": 60
+              "step": 40
             },
             {
               "expr": "node_memory_MemFree{job='node',instance='$instance'}",
@@ -194,63 +194,68 @@
               "intervalFactor": 2,
               "legendFormat": "Free",
               "refId": "C",
-              "step": 60
+              "step": 40
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Memory",
           "tooltip": {
+            "msResolution": false,
             "shared": true,
-            "value_type": "individual",
             "sort": 0,
-            "msResolution": false
+            "value_type": "individual"
           },
           "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
           "yaxes": [
             {
-              "show": true,
-              "min": 0,
-              "max": null,
-              "logBase": 1,
               "format": "bytes",
-              "label": ""
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
             },
             {
-              "show": true,
-              "min": null,
-              "max": null,
+              "format": "short",
               "logBase": 1,
-              "format": "short"
+              "max": null,
+              "min": null,
+              "show": true
             }
-          ],
-          "xaxis": {
-            "show": true
-          }
+          ]
         }
       ],
-      "title": "Row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Row",
+      "titleSize": "h6"
     },
     {
       "collapse": false,
-      "editable": true,
       "height": "250px",
       "panels": [
         {
           "aliasColors": {},
           "bars": false,
+          "dashLength": 10,
+          "dashes": false,
           "datasource": "prometheus",
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 3,
-          "isNew": true,
           "legend": {
             "avg": false,
             "current": false,
@@ -269,6 +274,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
+          "spaceLength": 10,
           "span": 4,
           "stack": false,
           "steppedLine": false,
@@ -278,54 +284,55 @@
               "intervalFactor": 2,
               "legendFormat": "{{device}}",
               "refId": "A",
-              "step": 120
+              "step": 60
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Disk I/O Utilisation",
           "tooltip": {
+            "msResolution": false,
             "shared": true,
-            "value_type": "cumulative",
             "sort": 0,
-            "msResolution": false
+            "value_type": "cumulative"
           },
           "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
           "yaxes": [
             {
-              "show": true,
-              "min": null,
-              "max": 1,
+              "format": "percentunit",
               "logBase": 1,
-              "format": "percentunit"
+              "max": 1,
+              "min": null,
+              "show": true
             },
             {
-              "show": true,
-              "min": null,
-              "max": null,
+              "format": "short",
               "logBase": 1,
-              "format": "short"
+              "max": null,
+              "min": null,
+              "show": true
             }
-          ],
-          "xaxis": {
-            "show": true
-          }
+          ]
         },
         {
           "aliasColors": {},
           "bars": false,
+          "dashLength": 10,
+          "dashes": false,
           "datasource": "prometheus",
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
           "id": 4,
-          "isNew": true,
           "legend": {
             "avg": false,
             "current": false,
@@ -344,6 +351,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
+          "spaceLength": 10,
           "span": 4,
           "stack": false,
           "steppedLine": false,
@@ -354,38 +362,43 @@
               "intervalFactor": 2,
               "legendFormat": "{{mountpoint}}",
               "refId": "A",
-              "step": 120
+              "step": 60
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Filesystem Fullness",
           "tooltip": {
+            "msResolution": false,
             "shared": true,
-            "value_type": "cumulative",
             "sort": 0,
-            "msResolution": false
+            "value_type": "cumulative"
           },
           "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
           "yaxes": [
             {
-              "show": true,
-              "min": 0,
-              "max": 1,
+              "format": "percentunit",
               "logBase": 1,
-              "format": "percentunit"
+              "max": 1,
+              "min": 0,
+              "show": true
             },
             {
-              "show": true,
-              "min": null,
-              "max": null,
+              "format": "short",
               "logBase": 1,
-              "format": "short"
+              "max": null,
+              "min": null,
+              "show": true
             }
-          ],
-          "xaxis": {
-            "show": true
-          }
+          ]
         },
         {
           "columns": [
@@ -394,12 +407,12 @@
               "value": "current"
             }
           ],
+          "datasource": "prometheus",
           "editable": true,
           "error": false,
           "fontSize": "100%",
           "hideTimeOverride": true,
           "id": 5,
-          "isNew": true,
           "links": [],
           "pageSize": null,
           "scroll": true,
@@ -432,23 +445,59 @@
           "targets": [
             {
               "expr": "(node_filesystem_size{job='node',instance='$instance'} - node_filesystem_free{job='node',instance='$instance'}) / deriv(node_filesystem_free{job='node',instance='$instance',fstype!='rootfs',mountpoint!~'/(run|var).*',mountpoint!=''}[3d]) > 0",
+              "format": "table",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "{{mountpoint}}",
               "refId": "A",
-              "step": 20
+              "step": 10
             }
           ],
           "timeFrom": "1h",
           "timeShift": null,
           "title": "Filesystem Fill Up Time",
-          "transform": "timeseries_aggregations",
+          "transform": "table",
           "type": "table"
         }
       ],
-      "title": "New row"
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "New row",
+      "titleSize": "h6"
     }
   ],
+  "schemaVersion": 14,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allFormat": "glob",
+        "allValue": null,
+        "current": {},
+        "datasource": "prometheus",
+        "hide": 0,
+        "hideLabel": false,
+        "includeAll": false,
+        "label": "Machine",
+        "multi": false,
+        "multiFormat": "glob",
+        "name": "instance",
+        "options": [],
+        "query": "query_result(up{job=\"node\"} == 1)",
+        "refresh": 1,
+        "regex": ".*instance=\"(.*?)\".*",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
   "time": {
     "from": "now-6h",
     "to": "now"
@@ -479,33 +528,7 @@
       "30d"
     ]
   },
-  "templating": {
-    "list": [
-      {
-        "allFormat": "glob",
-        "current": {},
-        "datasource": "prometheus",
-        "hideLabel": false,
-        "includeAll": false,
-        "label": "Machine",
-        "multi": false,
-        "multiFormat": "glob",
-        "name": "instance",
-        "options": [],
-        "query": "up{job=\"node\"}",
-        "refresh": 1,
-        "regex": ".*instance=\"(.*?)\".*",
-        "type": "query",
-        "hide": 0
-      }
-    ]
-  },
-  "annotations": {
-    "list": []
-  },
-  "schemaVersion": 12,
-  "version": 12,
-  "links": [],
-  "gnetId": 718,
-  "description": "Basic host stats: CPU, Memory Usage, Disk Utilisation,  Filesystem usage and Predicted time to filesystems filling"
+  "timezone": "browser",
+  "title": "Host Stats - Prometheus Node Exporter",
+  "version": 0
 }
