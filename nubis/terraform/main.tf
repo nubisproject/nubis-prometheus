@@ -447,18 +447,6 @@ resource "aws_elb" "traefik" {
   }
 }
 
-resource "aws_route53_record" "traefik-wildcard" {
-  count   = "${var.enabled * length(var.arenas)}"
-  zone_id = "${var.zone_id}"
-  name    = "*.mon.${element(var.arenas, count.index)}"
-  type    = "CNAME"
-  ttl     = "30"
-
-  records = [
-    "mon.${element(var.arenas, count.index)}.${var.aws_region}.${var.service_name}.${var.nubis_domain}",
-  ]
-}
-
 resource "aws_route53_record" "traefik" {
   count   = "${var.enabled * length(var.arenas)}"
   zone_id = "${var.zone_id}"
