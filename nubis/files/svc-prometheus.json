@@ -3,7 +3,7 @@
     "name": "prometheus",
     "port": 81,
     "check": {
-       "http": "http://localhost:81/prometheus/status",
+       "http": "http://localhost:81/prometheus/-/healthy",
        "interval": "10s",
        "timeout": "1s"
     }
