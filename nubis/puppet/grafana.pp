@@ -92,7 +92,7 @@ file { '/usr/share/grafana/public/dashboards/home.json':
   owner   => root,
   group   => root,
   mode    => '0640',
-  source  => 'puppet:///nubis/files/default/home.json',
+  source  => 'puppet:///nubis/files/grafana/default/home.json',
   require =>  Class['grafana'],
 }
 
