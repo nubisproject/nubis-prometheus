@@ -91,7 +91,7 @@ file { '/usr/share/grafana/public/dashboards/home.json':
   ensure  => file,
   owner   => root,
   group   => root,
-  mode    => '0640',
+  mode    => '0644',
   source  => 'puppet:///nubis/files/grafana/default/home.json',
   require =>  Class['grafana'],
 }
