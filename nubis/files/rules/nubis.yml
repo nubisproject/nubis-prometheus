@@ -26,7 +26,7 @@ groups:
       description: '{{ $labels.node }} Consul se health reporting unhealthy'
       summary: Consul not healthy on {{ $labels.node }}
   - alert: ConsulServiceDown
-    expr: label_replace(label_replace(min(consul_catalog_service_node_healthy{service!="tainted"})
+    expr: label_replace(label_replace(min(consul_catalog_service_node_healthy{service_id!="tainted"})
       BY (service, node) - ON(node) GROUP_LEFT(instance) min(consul_agent_check{check="serfHealth"})
       BY (node), "instance", "$1", "node", "(.*)"), "node", "XXX", "node", ".*") *
       ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance)
@@ -75,7 +75,7 @@ groups:
         Quorum
       summary: Consul Insufficient Peers
   - alert: ConsulProxyAvailable
-    expr: absent(count(count(consul_catalog_service_node_healthy{job="consul",service="proxy"}
+    expr: absent(count(count(consul_catalog_service_node_healthy{job="consul",service_id="proxy"}
       == 1) BY (node)) == 2)
     for: 5m
     labels:
@@ -85,7 +85,7 @@ groups:
       description: Healthy Proxy servers count isn't 2
       summary: Unexpected number of healthy proxy nodes
   - alert: ConsulConsulAvailable
-    expr: absent(count(count(consul_catalog_service_node_healthy{job="consul",service="consul"}
+    expr: absent(count(count(consul_catalog_service_node_healthy{job="consul",service_id="consul"}
       == 1) BY (node)) == 3)
     for: 5m
     labels:
@@ -95,7 +95,7 @@ groups:
       description: Healthy Consul servers count isn't 3
       summary: Unexpected number of healthy Consul nodes
   - alert: ConsulFluentAvailable
-    expr: absent(count(count(consul_catalog_service_node_healthy{job="consul",service="fluentd"}
+    expr: absent(count(count(consul_catalog_service_node_healthy{job="consul",service_id="fluentd"}
       == 1) BY (node)) == 1)
     for: 5m
     labels:
@@ -105,7 +105,7 @@ groups:
       description: Healthy fluentd servers count isn't 1
       summary: Unexpected number of healthy Fluentd nodes
   - alert: ConsulPrometheusAvailable
-    expr: absent(count(count(consul_catalog_service_node_healthy{job="consul",service="prometheus"}
+    expr: absent(count(count(consul_catalog_service_node_healthy{job="consul",service_id="prometheus"}
       == 1) BY (node)) == 1)
     for: 5m
     labels:
@@ -115,7 +115,7 @@ groups:
       description: Healthy prometheus servers count isn't 1
       summary: Unexpected number of healthy Prometheus nodes
   - alert: ConsulAlertmanagerAvailable
-    expr: absent(count(count(consul_catalog_service_node_healthy{job="consul",service="alertmanager"}
+    expr: absent(count(count(consul_catalog_service_node_healthy{job="consul",service_id="alertmanager"}
       == 1) BY (node)) == 1)
     for: 5m
     labels:
