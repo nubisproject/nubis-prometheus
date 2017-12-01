@@ -30,8 +30,10 @@
     }
   ],
   "id": null,
-  "title": "Apache Status Codes",
-  "tags": [],
+  "title": "Nubis - Apache Status Codes",
+  "tags": [
+    "nubis"
+  ],
   "style": "dark",
   "timezone": "browser",
   "editable": true,

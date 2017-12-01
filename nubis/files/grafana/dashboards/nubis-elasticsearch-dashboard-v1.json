@@ -673,9 +673,7 @@
   "schemaVersion": 14,
   "style": "dark",
   "tags": [
-    "infra",
-    "b2c",
-    "elastic"
+    "nubis"
   ],
   "templating": {
     "list": [
