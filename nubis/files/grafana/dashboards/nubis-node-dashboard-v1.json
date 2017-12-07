@@ -52,6 +52,7 @@
   "hideControls": false,
   "id": null,
   "links": [],
+  "refresh": "1m",
   "rows": [
     {
       "collapse": false,
@@ -92,25 +93,28 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "node_load1 * on(instance) GROUP_LEFT(project,environment,account) nubis{project=\"$project\", instance=\"$instance\"}",
+              "expr": "node_load1 * on(instance) GROUP_LEFT(project,arena, environment,account) nubis{project=\"$project\", instance=~\"$instance\", environment= \"$environment\"}",
+              "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "load1",
+              "legendFormat": "load1 - {{instance}}",
               "refId": "A",
-              "step": 40
+              "step": 10
             },
             {
-              "expr": "node_load5 * on(instance) GROUP_LEFT(project,environment,account) nubis{project=\"$project\", instance=\"$instance\"}",
+              "expr": "node_load5 * on(instance) GROUP_LEFT(project,arena, environment,account) nubis{project=\"$project\", instance=~\"$instance\", environment= \"$environment\"}",
+              "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "load5",
+              "legendFormat": "load5  - {{instance}}",
               "refId": "B",
-              "step": 40
+              "step": 10
             },
             {
-              "expr": "node_load15 * on(instance) GROUP_LEFT(project,environment,account) nubis{project=\"$project\", instance=\"$instance\"}",
+              "expr": "node_load15 * on(instance) GROUP_LEFT(project,arena,environment,account) nubis{project=\"$project\", instance=~\"$instance\", environment= \"$environment\"}",
+              "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "load15",
+              "legendFormat": "load15 - {{instance}}",
               "refId": "C",
-              "step": 40
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -193,7 +197,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{ASG max size}} - {{auto_scaling_group_name}}",
               "refId": "A",
-              "step": 40
+              "step": 10
             },
             {
               "expr": "aws_autoscaling_group_in_service_instances_minimum{auto_scaling_group_name =~ \"$project-$environment.*\"}",
@@ -201,7 +205,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{ASG in service}}  - {{auto_scaling_group_name}}",
               "refId": "B",
-              "step": 40
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -289,11 +293,12 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(node_memory_MemFree{job=\"node\"}[5m]) * on(instance) GROUP_LEFT(project, environment,account) nubis{project=\"$project\"}",
+              "expr": "rate(node_memory_MemFree{job=\"node\"}[5m]) * on(instance) GROUP_LEFT(project,arena, environment,account) nubis{project=\"$project\", environment=\"$environment\"}",
+              "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Instance - {{instance}}",
               "refId": "A",
-              "step": 40
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -368,11 +373,12 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "rate(node_memory_Active{job=\"node\"}[5m]) * on(instance) GROUP_LEFT(project, environment,account) nubis{project=\"$project\"}",
+              "expr": "rate(node_memory_Active{job=\"node\"}[5m]) * on(instance) GROUP_LEFT(project, environment,account) nubis{project=\"$project\", environment=\"$environment\"}",
+              "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Instance - {{instance}}",
               "refId": "A",
-              "step": 40
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -437,10 +443,12 @@
           "height": "",
           "id": 3,
           "legend": {
+            "alignAsTable": true,
             "avg": false,
             "current": false,
             "max": false,
             "min": false,
+            "rightSide": true,
             "show": true,
             "total": false,
             "values": false
@@ -461,18 +469,20 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(node_disk_reads_completed{instance=~'$instance'}[5m])",
+              "expr": "irate(node_disk_reads_completed[5m]) * on (instance) GROUP_LEFT(project,arena, environment, account) nubis{instance =~ \"$instance\", environment = \"$environment\", project = \"$project\"}",
+              "format": "time_series",
               "interval": "20s",
               "intervalFactor": 4,
-              "legendFormat": "{{device}}_read",
+              "legendFormat": "{{device}}_read - {{instance}} ({{project}}/{{environment}})",
               "refId": "A",
               "step": 80
             },
             {
-              "expr": "irate(node_disk_writes_completed{instance=~'$instance'}[5m])",
+              "expr": "irate(node_disk_reads_writes[5m]) * on (instance) GROUP_LEFT(project,arena, environment, account) nubis{instance =~ \"$instance\", environment = \"$environment\", project = \"$project\"}",
+              "format": "time_series",
               "interval": "20s",
               "intervalFactor": 2,
-              "legendFormat": "{{device}}_write",
+              "legendFormat": "{{device}}_write - {{instance}} ({{project}}/{{environment}})",
               "refId": "B",
               "step": 40
             }
@@ -565,22 +575,24 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(node_network_receive_bytes{job=\"node\",instance=~\"$instance\"}[5m])",
+              "expr": "irate(node_network_receive_bytes{job=\"node\"}[5m]) * on (instance) GROUP_LEFT (project, arena, environment, account) nubis{instance =~ \"$instance\", project = \"$project\", environment = \"$environment\"}",
+              "format": "time_series",
               "hide": false,
               "interval": "2s",
               "intervalFactor": 2,
               "legendFormat": "receive - {{device}}",
               "refId": "A",
-              "step": 20
+              "step": 5
             },
             {
-              "expr": "irate(node_network_transmit_bytes{job=\"node\",instance=~\"$instance\"}[5m])",
+              "expr": "irate(node_network_transmit_bytes{job=\"node\"}[5m]) * on (instance) GROUP_LEFT (project, arena, environment, account) nubis{instance =~ \"$instance\", project = \"$project\", environment = \"$environment\"}",
+              "format": "time_series",
               "hide": false,
               "interval": "2s",
               "intervalFactor": 2,
               "legendFormat": "transmit - {{device}}",
               "refId": "B",
-              "step": 20
+              "step": 5
             }
           ],
           "thresholds": [],
@@ -657,19 +669,21 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(node_network_receive_packets{job=\"node\",instance=~\"$instance\"}[5m])",
+              "expr": "irate(node_network_receive_packets{job=\"node\"}[5m]) * on(instance) GROUP_LEFT (project, arena, environment, account) nubis {project = \"$project\", environment = \"$environment\", instance =~ \"$instance\"}",
+              "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
               "legendFormat": "receive - {{device}}",
               "refId": "A",
-              "step": 40
+              "step": 10
             },
             {
-              "expr": "irate(node_network_transmit_packets{job=\"node\",instance=~\"$instance\"}[5m])",
+              "expr": "irate(node_network_transmit_packets{job=\"node\"}[5m]) * on(instance) GROUP_LEFT (project, arena, environment, account) nubis {project = \"$project\", environment = \"$environment\", instance =~ \"$instance\"}",
+              "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "transmit - {{device}}",
               "refId": "B",
-              "step": 40
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -720,9 +734,7 @@
   ],
   "schemaVersion": 14,
   "style": "dark",
-  "tags": [
-    "nubis"
-  ],
+  "tags": [],
   "templating": {
     "list": [
       {
@@ -768,8 +780,8 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "cloudwatch",
-        "hide": 2,
+        "datasource": "prometheus",
+        "hide": 0,
         "includeAll": false,
         "label": "environment",
         "multi": false,
@@ -790,12 +802,12 @@
         "current": {},
         "datasource": "prometheus",
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "Instance",
         "multi": false,
         "name": "instance",
         "options": [],
-        "query": "nubis{project=\"$project\"}",
+        "query": "nubis{project=\"$project\", environment=\"$environment\"}",
         "refresh": 1,
         "regex": ".*instance=\"(.*?)\".*",
         "sort": 0,
@@ -820,7 +832,9 @@
         "regex": "",
         "sort": 0,
         "tagValuesQuery": "",
-        "tags": [],
+        "tags": [
+          "nubis"
+        ],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -828,7 +842,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
