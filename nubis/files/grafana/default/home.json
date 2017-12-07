@@ -77,7 +77,7 @@
     },
     {
       "collapse": false,
-      "height": 250,
+      "height": 131,
       "panels": [
         {
           "cacheTimeout": null,
@@ -314,5 +314,5 @@
   },
   "timezone": "browser",
   "title": "Home",
-  "version": 5
+  "version": 2
 }
