@@ -9,7 +9,7 @@ route:
   group_wait: 30s
   group_interval: 5m
   repeat_interval: 4h
-  group_by: [account,region,environment,arena,alertname]
+  group_by: [account,region,environment,arena,alertname,project]
   routes:
     # Fire off all alerts only for platform alerts, we leave the rest to upstream
     - receiver: 'all'
