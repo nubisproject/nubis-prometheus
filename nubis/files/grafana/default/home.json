@@ -136,8 +136,9 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "nubis_version{project = \"nubis-prometheus\"}",
+              "expr": "count(nubis_version{project = \"nubis-prometheus\"}) by (version)",
               "format": "time_series",
+              "hide": false,
               "intervalFactor": 2,
               "legendFormat": "{{version}}",
               "refId": "A",
@@ -178,7 +179,7 @@
           "id": 5,
           "interval": null,
           "links": [],
-          "mappingType": 1,
+          "mappingType": 2,
           "mappingTypes": [
             {
               "name": "value to text",
@@ -198,9 +199,14 @@
           "prefixFontSize": "80%",
           "rangeMaps": [
             {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
+              "from": "1",
+              "text": "UP",
+              "to": "9999"
+            },
+            {
+              "from": "0",
+              "text": "DOWN",
+              "to": "0"
             }
           ],
           "span": 6,
@@ -213,7 +219,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "up{job = \"node\"} * on(instance) GROUP_LEFT (project, arena, environment, account) nubis{project=\"prometheus\", job=\"node\"}",
+              "expr": "sum((up{job = \"node\"} == 1 ) * on(instance) GROUP_LEFT (project, arena, environment, account) nubis{project=\"prometheus\", job=\"node\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
@@ -236,7 +242,7 @@
               "value": "1"
             }
           ],
-          "valueName": "avg"
+          "valueName": "current"
         }
       ],
       "repeat": null,
