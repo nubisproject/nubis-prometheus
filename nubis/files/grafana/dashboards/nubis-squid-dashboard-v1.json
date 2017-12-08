@@ -44,11 +44,11 @@
   "hideControls": false,
   "id": null,
   "links": [],
-  "refresh": false,
+  "refresh": "15m",
   "rows": [
     {
       "collapse": false,
-      "height": 251,
+      "height": 175,
       "panels": [
         {
           "cacheTimeout": null,
@@ -112,7 +112,7 @@
               "intervalFactor": 2,
               "legendFormat": "",
               "refId": "A",
-              "step": 600
+              "step": 60
             }
           ],
           "thresholds": "",
@@ -189,7 +189,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 600
+              "step": 60
             }
           ],
           "thresholds": "",
@@ -255,7 +255,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
               "refId": "A",
-              "step": 40
+              "step": 4
             }
           ],
           "thresholds": [],
@@ -344,7 +344,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
               "refId": "A",
-              "step": 120
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -421,7 +421,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
               "refId": "A",
-              "step": 120
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -510,7 +510,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
               "refId": "A",
-              "step": 120
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -587,7 +587,7 @@
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
               "refId": "A",
-              "step": 120
+              "step": 10
             }
           ],
           "thresholds": [],
@@ -644,8 +644,8 @@
     "list": []
   },
   "time": {
-    "from": "2017-11-29T07:53:48.001Z",
-    "to": "2017-11-29T19:53:48.001Z"
+    "from": "now-1h",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
