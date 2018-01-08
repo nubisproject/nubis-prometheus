@@ -4,10 +4,12 @@ rm -rf /var/lib/prometheus/snapshots/*/
 
 BUCKET=$(nubis-metadata NUBIS_PROMETHEUS_BUCKET)
 
-SNAPSHOT=$(curl -s -X POST http://localhost:81/prometheus/api/v2/admin/tsdb/snapshot | jq -r .name)
+SNAPSHOT=$(curl -s -X POST http://localhost:81/prometheus/api/v2/admin/tsdb/snapshot | jq -r '.name // empty' )
 
 if [ "$SNAPSHOT" != "" ]; then
   date > "/var/lib/prometheus/snapshots/$SNAPSHOT/WHEN"
+  # S3 doesn't do empty directories, so fake it with non-zero sized .directory files
+  find "/var/lib/prometheus/snapshots/$SNAPSHOT"  -type d -name chunks -exec dd if=/dev/zero of={}/.directory bs=1 count=1 status=none \;
   nice -n 19 aws --region "$(nubis-region)" s3 sync --exclude lock --exclude snapshots/ --exclude PRISTINE --delete "/var/lib/prometheus/snapshots/$SNAPSHOT/" "s3://${BUCKET}/"
   rm -rf "/var/lib/prometheus/snapshots/$SNAPSHOT"
 fi
