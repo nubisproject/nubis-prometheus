@@ -114,6 +114,7 @@ fi
 
 NUBIS_MON_DOMAIN="mon.$NUBIS_ARENA.$NUBIS_REGION.$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)"
 consulate kv set "$KV_PREFIX/MonDomain" "$NUBIS_MON_DOMAIN"
+consulate kv set "$KV_PREFIX/Domain" "$(nubis-metadata NUBIS_DOMAIN)"
 
 SECRET_FEDERATION_PASSWORD=$(nubis-secret get federation/password)
 FEDERATION_PASSWORD=$(consulate kv get "$KV_PREFIX/Federation/Password")

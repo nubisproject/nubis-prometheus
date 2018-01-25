@@ -1,6 +1,6 @@
-$prometheus_version = '2.0.0'
-$alertmanager_version = '0.10.0'
-$blackbox_version = '0.10.0'
+$prometheus_version = '2.1.0'
+$alertmanager_version = '0.13.0'
+$blackbox_version = '0.11.0'
 
 $prometheus_url = "https://github.com/prometheus/prometheus/releases/download/v${prometheus_version}/prometheus-${prometheus_version}.linux-amd64.tar.gz"
 $alertmanager_url = "https://github.com/prometheus/alertmanager/releases/download/v${alertmanager_version}/alertmanager-${alertmanager_version}.linux-amd64.tar.gz"
@@ -20,54 +20,36 @@ file { '/etc/prometheus':
   owner  => 0,
   group  => 0,
   mode   => '0755',
-}->
+}
+
 file { '/etc/prometheus/rules.d':
-  ensure => 'directory',
-  owner  => 0,
-  group  => 0,
-  mode   => '0755',
+  ensure  => 'directory',
+  owner   => 0,
+  group   => 0,
+  mode    => '0755',
+  require => [
+    File['/etc/prometheus'],
+  ],
 }
+
 file { '/etc/prometheus/nubis.rules.d':
-  ensure => 'directory',
-  owner  => 0,
-  group  => 0,
-  mode   => '0755',
-}
-
-file { '/etc/prometheus/nubis.rules.d/platform.yml':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    source  => 'puppet:///nubis/files/rules/nubis.yml',
-    require => File['/etc/prometheus/nubis.rules.d'],
-}
-
-file { '/etc/prometheus/nubis.rules.d/squid.yml':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    source  => 'puppet:///nubis/files/rules/squid.yml',
-    require => File['/etc/prometheus/nubis.rules.d'],
-}
-
-file { '/etc/prometheus/nubis.rules.d/apache.yml':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    source  => 'puppet:///nubis/files/rules/apache.yml',
-    require => File['/etc/prometheus/nubis.rules.d'],
-}
-
-file { '/etc/prometheus/nubis.rules.d/mysql.yml':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    source  => 'puppet:///nubis/files/rules/mysql.yml',
-    require => File['/etc/prometheus/nubis.rules.d'],
+  ensure  => 'directory',
+  recurse => true,
+  purge   => false,
+  owner   => 0,
+  group   => 0,
+  mode    => '0755',
+  require => [
+    File['/etc/prometheus'],
+  ],
+  source  => 'puppet:///nubis/files/rules',
+}->
+exec { 'check prometheus rules syntax':
+  command => '/opt/prometheus/promtool check rules /etc/prometheus/nubis.rules.d/*',
+  path    => ['/sbin','/bin','/usr/sbin','/usr/bin','/usr/local/sbin','/usr/local/bin'],
+  require => [
+    Staging::Extract["prometheus.${prometheus_version}.tar.gz"],
+  ],
 }
 
 file { '/var/lib/prometheus':

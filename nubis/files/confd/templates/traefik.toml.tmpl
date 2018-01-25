@@ -1,8 +1,9 @@
 defaultEntryPoints = ["http","https"]
 checkNewVersion = false
-traefikLogsFile = "/var/log/traefik_error.log"
 
 [entryPoints]
+  [entryPoints.traefik]
+    address = ":9109"
   [entryPoints.http]
     address = ":80"
     [entryPoints.http.redirect]
@@ -20,14 +21,28 @@ traefikLogsFile = "/var/log/traefik_error.log"
       ]
 {{ end }}
 
-[web]
-address = ":9109"
-[web.metrics.prometheus]
+[ping]
+[api]
+  [api.statistics]
+[metrics]
+  [metrics.prometheus]
+
+[traefiklog]
+  filepath = "/var/log/traefik_error.log"
+  format   = "json"
+
+[accessLog]
+  filePath = "/var/log/traefik.log"
+  format = "json"
 
 [consul]
 endpoint = "127.0.0.1:8500"
 watch = true
 prefix = "nubis/traefik/{{ getv "/config/Arena" }}/config"
+
+# Use HTTP-01 challenges
+[acme.httpChallenge]
+  entryPoint = "http"
 
 [acme]
 # Handle when this isn't set

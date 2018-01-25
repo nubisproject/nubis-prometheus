@@ -277,6 +277,22 @@ scrape_configs:
       services:
         - varnish
 
+  - job_name: 'probe-sso'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]  # We get a SSO redirect leading to a 200 on auth0's side
+    static_configs:
+      - targets:
+        - https://sso.{{ getv "/config/Arena" }}.{{ getv "/config/RegionName" }}.{{ getv "/config/AccountName" }}.{{ getv "/config/Domain" }}/
+
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9115  # Blackbox exporter.
+
   - job_name: 'custom'
     relabel_configs:
       # Only services with the metrics tag

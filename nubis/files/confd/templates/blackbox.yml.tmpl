@@ -7,6 +7,8 @@ modules:
       no_follow_redirects: false
       fail_if_ssl: false
       fail_if_not_ssl: false
+      preferred_ip_protocol: "ip4"
+      proxy_url: "http://proxy.service.consul:3128"
       tls_config:
         insecure_skip_verify: true
   tcp_connect:
