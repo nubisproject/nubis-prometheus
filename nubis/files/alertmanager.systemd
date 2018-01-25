@@ -11,7 +11,7 @@ Environment=NO_PROXY=localhost,127.0.0.1,.localdomain,.service.consul,service.co
 Restart=on-failure
 RestartSec=10s
 
-ExecStart=/bin/bash -c '/opt/prometheus/alertmanager -config.file /etc/prometheus/alertmanager.yml -web.external-url "https://sso.$(nubis-metadata NUBIS_ARENA).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/alertmanager"'
+ExecStart=/bin/bash -c '/opt/prometheus/alertmanager --config.file /etc/prometheus/alertmanager.yml --web.external-url "https://sso.$(nubis-metadata NUBIS_ARENA).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/alertmanager"'
 
 [Install]
 WantedBy=multi-user.target

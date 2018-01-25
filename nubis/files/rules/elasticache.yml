@@ -1,0 +1,27 @@
+---
+groups:
+  - name: elasticache
+    rules:
+    - alert: ElastiCacheHighCPU
+      expr: >
+        avg(aws_elasticache_cpuutilization_average{job="cloudwatch"}) without (cache_node_id)
+        > 90
+      for: 10m
+      labels:
+        platform: nubis
+        severity: critical
+        type: treshold
+      annotations:
+        description: Elasticache CPU utilisation of {{$value}}% > 90% for {{ $labels.cache_cluster_id }}
+        summary: Elasticache CPU utilization too high
+    - alert: ElastiCacheOutOfMemory
+      expr: >
+        sum(aws_elasticache_freeable_memory_average{job="cloudwatch"}) without (cache_node_id)
+        < 100000000
+      for: 15m
+      labels:
+        platform: nubis
+        severity: critical
+      annotations:
+        description: ElastiCache cluster {{ $labels.cache_cluster_id }} has {{ $value }} < 100Mb free memory
+        summary: ElastiCache very low on memory

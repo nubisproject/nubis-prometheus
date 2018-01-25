@@ -116,6 +116,28 @@ metrics:
   aws_dimensions: [AutoScalingGroupName]
   aws_statistics: [Minimum,Maximum,Average]
 
+  # AWS EC2
+
+- aws_namespace: AWS/EC2
+  aws_metric_name: CPUCreditUsage
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Average]
+
+- aws_namespace: AWS/EC2
+  aws_metric_name: CPUCreditBalance
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Average]
+
+- aws_namespace: AWS/EC2
+  aws_metric_name: CPUUtilization
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Average]
+
+- aws_namespace: AWS/EC2
+  aws_metric_name: StatusCheckFailed
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Sum]
+
   # AWS Lambda
 - aws_namespace: AWS/Lambda
   aws_metric_name: Invocations
@@ -174,7 +196,7 @@ metrics:
 - aws_namespace: AWS/EFS
   aws_metric_name: PercentIOLimit
   aws_dimensions: [FileSystemId]
-  aws_statistics: [Percent]
+  aws_statistics: [Minimum, Maximum, Average]
 
 - aws_namespace: AWS/EFS
   aws_metric_name: PermittedThroughput
@@ -185,3 +207,48 @@ metrics:
   aws_metric_name: TotalIOBytes
   aws_dimensions: [FileSystemId]
   aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
+
+# AWS RDS
+- aws_namespace: AWS/RDS
+  aws_metric_name: BurstBalance
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+- aws_namespace: AWS/RDS
+  aws_metric_name: CPUUtilization
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+- aws_namespace: AWS/RDS
+  aws_metric_name: CPUCreditUsage
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+- aws_namespace: AWS/RDS
+  aws_metric_name: CPUCreditBalance
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+- aws_namespace: AWS/RDS
+  aws_metric_name: FreeableMemory
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+- aws_namespace: AWS/RDS
+  aws_metric_name: FreeStorageSpace
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+
+# AWS/ElastiCache
+- aws_namespace: AWS/ElastiCache
+  aws_metric_name: CPUUtilization
+  aws_dimensions: [CacheClusterId,CacheNodeId]
+  aws_statistics: [Average]
+- aws_namespace: AWS/ElastiCache
+  aws_metric_name: FreeableMemory
+  aws_dimensions: [CacheClusterId,CacheNodeId]
+  aws_statistics: [Average]
+- aws_namespace: AWS/ElastiCache
+  aws_metric_name: SwapUsage
+  aws_dimensions: [CacheClusterId,CacheNodeId]
+  aws_statistics: [Average]
+- aws_namespace: AWS/ElastiCache
+  aws_metric_name: CurrConnections
+  aws_dimensions: [CacheClusterId,CacheNodeId]
+  aws_statistics: [Average]
+
