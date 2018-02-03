@@ -1,0 +1,15 @@
+[template]
+src = "cloudwatch_exporter_billing.yml.tmpl"
+dest = "/etc/cloudwatch_exporter_billing.yml"
+prefix = "/%%PROJECT%%/%%ARENA%%"
+
+uid = 0
+gid = 0
+mode = "0640"
+
+keys = [
+    "/config/*",
+    "/config"
+]
+
+reload_cmd = "/bin/systemctl restart cloudwatch_exporter_billing"

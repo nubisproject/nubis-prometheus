@@ -92,3 +92,12 @@ variable "password" {
 variable "live_app" {
   default = ""
 }
+
+variable "instance_type" {
+  default = "t2.small"
+}
+
+#In gigabytes
+variable "volume_size" {
+  default = "128"
+}

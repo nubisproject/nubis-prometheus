@@ -1,0 +1,62 @@
+---
+groups:
+- name: mysql.prom
+  rules:
+  - record: mysql_slave_lag_seconds
+    expr: mysql_slave_status_seconds_behind_master - mysql_slave_status_sql_delay
+  - alert: MySQLReplicationNotRunning
+    expr: >
+      ( mysql_slave_status_slave_io_running{job="mysql"} == 0 OR mysql_slave_status_slave_sql_running{job="mysql"} == 0 )
+        * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis
+        * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
+      != 0
+    for: 5m
+    labels:
+      platform: nubis
+      severity: critical
+      type: failure
+    annotations:
+      description: Slave replication is not running
+      summary: Slave replication (IO or SQL) has been down for more than 5 minutes.
+  - alert: MySQLReplicationLag
+    expr: >
+      (
+       (mysql_slave_lag_seconds >= 30)
+       AND on (instance)
+      (predict_linear(mysql_slave_lag_seconds{job="mysql"}[5m], 60*2) > 0 ) )
+      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis
+      * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
+    for: 5m
+    labels:
+      platform: nubis
+      severity: critical
+      type: predictive
+    annotations:
+      description: MySQL slave replication is lagging
+      summary: The mysql slave replication has fallen behind and is not recovering
+  - alert: MySQLTooManyConnections
+    expr: >
+      ( mysql_global_status_threads_connected{job="mysql"} / mysql_global_variables_max_connections{job="mysql"} * 100 > 80 )
+      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis
+      * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
+    for: 30m
+    labels:
+      platform: nubis
+      severity: critical
+      type: failure
+    annotations:
+      description: MySQL has too many connections
+      summary: The server has too many connections. {{$value}} > 80% for over 30 minutes
+  - alert: MySQLRunningOutOfConnections
+    expr: >
+      ( predict_linear(mysql_global_status_threads_connected{job="mysql"}[10m], 60 * 60 * 3) > mysql_global_variables_max_connections{job="mysql"} )
+      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis
+      * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
+    for: 5m
+    labels:
+      platform: nubis
+      severity: critical
+      type: predictive
+    annotations:
+      description: MySQL will overload connections soon
+      summary: The server will reach its connection limit in less than 3 hours.

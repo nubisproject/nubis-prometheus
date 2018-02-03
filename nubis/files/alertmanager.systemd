@@ -1,0 +1,17 @@
+[Unit]
+Description=Alert Manager
+Wants=basic.target
+After=basic.target network.target
+
+[Service]
+Environment=HTTPS_PROXY=http://proxy.service.consul:3128/
+Environment=HTTP_PROXY=http://proxy.service.consul:3128/
+Environment=NO_PROXY=localhost,127.0.0.1,.localdomain,.service.consul,service.consul,.consul,consul,169.254.169.254
+
+Restart=on-failure
+RestartSec=10s
+
+ExecStart=/bin/bash -c '/opt/prometheus/alertmanager --config.file /etc/prometheus/alertmanager.yml --web.external-url "https://sso.$(nubis-metadata NUBIS_ARENA).$(nubis-region).$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)/alertmanager"'
+
+[Install]
+WantedBy=multi-user.target

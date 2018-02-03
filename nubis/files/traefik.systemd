@@ -1,0 +1,17 @@
+[Unit]
+Description=Traefik Load Balancer
+Wants=basic.target
+After=basic.target network.target
+
+[Service]
+Restart=on-failure
+RestartSec=10s
+
+Environment=HTTPS_PROXY=http://proxy.service.consul:3128/
+Environment=HTTP_PROXY=http://proxy.service.consul:3128/
+Environment=NO_PROXY=localhost,127.0.0.1,.localdomain,.service.consul,service.consul,.consul,consul,169.254.169.254
+
+ExecStart=/usr/local/bin/traefik
+
+[Install]
+WantedBy=multi-user.target

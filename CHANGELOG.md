@@ -1,6 +1,66 @@
 # Change Log
 
-## [v2.0.3](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.3) (2017-11-03)
+## [v2.1.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.1.0) (2018-02-03)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.4...v2.1.0)
+
+**Closed issues:**
+
+- Improve Monitoring Coverage [\#298](https://github.com/nubisproject/nubis-prometheus/issues/298)
+- \[traefik\] Upgrade to 1.4.6 [\#294](https://github.com/nubisproject/nubis-prometheus/issues/294)
+- \[backup\] S3 sync doesn't support empty files [\#292](https://github.com/nubisproject/nubis-prometheus/issues/292)
+- \[rds\] Scrape rds metrics from cloudwatch [\#284](https://github.com/nubisproject/nubis-prometheus/issues/284)
+
+**Merged pull requests:**
+
+- Improve our monitoring coverage [\#299](https://github.com/nubisproject/nubis-prometheus/pull/299) ([gozer](https://github.com/gozer))
+- Initial sample documentation for Alerts [\#297](https://github.com/nubisproject/nubis-prometheus/pull/297) ([gozer](https://github.com/gozer))
+- Create .directory fake files to keep our empty directories from vanishing in S3 [\#293](https://github.com/nubisproject/nubis-prometheus/pull/293) ([gozer](https://github.com/gozer))
+- add missing liecnese [\#291](https://github.com/nubisproject/nubis-prometheus/pull/291) ([gozer](https://github.com/gozer))
+
+## [v2.0.4](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.4) (2017-12-08)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.3...v2.0.4)
+
+**Implemented enhancements:**
+
+- \[cloudwatch\] Evaluate data we are scraping from cloudwatch [\#260](https://github.com/nubisproject/nubis-prometheus/issues/260)
+- \[cloudwatch\] Cloudwatch scraping not working for ASG [\#258](https://github.com/nubisproject/nubis-prometheus/issues/258)
+
+**Fixed bugs:**
+
+- \[blackbox\] Blackbox exporter not starting up [\#271](https://github.com/nubisproject/nubis-prometheus/issues/271)
+- Traefik does not start up after v1.4 update [\#269](https://github.com/nubisproject/nubis-prometheus/issues/269)
+
+**Closed issues:**
+
+- \[alerts\] Group by project [\#287](https://github.com/nubisproject/nubis-prometheus/issues/287)
+- \[consul\] consul\_catalog\_service\_node\_healthy service label is now service\_id [\#280](https://github.com/nubisproject/nubis-prometheus/issues/280)
+- Remove wildcard \*.mon. DNS entry [\#277](https://github.com/nubisproject/nubis-prometheus/issues/277)
+- \[varnish\] Add Varnish Dashboard [\#272](https://github.com/nubisproject/nubis-prometheus/issues/272)
+- \[prometheus\] Probe /-/healthy for liveness [\#264](https://github.com/nubisproject/nubis-prometheus/issues/264)
+- Make instance\_type tunable [\#252](https://github.com/nubisproject/nubis-prometheus/issues/252)
+- Detect when EFS mount does not come up on boot [\#207](https://github.com/nubisproject/nubis-prometheus/issues/207)
+- Tag v2.0.4 release [\#290](https://github.com/nubisproject/nubis-prometheus/issues/290)
+
+**Merged pull requests:**
+
+- Fixing graph again [\#289](https://github.com/nubisproject/nubis-prometheus/pull/289) ([limed](https://github.com/limed))
+- Add project to alert grouping [\#288](https://github.com/nubisproject/nubis-prometheus/pull/288) ([gozer](https://github.com/gozer))
+- Fix squid graph [\#286](https://github.com/nubisproject/nubis-prometheus/pull/286) ([limed](https://github.com/limed))
+- Some dashboard updates [\#285](https://github.com/nubisproject/nubis-prometheus/pull/285) ([limed](https://github.com/limed))
+- fix path [\#283](https://github.com/nubisproject/nubis-prometheus/pull/283) ([gozer](https://github.com/gozer))
+- Use Prometheus's own health check [\#282](https://github.com/nubisproject/nubis-prometheus/pull/282) ([gozer](https://github.com/gozer))
+- consul\_catalog\_service\_node\_healthy label is service\_id now [\#281](https://github.com/nubisproject/nubis-prometheus/pull/281) ([gozer](https://github.com/gozer))
+- \[needs-review\] Graphs update [\#279](https://github.com/nubisproject/nubis-prometheus/pull/279) ([limed](https://github.com/limed))
+- Remove useless wildcard dns for \*.mon. [\#278](https://github.com/nubisproject/nubis-prometheus/pull/278) ([gozer](https://github.com/gozer))
+- Graph updates [\#276](https://github.com/nubisproject/nubis-prometheus/pull/276) ([limed](https://github.com/limed))
+- \[Centennial\] [\#275](https://github.com/nubisproject/nubis-prometheus/pull/275) ([gozer](https://github.com/gozer))
+- Added trusted ip [\#274](https://github.com/nubisproject/nubis-prometheus/pull/274) ([limed](https://github.com/limed))
+- Fix blackbox exporter to start up [\#273](https://github.com/nubisproject/nubis-prometheus/pull/273) ([limed](https://github.com/limed))
+- Fixing configuration error, causing traefik to not startup [\#270](https://github.com/nubisproject/nubis-prometheus/pull/270) ([limed](https://github.com/limed))
+- Remove dimension regex for ELB [\#268](https://github.com/nubisproject/nubis-prometheus/pull/268) ([limed](https://github.com/limed))
+- Make instance type tunable [\#253](https://github.com/nubisproject/nubis-prometheus/pull/253) ([gozer](https://github.com/gozer))
+
+## [v2.0.3](https://github.com/nubisproject/nubis-prometheus/tree/v2.0.3) (2017-11-06)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.2...v2.0.3)
 
 **Closed issues:**
@@ -10,10 +70,13 @@
 - \[memory\] Create some swap on startup [\#246](https://github.com/nubisproject/nubis-prometheus/issues/246)
 - \[dashboard\] Update rules for consul\_exporter 0.3.0 [\#161](https://github.com/nubisproject/nubis-prometheus/issues/161)
 - \[cloudwatch\] Scrape EFS metrics [\#148](https://github.com/nubisproject/nubis-prometheus/issues/148)
+- Tag v2.0.3 release [\#265](https://github.com/nubisproject/nubis-prometheus/issues/265)
 - Tag v2.0.3 release [\#261](https://github.com/nubisproject/nubis-prometheus/issues/261)
 
 **Merged pull requests:**
 
+- Merge v2.0.3 release into develop. \[skip ci\] [\#267](https://github.com/nubisproject/nubis-prometheus/pull/267) ([tinnightcap](https://github.com/tinnightcap))
+- Update CHANGELOG for v2.0.3 release \[skip ci\] [\#266](https://github.com/nubisproject/nubis-prometheus/pull/266) ([tinnightcap](https://github.com/tinnightcap))
 - Merge v2.0.3 release into develop. \[skip ci\] [\#263](https://github.com/nubisproject/nubis-prometheus/pull/263) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v2.0.3 release \[skip ci\] [\#262](https://github.com/nubisproject/nubis-prometheus/pull/262) ([tinnightcap](https://github.com/tinnightcap))
 - Fix cloudwatch scraping for ASG [\#259](https://github.com/nubisproject/nubis-prometheus/pull/259) ([limed](https://github.com/limed))

@@ -1,0 +1,71 @@
+defaultEntryPoints = ["http","https"]
+checkNewVersion = false
+
+[entryPoints]
+  [entryPoints.traefik]
+    address = ":9109"
+  [entryPoints.http]
+    address = ":80"
+    [entryPoints.http.redirect]
+      entryPoint = "https"
+  [entryPoints.https]
+    address = ":443"
+    [entryPoints.https.proxyProtocol]
+      trustedIPs = ["127.0.0.1/32", "10.0.0.0/8", "172.16.0.0/12"]
+    [entryPoints.https.tls]
+{{if exists "/config/Federation/HTPassword"}}
+    [entryPoints.https.auth.basic]
+      users = [
+        "{{ getv "/config/Federation/HTPassword" }}",
+        "{{ getv "/config/Admin/HTPassword" }}"
+      ]
+{{ end }}
+
+[ping]
+[api]
+  [api.statistics]
+[metrics]
+  [metrics.prometheus]
+
+[traefiklog]
+  filepath = "/var/log/traefik_error.log"
+  format   = "json"
+
+[accessLog]
+  filePath = "/var/log/traefik.log"
+  format = "json"
+
+[consul]
+endpoint = "127.0.0.1:8500"
+watch = true
+prefix = "nubis/traefik/{{ getv "/config/Arena" }}/config"
+
+# Use HTTP-01 challenges
+[acme.httpChallenge]
+  entryPoint = "http"
+
+[acme]
+# Handle when this isn't set
+email="{{ getv "/config/Email/Destination" }}"
+storage = "nubis/traefik/{{ getv "/config/Arena" }}/acme"
+entryPoint = "https"
+
+# Disable for prod
+#caServer = "https://acme-staging.api.letsencrypt.org/directory"
+
+onDemand = false
+[[acme.domains]]
+   main = "{{ getv "/config/MonDomain" }}"
+
+[file]
+[backends]
+  [backends.prometheus]
+    [backends.prometheus.servers.server1]
+    url = "http://127.0.0.1:81"
+
+[frontends]
+  [frontends.prometheus]
+  passHostHeader = true
+  backend="prometheus"
+    [frontends.prometheus.routes.main]
+    rule="PathPrefix:/prometheus"

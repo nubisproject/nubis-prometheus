@@ -1,0 +1,52 @@
+global:
+  # The smarthost and SMTP sender used for mail notifications.
+  smtp_smarthost: 'localhost:25'
+  smtp_from: 'nubis-team@mozilla.com'
+
+route:
+  # Ignore unmatched alerts by default
+  receiver: 'sink'
+  repeat_interval: 4h
+  routes:
+    # Fire off all alerts only for platform alerts, we leave the rest to upstream
+    - receiver: 'all'
+      match:
+        platform: nubis
+
+receivers:
+  - name: 'sink'
+{{if exists "/config/Sink/Email/Destination"}}
+    email_configs:
+      - to: '{{getv "/config/Sink/Email/Destination"}}'
+        require_tls: false
+        send_resolved: true
+{{end}}
+{{if and (exists "/config/Sink/Slack/Url") (exists "/config/Sink/Slack/Channel")}}
+    slack_configs:
+      - api_url: '{{getv "/config/Sink/Slack/Url"}}'
+        channel: '{{getv "/config/Sink/Slack/Channel"}}'
+        send_resolved: true
+{{end}}
+{{if exists "/config/Sink/PagerDuty/ServiceKey"}}
+    pagerduty_configs:
+      - service_key: '{{getv "/config/Sink/PagerDuty/ServiceKey"}}'
+        send_resolved: true
+{{end}}
+  - name: 'all'
+{{if exists "/config/Email/Destination"}}
+    email_configs:
+      - to: '{{getv "/config/Email/Destination"}}'
+        require_tls: false
+        send_resolved: true
+{{end}}
+{{if and (exists "/config/Slack/Url") (exists "/config/Slack/Channel")}}
+    slack_configs:
+      - api_url: '{{getv "/config/Slack/Url"}}'
+        channel: '{{getv "/config/Slack/Channel"}}'
+        send_resolved: true
+{{end}}
+{{if exists "/config/PagerDuty/ServiceKey"}}
+    pagerduty_configs:
+      - service_key: '{{getv "/config/PagerDuty/ServiceKey"}}'
+        send_resolved: true
+{{end}}

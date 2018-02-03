@@ -1,0 +1,254 @@
+---
+{{if exists "/config/RegionName"}}
+region: '{{ getv "/config/RegionName" }}'
+{{end}}
+metrics:
+  # ELB Metrics
+- aws_namespace: AWS/ELB
+  aws_metric_name: HealthyHostCount
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Average,Maximum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/ELB
+  aws_metric_name: UnHealthyHostCount
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Average,Maximum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/ELB
+  aws_metric_name: BackendConnectionErrors
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Sum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/ELB
+  aws_metric_name: HTTPCode_Backend_2XX_Count
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Sum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/Backend
+  aws_metric_name: HTTPCode_Backend_3XX_Count
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Sum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/Backend
+  aws_metric_name: HTTPCode_Backend_4XX_Count
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Sum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/Backend
+  aws_metric_name: HTTPCode_Backend_5XX_Count
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Sum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/ELB
+  aws_metric_name: HTTPCode_ELB_4XX
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Sum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/ELB
+  aws_metric_name: HTTPCode_ELB_5XX
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Sum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/ELB
+  aws_metric_name: Latency
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Average,Maximum,Minimum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/ELB
+  aws_metric_name: RequestCount
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Sum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/ELB
+  aws_metric_name: SurgeQueueLength
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Average,Maximum,Minimum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/ELB
+  aws_metric_name: SpilloverCount
+  aws_dimensions: [LoadBalancerName]
+  aws_statistics: [Sum]
+  aws_dimension_select_regex:
+    LoadBalancerName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+  # AWS AutoScaling
+- aws_namespace: AWS/AutoScaling
+  aws_metric_name: GroupMinSize
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Minimum]
+
+- aws_namespace: AWS/AutoScaling
+  aws_metric_name: GroupMaxSize
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Maximum]
+
+- aws_namespace: AWS/AutoScaling
+  aws_metric_name: GroupDesiredCapacity
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Minimum,Maximum]
+
+- aws_namespace: AWS/AutoScaling
+  aws_metric_name: GroupInServiceInstances
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Minimum,Maximum,Average]
+
+  # AWS EC2
+
+- aws_namespace: AWS/EC2
+  aws_metric_name: CPUCreditUsage
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Average]
+
+- aws_namespace: AWS/EC2
+  aws_metric_name: CPUCreditBalance
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Average]
+
+- aws_namespace: AWS/EC2
+  aws_metric_name: CPUUtilization
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Average]
+
+- aws_namespace: AWS/EC2
+  aws_metric_name: StatusCheckFailed
+  aws_dimensions: [AutoScalingGroupName]
+  aws_statistics: [Sum]
+
+  # AWS Lambda
+- aws_namespace: AWS/Lambda
+  aws_metric_name: Invocations
+  aws_dimensions: [FunctionName]
+  aws_statistics: [Minimum,Maximum,Sum]
+  aws_dimension_select_regex:
+    FunctionName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/Lambda
+  aws_metric_name: Duration
+  aws_dimensions: [FunctionName]
+  aws_statistics: [Minimum,Maximum,Sum,Average]
+  aws_dimension_select_regex:
+    FunctionName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/Lambda
+  aws_metric_name: Errors
+  aws_dimensions: [FunctionName]
+  aws_statistics: [Minimum,Maximum,Sum]
+  aws_dimension_select_regex:
+    FunctionName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+- aws_namespace: AWS/Lambda
+  aws_metric_name: Throttles
+  aws_dimensions: [FunctionName]
+  aws_statistics: [Minimum,Maximum,Sum,Average]
+  aws_dimension_select_regex:
+    FunctionName: [ "(.*)-{{ getv "/config/Arena" }}(.*)" ]
+
+# AWS EFS
+- aws_namespace: AWS/EFS
+  aws_metric_name: BurstCreditBalance
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: ClientConnections
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Sum]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: DataReadIOBytes
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: DataWriteIOBytes
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: MetadataIOBytes
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: PercentIOLimit
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: PermittedThroughput
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average]
+
+- aws_namespace: AWS/EFS
+  aws_metric_name: TotalIOBytes
+  aws_dimensions: [FileSystemId]
+  aws_statistics: [Minimum, Maximum, Average, Sum, SampleCount]
+
+# AWS RDS
+- aws_namespace: AWS/RDS
+  aws_metric_name: BurstBalance
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+- aws_namespace: AWS/RDS
+  aws_metric_name: CPUUtilization
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+- aws_namespace: AWS/RDS
+  aws_metric_name: CPUCreditUsage
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+- aws_namespace: AWS/RDS
+  aws_metric_name: CPUCreditBalance
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+- aws_namespace: AWS/RDS
+  aws_metric_name: FreeableMemory
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+- aws_namespace: AWS/RDS
+  aws_metric_name: FreeStorageSpace
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Average]
+
+# AWS/ElastiCache
+- aws_namespace: AWS/ElastiCache
+  aws_metric_name: CPUUtilization
+  aws_dimensions: [CacheClusterId,CacheNodeId]
+  aws_statistics: [Average]
+- aws_namespace: AWS/ElastiCache
+  aws_metric_name: FreeableMemory
+  aws_dimensions: [CacheClusterId,CacheNodeId]
+  aws_statistics: [Average]
+- aws_namespace: AWS/ElastiCache
+  aws_metric_name: SwapUsage
+  aws_dimensions: [CacheClusterId,CacheNodeId]
+  aws_statistics: [Average]
+- aws_namespace: AWS/ElastiCache
+  aws_metric_name: CurrConnections
+  aws_dimensions: [CacheClusterId,CacheNodeId]
+  aws_statistics: [Average]
+
