@@ -8,6 +8,33 @@ route:
   receiver: 'sink'
   repeat_interval: 4h
   routes:
+{{ if exists "/config/PagerDuty/PlatformCriticalServiceKey" }}
+    - receiver: 'platform-critical'
+      match:
+        platform: nubis
+        severity: critical
+{{ end }}
+{{ if exists "/config/PagerDuty/PlatformNonCriticalServiceKey" }}
+    - receiver: 'platform-non-critical'
+      match:
+        platform: nubis
+{{ end }}
+{{ if exists "/config/PagerDuty/ApplicationCriticalServiceKey" }}
+    - receiver: 'application-critical'
+      match:
+        platform: 'application'
+        severity: 'critical'
+      match_re:
+        environment: '.+'
+{{ end }}
+{{ if exists "/config/PagerDuty/ApplicationNonCriticalServiceKey" }}
+    - receiver: 'application-non-critical'
+      match:
+        platform: 'application'
+      match_re:
+        environment: '.+'
+{{ end }}
+
     # Fire off all alerts only for platform alerts, we leave the rest to upstream
     - receiver: 'all'
       match:
@@ -48,5 +75,29 @@ receivers:
 {{if exists "/config/PagerDuty/ServiceKey"}}
     pagerduty_configs:
       - service_key: '{{getv "/config/PagerDuty/ServiceKey"}}'
+        send_resolved: true
+{{end}}
+{{ if exists "/config/PagerDuty/PlatformCriticalServiceKey" }}
+  - name: 'platform-critical'
+    pagerduty_configs:
+      - service_key: '{{ getv "/config/PagerDuty/PlatformCriticalServiceKey" }}'
+        send_resolved: true
+{{end}}
+{{ if exists "/config/PagerDuty/PlatformNonCriticalServiceKey" }}
+  - name: 'platform-non-critical'
+    pagerduty_configs:
+      - service_key: '{{ getv "/config/PagerDuty/PlatformNonCriticalServiceKey" }}'
+        send_resolved: true
+{{end}}
+{{ if exists "/config/PagerDuty/ApplicationCriticalServiceKey" }}
+  - name: 'application-critical'
+    pagerduty_configs:
+      - service_key: '{{ getv "/config/PagerDuty/ApplicationCriticalServiceKey" }}'
+        send_resolved: true
+{{end}}
+{{ if exists "/config/PagerDuty/ApplicationNonCriticalServiceKey" }}
+  - name: 'application-non-critical'
+    pagerduty_configs:
+      - service_key: '{{ getv "/config/PagerDuty/ApplicationNonCriticalServiceKey" }}'
         send_resolved: true
 {{end}}
