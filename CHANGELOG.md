@@ -1,26 +1,17 @@
 # Change Log
 
 ## [v2.1.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.1.0) (2018-02-07)
-[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.1.0...v2.1.0)
-
-**Closed issues:**
-
-- Use base's swap support in favor of our own solution [\#308](https://github.com/nubisproject/nubis-prometheus/issues/308)
-
-**Merged pull requests:**
-
-- Use base's support for swap now [\#309](https://github.com/nubisproject/nubis-prometheus/pull/309) ([gozer](https://github.com/gozer))
-
-## [v2.1.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.1.0) (2018-02-06)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.4...v2.1.0)
 
 **Closed issues:**
 
+- Use base's swap support in favor of our own solution [\#308](https://github.com/nubisproject/nubis-prometheus/issues/308)
 - \[pagerduty\] handle \<UNSET\> as magical value [\#303](https://github.com/nubisproject/nubis-prometheus/issues/303)
 - Improve Monitoring Coverage [\#298](https://github.com/nubisproject/nubis-prometheus/issues/298)
 - \[traefik\] Upgrade to 1.4.6 [\#294](https://github.com/nubisproject/nubis-prometheus/issues/294)
 - \[backup\] S3 sync doesn't support empty files [\#292](https://github.com/nubisproject/nubis-prometheus/issues/292)
 - \[rds\] Scrape rds metrics from cloudwatch [\#284](https://github.com/nubisproject/nubis-prometheus/issues/284)
+- Tag v2.1.0 release [\#310](https://github.com/nubisproject/nubis-prometheus/issues/310)
 - Tag v2.1.0 release [\#305](https://github.com/nubisproject/nubis-prometheus/issues/305)
 - Tag v2.1.0 release [\#300](https://github.com/nubisproject/nubis-prometheus/issues/300)
 - \[cloudwatch\] Add AWS/Lambda Throttles metric [\#163](https://github.com/nubisproject/nubis-prometheus/issues/163)
@@ -29,6 +20,9 @@
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v2.1.0 release \[skip ci\] [\#312](https://github.com/nubisproject/nubis-prometheus/pull/312) ([nubis-automation](https://github.com/nubis-automation))
+- Update CHANGELOG for v2.1.0 release \[skip ci\] [\#311](https://github.com/nubisproject/nubis-prometheus/pull/311) ([nubis-automation](https://github.com/nubis-automation))
+- Use base's support for swap now [\#309](https://github.com/nubisproject/nubis-prometheus/pull/309) ([gozer](https://github.com/gozer))
 - Update CHANGELOG for v2.1.0 release \[skip ci\] [\#307](https://github.com/nubisproject/nubis-prometheus/pull/307) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.1.0 release \[skip ci\] [\#306](https://github.com/nubisproject/nubis-prometheus/pull/306) ([nubis-automation](https://github.com/nubis-automation))
 - \[pagerduty\] Handle \<UNSET\> as magical disabled value [\#304](https://github.com/nubisproject/nubis-prometheus/pull/304) ([gozer](https://github.com/gozer))
