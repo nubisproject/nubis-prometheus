@@ -65,10 +65,10 @@ package { 'binutils':
   ensure => '2.26.1-1ubuntu1~16.04.6',
 }
 package { 'boto3':
-  ensure => '1.5.22',
+  ensure => '1.5.24',
 }
 package { 'botocore':
-  ensure => '1.8.36',
+  ensure => '1.8.38',
 }
 package { 'bsd-mailx':
   ensure => '8.1.2-0.20160123cvs-2',
@@ -377,7 +377,7 @@ package { 'groff-base':
   ensure => '1.22.3-7',
 }
 package { 'grub-common':
-  ensure => '2.02~beta2-36ubuntu3.15',
+  ensure => '2.02~beta2-36ubuntu3.16',
 }
 package { 'grub-gfxpayload-lists':
   ensure => '0.7',
@@ -386,13 +386,13 @@ package { 'grub-legacy-ec2':
   ensure => '17.1-46-g7acc9e68-0ubuntu1~16.04.1',
 }
 package { 'grub-pc':
-  ensure => '2.02~beta2-36ubuntu3.15',
+  ensure => '2.02~beta2-36ubuntu3.16',
 }
 package { 'grub-pc-bin':
-  ensure => '2.02~beta2-36ubuntu3.15',
+  ensure => '2.02~beta2-36ubuntu3.16',
 }
 package { 'grub2-common':
-  ensure => '2.02~beta2-36ubuntu3.15',
+  ensure => '2.02~beta2-36ubuntu3.16',
 }
 package { 'gzip':
   ensure => '1.6-4ubuntu1',
@@ -968,7 +968,7 @@ package { 'libpam-runtime':
   ensure => '1.1.8-3.2ubuntu2',
 }
 package { 'libpam-systemd':
-  ensure => '229-4ubuntu21',
+  ensure => '229-4ubuntu21.1',
 }
 package { 'libpam0g':
   ensure => '1.1.8-3.2ubuntu2',
@@ -1121,7 +1121,7 @@ package { 'libstdc++6':
   ensure => '5.4.0-6ubuntu1~16.04.6',
 }
 package { 'libsystemd0':
-  ensure => '229-4ubuntu21',
+  ensure => '229-4ubuntu21.1',
 }
 package { 'libtasn1-6':
   ensure => '4.7-3ubuntu0.16.04.3',
@@ -1151,7 +1151,7 @@ package { 'libubsan0':
   ensure => '5.4.0-6ubuntu1~16.04.6',
 }
 package { 'libudev1':
-  ensure => '229-4ubuntu21',
+  ensure => '229-4ubuntu21.1',
 }
 package { 'libusb-0.1-4':
   ensure => '2:0.1.12-28',
@@ -1225,26 +1225,17 @@ package { 'libyaml-0-2':
 package { 'linux-aws':
   ensure => '4.4.0.1050.52',
 }
-package { 'linux-aws-headers-4.4.0-1049':
-  ensure => '4.4.0-1049.58',
-}
 package { 'linux-aws-headers-4.4.0-1050':
   ensure => '4.4.0-1050.59',
 }
 package { 'linux-base':
   ensure => '4.0ubuntu1',
 }
-package { 'linux-headers-4.4.0-1049-aws':
-  ensure => '4.4.0-1049.58',
-}
 package { 'linux-headers-4.4.0-1050-aws':
   ensure => '4.4.0-1050.59',
 }
 package { 'linux-headers-aws':
   ensure => '4.4.0.1050.52',
-}
-package { 'linux-image-4.4.0-1049-aws':
-  ensure => '4.4.0-1049.58',
 }
 package { 'linux-image-4.4.0-1050-aws':
   ensure => '4.4.0-1050.59',
@@ -1811,7 +1802,7 @@ package { 'sosreport':
   ensure => '3.4-1~ubuntu16.04.1',
 }
 package { 'specinfra':
-  ensure => ['2.73.1'],
+  ensure => ['2.73.2'],
 }
 package { 'squashfs-tools':
   ensure => '1:4.3-3ubuntu2.16.04.1',
@@ -1832,10 +1823,10 @@ package { 'sudo':
   ensure => '1.8.16-0ubuntu1.5',
 }
 package { 'systemd':
-  ensure => '229-4ubuntu21',
+  ensure => '229-4ubuntu21.1',
 }
 package { 'systemd-sysv':
-  ensure => '229-4ubuntu21',
+  ensure => '229-4ubuntu21.1',
 }
 package { 'sysv-rc':
   ensure => '2.88dsf-59.3ubuntu2',
@@ -1895,7 +1886,7 @@ package { 'ucf':
   ensure => '3.0036',
 }
 package { 'udev':
-  ensure => '229-4ubuntu21',
+  ensure => '229-4ubuntu21.1',
 }
 package { 'ufw':
   ensure => '0.35-0ubuntu2',
