@@ -50,6 +50,22 @@ variable pagerduty_service_key {
   default = ""
 }
 
+variable pagerduty_critical_platform_service_key {
+  default = ""
+}
+
+variable pagerduty_non_critical_platform_service_key {
+  default = ""
+}
+
+variable pagerduty_critical_application_service_key {
+  default = ""
+}
+
+variable pagerduty_non_critical_application_service_key {
+  default = ""
+}
+
 variable sink_slack_url {
   default = ""
 }
