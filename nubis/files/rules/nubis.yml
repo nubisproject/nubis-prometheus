@@ -254,8 +254,8 @@ groups:
     - alert: TimeSanity
       expr: >
         ( 
-          # Instance has been up for 15 minutes already
-          node_uptime > 60*15
+          # Instance has been up for 30 minutes already
+          node_uptime > 60*30
             AND
           # node collector is up
           up{job="node"}
