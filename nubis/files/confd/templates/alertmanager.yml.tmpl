@@ -72,11 +72,6 @@ receivers:
         channel: '{{getv "/config/Slack/Channel"}}'
         send_resolved: true
 {{end}}
-{{if exists "/config/PagerDuty/ServiceKey"}}
-    pagerduty_configs:
-      - service_key: '{{getv "/config/PagerDuty/ServiceKey"}}'
-        send_resolved: true
-{{end}}
 {{ if exists "/config/PagerDuty/PlatformCriticalServiceKey" }}
   - name: 'platform-critical'
     pagerduty_configs:

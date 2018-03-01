@@ -46,10 +46,6 @@ variable slack_channel {}
 
 variable notification_email {}
 
-variable pagerduty_service_key {
-  default = ""
-}
-
 variable pagerduty_critical_platform_service_key {
   default = ""
 }
