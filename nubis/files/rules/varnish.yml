@@ -4,7 +4,8 @@ groups:
     rules:
     - alert: VarnishCacheHitRateTooLow
       expr: >
-        100 * ( (sum(rate(varnish_main_cache_hitpass[5m]) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) without (instance)  + sum(varnish_up * rate(varnish_main_cache_hit[5m]) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) without (instance)) / sum(varnish_up * rate(varnish_main_client_req[5m]) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) without (instance)) 
+        sum(varnish_up * rate(varnish_main_client_req[5m]) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) WITHOUT (instance) > 0.1 AND
+	100 * ( (sum(rate(varnish_main_cache_hitpass[5m]) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) without (instance)  + sum(varnish_up * rate(varnish_main_cache_hit[5m]) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) without (instance)) / sum(varnish_up * rate(varnish_main_client_req[5m]) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) without (instance)) 
         < 10
       for: 10m
       labels:
