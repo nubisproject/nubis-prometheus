@@ -6,8 +6,8 @@ notice ("Grabbing traefik ${traefik_version}")
 staging::file { '/usr/local/bin/traefik':
   source => $traefik_url,
   target => '/usr/local/bin/traefik',
-}->
-exec { 'chmod /usr/local/bin/traefik':
+}
+->exec { 'chmod /usr/local/bin/traefik':
   command => 'chmod 755 /usr/local/bin/traefik',
   path    => ['/sbin','/bin','/usr/sbin','/usr/bin','/usr/local/sbin','/usr/local/bin'],
 }
@@ -25,8 +25,8 @@ package {'apache2-utils':
 
 systemd::unit_file { 'traefik.service':
   source => 'puppet:///nubis/files/traefik.systemd',
-}->
-service { 'traefik':
+}
+->service { 'traefik':
   enable => true,
 }
 

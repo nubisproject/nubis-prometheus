@@ -43,8 +43,8 @@ file { '/etc/prometheus/nubis.rules.d':
     File['/etc/prometheus'],
   ],
   source  => 'puppet:///nubis/files/rules',
-}->
-exec { 'check prometheus rules syntax':
+}
+->exec { 'check prometheus rules syntax':
   command => '/opt/prometheus/promtool check rules /etc/prometheus/nubis.rules.d/*',
   path    => ['/sbin','/bin','/usr/sbin','/usr/bin','/usr/local/sbin','/usr/local/bin'],
   require => [
@@ -95,8 +95,8 @@ file { '/usr/local/bin/nubis_prometheus':
 notice ("Grabbing prometheus ${prometheus_version}")
 staging::file { "prometheus.${prometheus_version}.tar.gz":
   source => $prometheus_url,
-}->
-staging::extract { "prometheus.${prometheus_version}.tar.gz":
+}
+->staging::extract { "prometheus.${prometheus_version}.tar.gz":
   strip   => 1,
   target  => '/opt/prometheus',
   creates => '/opt/prometheus/prometheus',
@@ -106,8 +106,8 @@ staging::extract { "prometheus.${prometheus_version}.tar.gz":
 notice ("Grabbing alertmanager ${alertmanager_version}")
 staging::file { "alertmanager.${alertmanager_version}.tar.gz":
   source => $alertmanager_url,
-}->
-staging::extract { "alertmanager.${alertmanager_version}.tar.gz":
+}
+->staging::extract { "alertmanager.${alertmanager_version}.tar.gz":
   strip   => 1,
   target  => '/opt/prometheus',
   creates => '/opt/prometheus/alertmanager',
@@ -117,8 +117,8 @@ staging::extract { "alertmanager.${alertmanager_version}.tar.gz":
 notice ("Grabbing blackbox ${blackbox_version}")
 staging::file { "blackbox.${blackbox_version}.tar.gz":
   source => $blackbox_url,
-}->
-staging::extract { "blackbox.${blackbox_version}.tar.gz":
+}
+->staging::extract { "blackbox.${blackbox_version}.tar.gz":
   strip   => 1,
   target  => '/opt/prometheus',
   creates => '/opt/prometheus/blackbox_exporter',
@@ -127,21 +127,21 @@ staging::extract { "blackbox.${blackbox_version}.tar.gz":
 
 systemd::unit_file { 'prometheus.service':
   source => 'puppet:///nubis/files/prometheus.systemd',
-}->
-service { 'prometheus':
+}
+->service { 'prometheus':
   enable => true,
 }
 
 systemd::unit_file { 'alertmanager.service':
   source => 'puppet:///nubis/files/alertmanager.systemd',
-}->
-service { 'alertmanager':
+}
+->service { 'alertmanager':
   enable => true,
 }
 
 systemd::unit_file { 'blackbox.service':
   source => 'puppet:///nubis/files/blackbox.systemd',
-}->
-service { 'blackbox':
+}
+->service { 'blackbox':
   enable => true,
 }
