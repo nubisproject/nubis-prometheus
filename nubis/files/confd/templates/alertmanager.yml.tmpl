@@ -5,7 +5,7 @@ global:
 
 route:
   # Ignore unmatched alerts by default
-  receiver: 'sink'
+  receiver: 'untagged-alerts'
   repeat_interval: 4h
   routes:
 {{ if exists "/config/PagerDuty/PlatformCriticalServiceKey" }}
@@ -24,15 +24,11 @@ route:
       match:
         platform: 'application'
         severity: 'critical'
-      match_re:
-        environment: '.+'
 {{ end }}
 {{ if exists "/config/PagerDuty/ApplicationNonCriticalServiceKey" }}
     - receiver: 'application-non-critical'
       match:
         platform: 'application'
-      match_re:
-        environment: '.+'
 {{ end }}
 
     # Fire off all alerts only for platform alerts, we leave the rest to upstream
@@ -41,22 +37,22 @@ route:
         platform: nubis
 
 receivers:
-  - name: 'sink'
-{{if exists "/config/Sink/Email/Destination"}}
+  - name: 'untagged-alerts'
+{{if exists "/config/Untagged/Email/Destination"}}
     email_configs:
-      - to: '{{getv "/config/Sink/Email/Destination"}}'
+      - to: '{{getv "/config/Untagged/Email/Destination" }}'
         require_tls: false
         send_resolved: true
 {{end}}
-{{if and (exists "/config/Sink/Slack/Url") (exists "/config/Sink/Slack/Channel")}}
+{{if and (exists "/config/Untagged/Slack/Url") (exists "/config/Untagged/Slack/Channel")}}
     slack_configs:
-      - api_url: '{{getv "/config/Sink/Slack/Url"}}'
-        channel: '{{getv "/config/Sink/Slack/Channel"}}'
+      - api_url: '{{getv "/config/Untagged/Slack/Url"}}'
+        channel: '{{getv "/config/Untagged/Slack/Channel"}}'
         send_resolved: true
 {{end}}
-{{if exists "/config/Sink/PagerDuty/ServiceKey"}}
+{{if exists "/config/PagerDuty/PlatformNonCriticalServiceKey"}}
     pagerduty_configs:
-      - service_key: '{{getv "/config/Sink/PagerDuty/ServiceKey"}}'
+      - service_key: '{{getv "/config/PagerDuty/PlatformNonCriticalServiceKey"}}'
         send_resolved: true
 {{end}}
   - name: 'all'

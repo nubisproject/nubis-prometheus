@@ -16,11 +16,10 @@ groups:
   - alert: SquidRequestsSpike
     expr: (abs(squid:squid_cacheServerRequests:rate5m - avg_over_time(squid:squid_cacheServerRequests:rate5m[1h]))
       > 2 * stddev_over_time(squid:squid_cacheServerRequests:rate5m[1h])) / stddev_over_time(squid:squid_cacheServerRequests:rate5m[1h])
-      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance)
+      * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis * ON(instance)
       GROUP_LEFT(instance_type, availability_zone, region) aws
     for: 15m
     labels:
-      platform: nubis
       severity: critical
       type: anomaly
     annotations:
@@ -30,11 +29,10 @@ groups:
   - alert: SquidOutKbSpike
     expr: (abs(squid:squid_cacheServerOutKb:rate5m - avg_over_time(squid:squid_cacheServerOutKb:rate5m[1h]))
       > 2 * stddev_over_time(squid:squid_cacheServerOutKb:rate5m[1h])) / stddev_over_time(squid:squid_cacheServerOutKb:rate5m[1h])
-      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance)
+      * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis * ON(instance)
       GROUP_LEFT(instance_type, availability_zone, region) aws
     for: 15m
     labels:
-      platform: nubis
       severity: critical
       type: anomaly
     annotations:
@@ -44,11 +42,10 @@ groups:
   - alert: SquidInKbSpike
     expr: (abs(squid:squid_cacheServerInKb:rate5m - avg_over_time(squid:squid_cacheServerInKb:rate5m[1h]))
       > 2 * stddev_over_time(squid:squid_cacheServerInKb:rate5m[1h])) / stddev_over_time(squid:squid_cacheServerInKb:rate5m[1h])
-      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance)
+      * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis * ON(instance)
       GROUP_LEFT(instance_type, availability_zone, region) aws
     for: 15m
     labels:
-      platform: nubis
       severity: critical
       type: anomaly
     annotations:

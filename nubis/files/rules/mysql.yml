@@ -7,12 +7,11 @@ groups:
   - alert: MySQLReplicationNotRunning
     expr: >
       ( mysql_slave_status_slave_io_running{job="mysql"} == 0 OR mysql_slave_status_slave_sql_running{job="mysql"} == 0 )
-        * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis
+        * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis
         * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
       != 0
     for: 5m
     labels:
-      platform: nubis
       severity: critical
       type: failure
     annotations:
@@ -24,11 +23,10 @@ groups:
        (mysql_slave_lag_seconds >= 30)
        AND on (instance)
       (predict_linear(mysql_slave_lag_seconds{job="mysql"}[5m], 60*2) > 0 ) )
-      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis
+      * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis
       * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
     for: 5m
     labels:
-      platform: nubis
       severity: critical
       type: predictive
     annotations:
@@ -37,11 +35,10 @@ groups:
   - alert: MySQLTooManyConnections
     expr: >
       ( mysql_global_status_threads_connected{job="mysql"} / mysql_global_variables_max_connections{job="mysql"} * 100 > 80 )
-      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis
+      * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis
       * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
     for: 30m
     labels:
-      platform: nubis
       severity: critical
       type: failure
     annotations:
@@ -50,11 +47,10 @@ groups:
   - alert: MySQLRunningOutOfConnections
     expr: >
       ( predict_linear(mysql_global_status_threads_connected{job="mysql"}[10m], 60 * 60 * 3) > mysql_global_variables_max_connections{job="mysql"} )
-      * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis
+      * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis
       * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
     for: 5m
     labels:
-      platform: nubis
       severity: critical
       type: predictive
     annotations:
