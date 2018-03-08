@@ -8,7 +8,6 @@ groups:
         > 90
       for: 10m
       labels:
-        platform: nubis
         severity: critical
         type: treshold
       annotations:
@@ -20,7 +19,6 @@ groups:
         < 100000000
       for: 15m
       labels:
-        platform: nubis
         severity: critical
       annotations:
         description: ElastiCache cluster {{ $labels.cache_cluster_id }} has {{ $value }} < 100Mb free memory
