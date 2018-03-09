@@ -372,6 +372,7 @@ groups:
         > 500
       for: 5m
       labels:
+        platform: nubis
         severity: critical
       annotations:
         description: Consul leader having trouble reaching its followers
@@ -396,6 +397,7 @@ groups:
         < 3
       for: 5m
       labels:
+        platform: nubis
         severity: critical
       annotations:
         description: There are only {{$value}} < 2 ElasticSearch nodes running
@@ -417,6 +419,7 @@ groups:
         <= 1000000000
       for: 15m
       labels:
+        platform: nubis
         severity: critical
       annotations:
         description: ElasticSearch cluster has {{ $value }} bytes < 1G free space
@@ -427,6 +430,7 @@ groups:
         <= 1000000000
       for: 15m
       labels:
+        platform: nubis
         severity: critical
         type: predictive
       annotations:
@@ -438,6 +442,7 @@ groups:
         < 5
       for: 15m
       labels:
+        platform: nubis
         severity: critical
       annotations:
         description: ElasticSearch cluster has {{ $value }}% < 5% free memory
@@ -448,6 +453,7 @@ groups:
         < 5
       for: 15m
       labels:
+        platform: nubis
         severity: critical
       annotations:
         description: ElasticSearch cluster has {{ $value }}% < 5% free CPU
