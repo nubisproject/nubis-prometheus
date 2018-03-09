@@ -62,22 +62,6 @@ variable pagerduty_non_critical_application_service_key {
   default = ""
 }
 
-variable sink_slack_url {
-  default = ""
-}
-
-variable sink_slack_channel {
-  default = ""
-}
-
-variable sink_notification_email {
-  default = ""
-}
-
-variable sink_pagerduty_service_key {
-  default = ""
-}
-
 variable swap_size_meg {
   default = "2048"
 }
