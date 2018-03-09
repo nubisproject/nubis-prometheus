@@ -293,10 +293,6 @@ NUBIS_PROMETHEUS_PLATFORM_CRITICAL_PAGERDUTY_SERVICE_KEY="${var.pagerduty_critic
 NUBIS_PROMETHEUS_PLATFORM_NON_CRITICAL_PAGERDUTY_SERVICE_KEY="${var.pagerduty_non_critical_platform_service_key}"
 NUBIS_PROMETHEUS_APP_CRITICAL_PAGERDUTY_SERVICE_KEY="${var.pagerduty_critical_application_service_key}"
 NUBIS_PROMETHEUS_APP_NON_CRITICAL_PAGERDUTY_SERVICE_KEY="${var.pagerduty_non_critical_application_service_key}"
-NUBIS_PROMETHEUS_SINK_SLACK_URL="${var.sink_slack_url}"
-NUBIS_PROMETHEUS_SINK_SLACK_CHANNEL="${var.sink_slack_channel}"
-NUBIS_PROMETHEUS_SINK_NOTIFICATION_EMAIL="${var.sink_notification_email}"
-NUBIS_PROMETHEUS_SINK_PAGERDUTY_SERVICE_KEY="${var.sink_pagerduty_service_key}"
 NUBIS_SUDO_GROUPS="${var.nubis_sudo_groups}"
 NUBIS_USER_GROUPS="${var.nubis_user_groups}"
 EOF

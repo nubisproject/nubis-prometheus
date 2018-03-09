@@ -4,8 +4,8 @@ global:
   smtp_from: 'nubis-team@mozilla.com'
 
 route:
-  # Ignore unmatched alerts by default
-  receiver: 'untagged-alerts'
+  # Alerts that don't match anything go here
+  receiver: 'default-alerts'
   repeat_interval: 4h
   routes:
 {{ if exists "/config/PagerDuty/PlatformCriticalServiceKey" }}
@@ -31,37 +31,26 @@ route:
         platform: 'application'
 {{ end }}
 
-    # Fire off all alerts only for platform alerts, we leave the rest to upstream
-    - receiver: 'all'
-      match:
-        platform: nubis
-
 receivers:
-  - name: 'untagged-alerts'
-{{if exists "/config/Untagged/Email/Destination"}}
-    email_configs:
-      - to: '{{getv "/config/Untagged/Email/Destination" }}'
-        require_tls: false
-        send_resolved: true
-{{end}}
-{{if and (exists "/config/Untagged/Slack/Url") (exists "/config/Untagged/Slack/Channel")}}
-    slack_configs:
-      - api_url: '{{getv "/config/Untagged/Slack/Url"}}'
-        channel: '{{getv "/config/Untagged/Slack/Channel"}}'
-        send_resolved: true
-{{end}}
-{{if exists "/config/PagerDuty/PlatformNonCriticalServiceKey"}}
-    pagerduty_configs:
-      - service_key: '{{getv "/config/PagerDuty/PlatformNonCriticalServiceKey"}}'
-        send_resolved: true
-{{end}}
-  - name: 'all'
+  - name: 'default-alerts'
 {{if exists "/config/Email/Destination"}}
     email_configs:
-      - to: '{{getv "/config/Email/Destination"}}'
+      - to: '{{getv "/config/Email/Destination" }}'
         require_tls: false
         send_resolved: true
 {{end}}
+{{if and (exists "/config/Slack/Url") (exists "/config/Slack/Channel")}}
+    slack_configs:
+      - api_url: '{{getv "/config/Slack/Url"}}'
+        channel: '{{getv "/config/Slack/Channel"}}'
+        send_resolved: true
+{{end}}
+{{if exists "/config/PagerDuty/PlatformCriticalServiceKey"}}
+    pagerduty_configs:
+      - service_key: '{{getv "/config/PagerDuty/PlatformCriticalServiceKey"}}'
+        send_resolved: true
+{{end}}
+
 {{if and (exists "/config/Slack/Url") (exists "/config/Slack/Channel")}}
     slack_configs:
       - api_url: '{{getv "/config/Slack/Url"}}'
