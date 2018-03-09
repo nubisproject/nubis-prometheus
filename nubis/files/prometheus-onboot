@@ -36,32 +36,11 @@ else
   consulate kv rm "$KV_PREFIX/Slack/Channel"
 fi
 
-NUBIS_PROMETHEUS_SINK_SLACK_URL=$(nubis-metadata NUBIS_PROMETHEUS_SINK_SLACK_URL)
-if [ "$NUBIS_PROMETHEUS_SINK_SLACK_URL" != "" ]; then
-  consulate kv set "$KV_PREFIX/Sink/Slack/Url" "$NUBIS_PROMETHEUS_SINK_SLACK_URL"
-else
-  consulate kv rm "$KV_PREFIX/Sink/Slack/Url"
-fi
-
-NUBIS_PROMETHEUS_SINK_SLACK_CHANNEL=$(nubis-metadata NUBIS_PROMETHEUS_SINK_SLACK_CHANNEL)
-if [ "$NUBIS_PROMETHEUS_SINK_SLACK_URL" != "" ]; then
-  consulate kv set "$KV_PREFIX/Sink/Slack/Channel" "$NUBIS_PROMETHEUS_SINK_SLACK_CHANNEL"
-else
-  consulate kv rm "$KV_PREFIX/Sink/Slack/Channel"
-fi
-
 NUBIS_PROMETHEUS_NOTIFICATION_EMAIL=$(nubis-metadata NUBIS_PROMETHEUS_NOTIFICATION_EMAIL)
 if [ "$NUBIS_PROMETHEUS_NOTIFICATION_EMAIL" != "" ]; then
   consulate kv set "$KV_PREFIX/Email/Destination" "$NUBIS_PROMETHEUS_NOTIFICATION_EMAIL"
 else
   consulate kv rm "$KV_PREFIX/Email/Destination"
-fi
-
-NUBIS_PROMETHEUS_SINK_NOTIFICATION_EMAIL=$(nubis-metadata NUBIS_PROMETHEUS_SINK_NOTIFICATION_EMAIL)
-if [ "$NUBIS_PROMETHEUS_SINK_NOTIFICATION_EMAIL" != "" ]; then
-  consulate kv set "$KV_PREFIX/Sink/Email/Destination" "$NUBIS_PROMETHEUS_SINK_NOTIFICATION_EMAIL"
-else
-  consulate kv rm "$KV_PREFIX/Sink/Email/Destination"
 fi
 
 NUBIS_ACCOUNT=$(nubis-metadata NUBIS_ACCOUNT)
@@ -89,13 +68,6 @@ if [ "$NUBIS_ARENA" != "" ]; then
   consulate kv set "$KV_PREFIX/Arena" "$NUBIS_ARENA"
 else
   consulate kv rm "$KV_PREFIX/Arena"
-fi
-
-NUBIS_PROMETHEUS_SINK_PAGERDUTY_SERVICE_KEY=$(nubis-metadata NUBIS_PROMETHEUS_SINK_PAGERDUTY_SERVICE_KEY)
-if [ "$NUBIS_PROMETHEUS_SINK_PAGERDUTY_SERVICE_KEY" != "" ]; then
-  consulate kv set "$KV_PREFIX/Sink/PagerDuty/ServiceKey" "$NUBIS_PROMETHEUS_SINK_PAGERDUTY_SERVICE_KEY"
-else
-  consulate kv rm "$KV_PREFIX/Sink/PagerDuty/ServiceKey"
 fi
 
 NUBIS_PROMETHEUS_PLATFORM_CRITICAL_PAGERDUTY_SERVICE_KEY=$(nubis-metadata NUBIS_PROMETHEUS_PLATFORM_CRITICAL_PAGERDUTY_SERVICE_KEY)
