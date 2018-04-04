@@ -5,9 +5,9 @@ provider "aws" {
 module "prometheus-image" {
   source = "github.com/nubisproject/nubis-terraform///images?ref=develop"
 
-  region  = "${var.aws_region}"
-  version = "${var.nubis_version}"
-  project = "nubis-prometheus"
+  region        = "${var.aws_region}"
+  image_version = "${var.nubis_version}"
+  project       = "nubis-prometheus"
 }
 
 resource "aws_s3_bucket" "prometheus" {
