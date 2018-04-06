@@ -5,25 +5,23 @@ groups:
     - record: node_uptime
       expr: time() - node_boot_time
     - alert: InstanceDown
-      expr: up{job="node"} * ON(instance) GROUP_LEFT(project, arena, environment, account)
+      expr: up{job="node"} * ON(instance) GROUP_LEFT(project, arena, environment, account, platform)
         nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
         == 0
       for: 10m
       labels:
-        platform: nubis
         severity: critical
       annotations:
         description: '{{ $labels.instance }} of job {{ $labels.job }} has been down
           for more than 10 minutes.'
         summary: Instance {{ $labels.instance }} down
     - alert: ConsulDown
-      expr: label_replace(label_replace(sum(consul_agent_check{check="serfHealth",job="consul"}
+      expr: label_replace(label_replace(sum(consul_health_node_status{check="serfHealth",job="consul"}
         == 1) BY (node), "instance", "$1", "node", "(.*)"), "node", "XXX", "node", ".*")
-        * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance)
+        * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis{project = "consul"} * ON(instance)
         GROUP_LEFT(instance_type, availability_zone, region) aws != 3
       for: 5m
       labels:
-        platform: nubis
         severity: critical
       annotations:
         description: '{{ $labels.node }} Consul se health reporting unhealthy'
@@ -32,35 +30,32 @@ groups:
       expr: label_replace(label_replace(min(consul_catalog_service_node_healthy{service_id!="tainted"})
         BY (service, node) - ON(node) GROUP_LEFT(instance) min(consul_agent_check{check="serfHealth"})
         BY (node), "instance", "$1", "node", "(.*)"), "node", "XXX", "node", ".*") *
-        ON(instance) GROUP_LEFT(project, arena, environment, account) nubis * ON(instance)
+        ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis * ON(instance)
         GROUP_LEFT(instance_type, availability_zone, region) aws < 0
       for: 5m
       labels:
-        platform: nubis
         severity: critical
       annotations:
         description: Consul detected {{ $labels.service }} with no healthy nodes
         summary: Consul service problem for {{ $labels.service }}
     - alert: SustainedLoadHigh
       expr: avg_over_time(node_load1[5m]) * ON(instance) GROUP_LEFT(project, arena,
-        environment, account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone,
+        environment, account, platform) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone,
         region) aws > 8
       for: 15m
       labels:
-        platform: nubis
         severity: critical
       annotations:
         description: '{{ $labels.instance }} average 1 minute load {{ $value }} is averaging
           over 8 for more than 15 minutes'
         summary: Sustained HIGH load on {{ $labels.instance }}
     - alert: OutlierLoad1
-      expr: up * node_load5 * ON(instance) GROUP_LEFT(project, arena, environment, account)
+      expr: up * node_load5 * ON(instance) GROUP_LEFT(project, arena, environment, account, platform)
         nubis > 0.25 > ON(project) GROUP_LEFT() avg(up * node_load5 * ON(instance) GROUP_LEFT(project,
-        arena, environment, account) nubis) BY (project) + (2 * stddev(up * node_load5
-        * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) BY (project))
+        arena, environment, account, platform) nubis) BY (project) + (2 * stddev(up * node_load5
+        * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis) BY (project))
       for: 30m
       labels:
-        platform: nubis
         severity: critical
         type: anomaly
       annotations:
@@ -142,7 +137,6 @@ groups:
         == 1) BY (node)) == 1)
       for: 5m
       labels:
-        platform: nubis
         severity: critical
       annotations:
         description: Healthy prometheus servers count isn't 1
@@ -159,11 +153,10 @@ groups:
         summary: Unexpected number of healthy AlertManager nodes
     - alert: PredictDiskFull24h
       expr: predict_linear(node_filesystem_free{job="node",fstype!="aufs",fstype!="proc",fstype!="nsfs",fstype!="rpc_pipefs",fstype!="overlay",fstype!="fuse.lxcfs"}[1h], 24 * 60 * 60) * ON(instance)
-        GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type,
+        GROUP_LEFT(project, arena, environment, account, platform) nubis * ON(instance) GROUP_LEFT(instance_type,
         availability_zone, region) aws < 0
       for: 30m
       labels:
-        platform: nubis
         severity: critical
         type: predictive
       annotations:
@@ -173,11 +166,10 @@ groups:
     - alert: FluentdBufferSize
       expr: abs(avg_over_time(fluentd_status_buffer_total_bytes[5m]) - avg_over_time(fluentd_status_buffer_total_bytes[1h]))
         > 1 * stddev_over_time(fluentd_status_buffer_total_bytes[1h]) * ON(instance)
-        GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type,
+        GROUP_LEFT(project, arena, environment, account, platform) nubis * ON(instance) GROUP_LEFT(instance_type,
         availability_zone, region) aws
       for: 5m
       labels:
-        platform: nubis
         severity: critical
         type: anomaly
       annotations:
@@ -187,11 +179,10 @@ groups:
     - alert: FluentdQueueLength
       expr: abs(avg_over_time(fluentd_status_buffer_queue_length[5m]) - avg_over_time(fluentd_status_buffer_queue_length[1h]))
         > 1 * stddev_over_time(fluentd_status_buffer_queue_length[1h]) * ON(instance)
-        GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type,
+        GROUP_LEFT(project, arena, environment, account, platform) nubis * ON(instance) GROUP_LEFT(instance_type,
         availability_zone, region) aws
       for: 5m
       labels:
-        platform: nubis
         severity: critical
         type: anomaly
       annotations:
@@ -200,11 +191,10 @@ groups:
         summary: Fluentd queue length increasing too fast
     - alert: FluentdRetryRate
       expr: irate(fluentd_status_retry_count[5m]) * ON(instance) GROUP_LEFT(project,
-        arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type,
+        arena, environment, account, platform) nubis * ON(instance) GROUP_LEFT(instance_type,
         availability_zone, region) aws > 0
       for: 5m
       labels:
-        platform: nubis
         severity: critical
         type: anomaly
       annotations:
@@ -214,11 +204,10 @@ groups:
         summary: Fluentd has been retrying to push out
     - alert: NATNetConntrackFull
       expr: 100 * node_nf_conntrack_entries / node_nf_conntrack_entries_limit * ON(instance)
-        GROUP_LEFT(project, arena, environment, account) nubis * ON(instance) GROUP_LEFT(instance_type,
+        GROUP_LEFT(project, arena, environment, account, platform) nubis * ON(instance) GROUP_LEFT(instance_type,
         availability_zone, region) aws > 90
       for: 15m
       labels:
-        platform: nubis
         severity: critical
       annotations:
         description: IP Connection tracking table almost full ({{ $value }}>90%) on
@@ -226,11 +215,10 @@ groups:
         summary: IP Connection Tracking Almost Full
     - alert: NATIpForwardingNotEnabled
       expr: node_netstat_Ip_Forwarding * ON(instance) GROUP_LEFT(project, arena, environment,
-        account) nubis{project="nat"} * ON(instance) GROUP_LEFT(instance_type, availability_zone,
+        account, platform) nubis{project="nat"} * ON(instance) GROUP_LEFT(instance_type, availability_zone,
         region) aws != 1
       for: 5m
       labels:
-        platform: nubis
         severity: critical
         type: invariant
       annotations:
@@ -238,11 +226,10 @@ groups:
         summary: IP Forwarding not enabled on NAT node
     - alert: CronJobFailing
       expr: nubis_cron_status * ON(instance) GROUP_LEFT(project, arena, environment,
-        account) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region)
+        account, platform) nubis * ON(instance) GROUP_LEFT(instance_type, availability_zone, region)
         aws != 0
       for: 15m
       labels:
-        platform: nubis
         severity: critical
         type: failure
       annotations:
@@ -253,21 +240,20 @@ groups:
     rules:
     - alert: TimeSanity
       expr: >
-        ( 
-          # Instance has been up for 15 minutes already
-          node_uptime > 60*15
+        (
+          # Instance has been up for 30 minutes already
+          node_uptime > 60*30
             AND
           # node collector is up
           up{job="node"}
             AND
           # ntp sanity isn't good
           node_ntp_sanity != 1
-        ) 
-        * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis 
+        )
+        * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis
         * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
       for: 5m
       labels:
-        platform: nubis
         severity: critical
         type: failure
       annotations:
@@ -281,7 +267,6 @@ groups:
         > 0.01
       for: 5m
       labels:
-        platform: nubis
         severity: critical
         type: failure
       annotations:
@@ -295,7 +280,6 @@ groups:
         > 90
       for: 15m
       labels:
-        platform: nubis
         severity: critical
         type: failure
       annotations:
@@ -307,7 +291,6 @@ groups:
         > 0
       for: 15m
       labels:
-        platform: nubis
         severity: critical
         type: failure
       annotations:
@@ -319,7 +302,6 @@ groups:
         <= 0
       for: 10m
       labels:
-        platform: nubis
         severity: critical
         type: failure
       annotations:
@@ -331,7 +313,6 @@ groups:
         < 0
       for: 15m
       labels:
-        platform: nubis
         severity: critical
         type: failure
       annotations:
@@ -345,7 +326,6 @@ groups:
         < 0
       for: 15m
       labels:
-        platform: nubis
         severity: critical
         type: predictive
       annotations:
@@ -356,7 +336,6 @@ groups:
         aws_efs_burst_credit_balance_average{job="cloudwatch"} <= 0
       for: 5m
       labels:
-        platform: nubis
         severity: critical
         type: failure
       annotations:
@@ -370,7 +349,6 @@ groups:
         != 1
       for: 5m
       labels:
-        platform: nubis
         severity: critical
         type: failure
       annotations:
@@ -382,16 +360,16 @@ groups:
       expr: count(up{job="consul"} == 0) > (count(up{job="consul"}) / 2 - 1)
       for: 5m
       labels:
-        platform: nubis
         severity: critical
       annotations:
         description: The consul has lost sufficient peers and will be unable to achieve
           Quorum
-        summary: Consul Insufficient Peers   
+        summary: Consul Insufficient Peers
     - alert: ConsulLeaderStableRaftTiming
       expr: >
-        consul_raft_leader_lastContact_timer{quantile="0.99"}
-        > 500 
+        consul_raft_leader_lastContact_timer{quantile="0.99"} * on (instance)
+        group_left(project, account, platform) nubis
+        > 500
       for: 5m
       labels:
         platform: nubis
@@ -438,7 +416,7 @@ groups:
     - alert: ElasticSearchOutOfSpace
       expr: >
         elasticsearch_cluster_data_free_bytes{job="fluentd-elasticsearch"}
-        <= 1000000000 
+        <= 1000000000
       for: 15m
       labels:
         platform: nubis

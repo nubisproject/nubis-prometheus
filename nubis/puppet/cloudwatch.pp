@@ -11,12 +11,12 @@ class { 'java':
 
 file { '/usr/share/cloudwatch_exporter':
   ensure => 'directory',
-}->
-staging::file { "cloudwatch.${cloudwatch_exporter_version}.jar":
+}
+->staging::file { "cloudwatch.${cloudwatch_exporter_version}.jar":
   source => $cloudwatch_exporter_url,
   target => "/usr/share/cloudwatch_exporter/cloudwatch_exporter-${cloudwatch_exporter_version}.jar"
-}->
-file { '/usr/share/cloudwatch_exporter/cloudwatch_exporter.jar':
+}
+->file { '/usr/share/cloudwatch_exporter/cloudwatch_exporter.jar':
   ensure => 'link',
   target => "cloudwatch_exporter-${cloudwatch_exporter_version}.jar"
 }

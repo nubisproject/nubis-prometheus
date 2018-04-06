@@ -11,38 +11,32 @@ groups:
   - record: apache:apache_sent_kilobytes_total:rate1h
     expr: rate(apache_sent_kilobytes_total[1h])
   - alert: ApacheAccessSpike
-    expr:  (abs(( rate(apache_accesses_total[5m])  * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis > 1) - on(account, arena, environment, project) group_left avg(rate(apache_accesses_total[1h]) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) by (project, arena, environment, account)) > 0.5 )  /  on(account, arena, environment, project) group_left() ( stddev(rate(apache_accesses_total[1h]) * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) by (project, arena, environment, account) > 0.5 ) * ON(instance) GROUP_LEFT(instance_type,
+    expr:  (abs(( rate(apache_accesses_total[5m])  * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis > 1) - on(account, arena, environment, project) group_left avg(rate(apache_accesses_total[1h]) * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis) by (project, arena, environment, account, platform)) > 0.5 )  /  on(account, arena, environment, project, platform) group_left() ( stddev(rate(apache_accesses_total[1h]) * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis) by (project, arena, environment, account, platform) > 0.5 ) * ON(instance) GROUP_LEFT(instance_type,
       availability_zone, region) aws > 2
     for: 15m
     labels:
-      severity: critical
       type: anomaly
     annotations:
       description: '{{ $labels.instance }} is showing a request spike of {{ $value }} stddevs, more than 2 over the average'
       summary: Anomalous request spike on {{ $labels.instance }}
   - alert: ApacheSentKbSpike
-    expr:  (abs(( apache:apache_sent_kilobytes_total:rate5m * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis > 10) - on(account, arena, environment, project) group_left avg(apache:apache_sent_kilobytes_total:rate1h* ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) by (project, arena, environment, account)) > 25 )  /  on(account, arena, environment, project) group_left() ( stddev(apache:apache_sent_kilobytes_total:rate1h * ON(instance) GROUP_LEFT(project, arena, environment, account) nubis) by (project, arena, environment, account) > 10 ) * ON(instance) GROUP_LEFT(instance_type,
+    expr:  (abs(( apache:apache_sent_kilobytes_total:rate5m * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis > 10) - on(account, arena, environment, project, platform) group_left avg(apache:apache_sent_kilobytes_total:rate1h* ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis) by (project, arena, environment, account, platform)) > 25 )  /  on(account, arena, environment, project, platform) group_left() ( stddev(apache:apache_sent_kilobytes_total:rate1h * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis) by (project, arena, environment, account, platform) > 10 ) * ON(instance) GROUP_LEFT(instance_type,
       availability_zone, region) aws > 2
     for: 15m
     labels:
-      severity: critical
       type: anomaly
     annotations:
       description: '{{ $labels.instance }} is showing an outbount KBs spike of {{ $value }} stddevs, more than 2 over the average'
       summary: Anomalous Outbound KBs spike on {{ $labels.instance }}
   - alert: ApacheWorkersLow
-    expr: 100 * ( apache_workers{state="idle"} / ON(instance) GROUP_LEFT  sum(apache_workers) without(state) )  * ON(instance) GROUP_LEFT(project, arena, nvironment, account) nubis < 10
+    expr: 100 * ( apache_workers{state="idle"} / ON(instance) GROUP_LEFT  sum(apache_workers) without(state) )  * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis < 10
     for: 15m
-    labels:
-      severity: critical
     annotations:
       description: '{{ $labels.instance }} Apache is running out of spare capacity {{ $value }}% < 10%'
       summary: Apache running out of spare capacity
   - alert: ApacheScoreboardSlotLow
-    expr: 100 * ( apache_scoreboard{state="open_slot"}  / ON(instance) GROUP_LEFT  sum(apache_scoreboard) without(state) )  * ON(instance) GROUP_LEFT(project, rena, environment, account) nubis < 10
+    expr: 100 * ( apache_scoreboard{state="open_slot"}  / ON(instance) GROUP_LEFT  sum(apache_scoreboard) without(state) )  * ON(instance) GROUP_LEFT(project, arena, environment, account, platform) nubis < 10
     for: 15m
-    labels:
-      severity: critical
     annotations:
       description: '{{ $labels.instance }} Apache is running out of spare capacity {{ $value }}% < 10%'
       summary: Apache running out of spare capacity

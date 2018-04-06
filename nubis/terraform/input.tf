@@ -46,23 +46,19 @@ variable slack_channel {}
 
 variable notification_email {}
 
-variable pagerduty_service_key {
+variable pagerduty_critical_platform_service_key {
   default = ""
 }
 
-variable sink_slack_url {
+variable pagerduty_non_critical_platform_service_key {
   default = ""
 }
 
-variable sink_slack_channel {
+variable pagerduty_critical_application_service_key {
   default = ""
 }
 
-variable sink_notification_email {
-  default = ""
-}
-
-variable sink_pagerduty_service_key {
+variable pagerduty_non_critical_application_service_key {
   default = ""
 }
 

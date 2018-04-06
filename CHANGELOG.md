@@ -1,6 +1,34 @@
 # Change Log
 
-## [v2.1.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.1.0) (2018-02-07)
+## [v2.2.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.2.0) (2018-04-06)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.1.0...v2.2.0)
+
+**Closed issues:**
+
+- \[TF\] Cleanup for 0.11.x [\#334](https://github.com/nubisproject/nubis-prometheus/issues/334)
+- Rename 'sink' alert route to something more descriptive [\#330](https://github.com/nubisproject/nubis-prometheus/issues/330)
+- Tag project with platform tag [\#328](https://github.com/nubisproject/nubis-prometheus/issues/328)
+- \[VarnishCacheHitRateTooLow\] Don't alert if overall traffic is minimal [\#324](https://github.com/nubisproject/nubis-prometheus/issues/324)
+- Cleanup old pagerduty integration [\#322](https://github.com/nubisproject/nubis-prometheus/issues/322)
+- \[monitoring\] TimeSanity: 15 minutes too short of a time for NTP state to settle [\#320](https://github.com/nubisproject/nubis-prometheus/issues/320)
+- \[pagerduty\] Add more pagerduty integration [\#318](https://github.com/nubisproject/nubis-prometheus/issues/318)
+- Fixing prometheus rules [\#313](https://github.com/nubisproject/nubis-prometheus/issues/313)
+
+**Merged pull requests:**
+
+- Fix \#334 [\#335](https://github.com/nubisproject/nubis-prometheus/pull/335) ([gozer](https://github.com/gozer))
+- Cleanup alert routing [\#333](https://github.com/nubisproject/nubis-prometheus/pull/333) ([limed](https://github.com/limed))
+- All these alerts are for fluentd-elasticsearch so we just tag them as nubis [\#332](https://github.com/nubisproject/nubis-prometheus/pull/332) ([limed](https://github.com/limed))
+- Fixing up all rules and fixing up alert routes [\#331](https://github.com/nubisproject/nubis-prometheus/pull/331) ([limed](https://github.com/limed))
+- Tag project as a platform component [\#329](https://github.com/nubisproject/nubis-prometheus/pull/329) ([limed](https://github.com/limed))
+- Fixing broken rule [\#327](https://github.com/nubisproject/nubis-prometheus/pull/327) ([limed](https://github.com/limed))
+- Limit alerting to Varnish if it's seeing at least a non-trivial amount of overall traffic [\#325](https://github.com/nubisproject/nubis-prometheus/pull/325) ([gozer](https://github.com/gozer))
+- Remove old pagerduty integration key [\#323](https://github.com/nubisproject/nubis-prometheus/pull/323) ([limed](https://github.com/limed))
+- Give NTPd 30 minutes to stabilize [\#321](https://github.com/nubisproject/nubis-prometheus/pull/321) ([gozer](https://github.com/gozer))
+- Added support for pagerduty integration [\#319](https://github.com/nubisproject/nubis-prometheus/pull/319) ([limed](https://github.com/limed))
+- Update nubis-travis [\#317](https://github.com/nubisproject/nubis-prometheus/pull/317) ([tinnightcap](https://github.com/tinnightcap))
+
+## [v2.1.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.1.0) (2018-02-23)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.0.4...v2.1.0)
 
 **Closed issues:**
@@ -11,6 +39,7 @@
 - \[traefik\] Upgrade to 1.4.6 [\#294](https://github.com/nubisproject/nubis-prometheus/issues/294)
 - \[backup\] S3 sync doesn't support empty files [\#292](https://github.com/nubisproject/nubis-prometheus/issues/292)
 - \[rds\] Scrape rds metrics from cloudwatch [\#284](https://github.com/nubisproject/nubis-prometheus/issues/284)
+- Tag v2.1.0 release [\#314](https://github.com/nubisproject/nubis-prometheus/issues/314)
 - Tag v2.1.0 release [\#310](https://github.com/nubisproject/nubis-prometheus/issues/310)
 - Tag v2.1.0 release [\#305](https://github.com/nubisproject/nubis-prometheus/issues/305)
 - Tag v2.1.0 release [\#300](https://github.com/nubisproject/nubis-prometheus/issues/300)
@@ -20,6 +49,8 @@
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v2.1.0 release \[skip ci\] [\#316](https://github.com/nubisproject/nubis-prometheus/pull/316) ([nubis-automation](https://github.com/nubis-automation))
+- Update CHANGELOG for v2.1.0 release \[skip ci\] [\#315](https://github.com/nubisproject/nubis-prometheus/pull/315) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.1.0 release \[skip ci\] [\#312](https://github.com/nubisproject/nubis-prometheus/pull/312) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.1.0 release \[skip ci\] [\#311](https://github.com/nubisproject/nubis-prometheus/pull/311) ([nubis-automation](https://github.com/nubis-automation))
 - Use base's support for swap now [\#309](https://github.com/nubisproject/nubis-prometheus/pull/309) ([gozer](https://github.com/gozer))

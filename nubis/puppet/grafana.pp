@@ -37,11 +37,11 @@ class { 'grafana':
       enabled => true,
     },
   },
-}->
-exec {'wait-for grafana startup':
+}
+->exec {'wait-for grafana startup':
   command => '/bin/sleep 15',
-}->
-grafana_datasource { 'prometheus':
+}
+->grafana_datasource { 'prometheus':
   grafana_url      => 'http://localhost:3000',
   grafana_user     => 'admin',
   grafana_password => 'admin',
@@ -49,8 +49,8 @@ grafana_datasource { 'prometheus':
   url              => 'http://localhost:81/prometheus',
   access_mode      => 'proxy',
   is_default       => true,
-}->
-grafana_datasource { 'elasticsearch':
+}
+->grafana_datasource { 'elasticsearch':
   grafana_url      => 'http://localhost:3000',
   grafana_user     => 'admin',
   grafana_password => 'admin',
@@ -58,18 +58,18 @@ grafana_datasource { 'elasticsearch':
   url              => 'http://es.service.consul:8080',
   database         => '[logstash-]YYYY.MM.DD',
   access_mode      => 'proxy',
-}->
+}
 #grafana_datasource { 'cloudwatch': is not supported ;-(
-exec {'create cloudwatch datasource':
+->exec {'create cloudwatch datasource':
   command => '/usr/bin/curl -u admin:admin -H \'Content-Type: application/json\' http://localhost:3000/api/datasources -X POST --data-binary  \'{"name": "cloudwatch", "type":"cloudwatch", "access": "proxy" }\''
-}->
-exec { 'disable basic auth':
+}
+->exec { 'disable basic auth':
   command => '/usr/bin/crudini --set /etc/grafana/grafana.ini auth.basic enabled false',
   require => [
     Package['crudini'],
   ]
-}->
-exec {'enable proxy support':
+}
+->exec {'enable proxy support':
   command => '/bin/echo ". /etc/profile.d/proxy.sh" >> /etc/default/grafana-server'
 }
 

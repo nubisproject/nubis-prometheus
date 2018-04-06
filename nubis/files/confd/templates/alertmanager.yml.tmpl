@@ -4,38 +4,38 @@ global:
   smtp_from: 'nubis-team@mozilla.com'
 
 route:
-  # Ignore unmatched alerts by default
-  receiver: 'sink'
+  # Alerts that don't match anything go here
+  receiver: 'default-alerts'
   repeat_interval: 4h
   routes:
-    # Fire off all alerts only for platform alerts, we leave the rest to upstream
-    - receiver: 'all'
+{{ if exists "/config/PagerDuty/PlatformCriticalServiceKey" }}
+    - receiver: 'platform-critical'
       match:
         platform: nubis
+        severity: critical
+{{ end }}
+{{ if exists "/config/PagerDuty/PlatformNonCriticalServiceKey" }}
+    - receiver: 'platform-non-critical'
+      match:
+        platform: nubis
+{{ end }}
+{{ if exists "/config/PagerDuty/ApplicationCriticalServiceKey" }}
+    - receiver: 'application-critical'
+      match:
+        platform: 'application'
+        severity: 'critical'
+{{ end }}
+{{ if exists "/config/PagerDuty/ApplicationNonCriticalServiceKey" }}
+    - receiver: 'application-non-critical'
+      match:
+        platform: 'application'
+{{ end }}
 
 receivers:
-  - name: 'sink'
-{{if exists "/config/Sink/Email/Destination"}}
-    email_configs:
-      - to: '{{getv "/config/Sink/Email/Destination"}}'
-        require_tls: false
-        send_resolved: true
-{{end}}
-{{if and (exists "/config/Sink/Slack/Url") (exists "/config/Sink/Slack/Channel")}}
-    slack_configs:
-      - api_url: '{{getv "/config/Sink/Slack/Url"}}'
-        channel: '{{getv "/config/Sink/Slack/Channel"}}'
-        send_resolved: true
-{{end}}
-{{if exists "/config/Sink/PagerDuty/ServiceKey"}}
-    pagerduty_configs:
-      - service_key: '{{getv "/config/Sink/PagerDuty/ServiceKey"}}'
-        send_resolved: true
-{{end}}
-  - name: 'all'
+  - name: 'default-alerts'
 {{if exists "/config/Email/Destination"}}
     email_configs:
-      - to: '{{getv "/config/Email/Destination"}}'
+      - to: '{{getv "/config/Email/Destination" }}'
         require_tls: false
         send_resolved: true
 {{end}}
@@ -45,8 +45,39 @@ receivers:
         channel: '{{getv "/config/Slack/Channel"}}'
         send_resolved: true
 {{end}}
-{{if exists "/config/PagerDuty/ServiceKey"}}
+{{if exists "/config/PagerDuty/PlatformCriticalServiceKey"}}
     pagerduty_configs:
-      - service_key: '{{getv "/config/PagerDuty/ServiceKey"}}'
+      - service_key: '{{getv "/config/PagerDuty/PlatformCriticalServiceKey"}}'
+        send_resolved: true
+{{end}}
+
+{{if and (exists "/config/Slack/Url") (exists "/config/Slack/Channel")}}
+    slack_configs:
+      - api_url: '{{getv "/config/Slack/Url"}}'
+        channel: '{{getv "/config/Slack/Channel"}}'
+        send_resolved: true
+{{end}}
+{{ if exists "/config/PagerDuty/PlatformCriticalServiceKey" }}
+  - name: 'platform-critical'
+    pagerduty_configs:
+      - service_key: '{{ getv "/config/PagerDuty/PlatformCriticalServiceKey" }}'
+        send_resolved: true
+{{end}}
+{{ if exists "/config/PagerDuty/PlatformNonCriticalServiceKey" }}
+  - name: 'platform-non-critical'
+    pagerduty_configs:
+      - service_key: '{{ getv "/config/PagerDuty/PlatformNonCriticalServiceKey" }}'
+        send_resolved: true
+{{end}}
+{{ if exists "/config/PagerDuty/ApplicationCriticalServiceKey" }}
+  - name: 'application-critical'
+    pagerduty_configs:
+      - service_key: '{{ getv "/config/PagerDuty/ApplicationCriticalServiceKey" }}'
+        send_resolved: true
+{{end}}
+{{ if exists "/config/PagerDuty/ApplicationNonCriticalServiceKey" }}
+  - name: 'application-non-critical'
+    pagerduty_configs:
+      - service_key: '{{ getv "/config/PagerDuty/ApplicationNonCriticalServiceKey" }}'
         send_resolved: true
 {{end}}

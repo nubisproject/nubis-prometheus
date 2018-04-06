@@ -5,9 +5,9 @@ provider "aws" {
 module "prometheus-image" {
   source = "github.com/nubisproject/nubis-terraform///images?ref=develop"
 
-  region  = "${var.aws_region}"
-  version = "${var.nubis_version}"
-  project = "nubis-prometheus"
+  region        = "${var.aws_region}"
+  image_version = "${var.nubis_version}"
+  project       = "nubis-prometheus"
 }
 
 resource "aws_s3_bucket" "prometheus" {
@@ -289,11 +289,10 @@ NUBIS_PROMETHEUS_BUCKET="${element(aws_s3_bucket.prometheus.*.id, count.index)}"
 NUBIS_PROMETHEUS_SLACK_URL="${var.slack_url}"
 NUBIS_PROMETHEUS_SLACK_CHANNEL="${var.slack_channel}"
 NUBIS_PROMETHEUS_NOTIFICATION_EMAIL="${var.notification_email}"
-NUBIS_PROMETHEUS_PAGERDUTY_SERVICE_KEY="${var.pagerduty_service_key}"
-NUBIS_PROMETHEUS_SINK_SLACK_URL="${var.sink_slack_url}"
-NUBIS_PROMETHEUS_SINK_SLACK_CHANNEL="${var.sink_slack_channel}"
-NUBIS_PROMETHEUS_SINK_NOTIFICATION_EMAIL="${var.sink_notification_email}"
-NUBIS_PROMETHEUS_SINK_PAGERDUTY_SERVICE_KEY="${var.sink_pagerduty_service_key}"
+NUBIS_PROMETHEUS_PLATFORM_CRITICAL_PAGERDUTY_SERVICE_KEY="${var.pagerduty_critical_platform_service_key}"
+NUBIS_PROMETHEUS_PLATFORM_NON_CRITICAL_PAGERDUTY_SERVICE_KEY="${var.pagerduty_non_critical_platform_service_key}"
+NUBIS_PROMETHEUS_APP_CRITICAL_PAGERDUTY_SERVICE_KEY="${var.pagerduty_critical_application_service_key}"
+NUBIS_PROMETHEUS_APP_NON_CRITICAL_PAGERDUTY_SERVICE_KEY="${var.pagerduty_non_critical_application_service_key}"
 NUBIS_SUDO_GROUPS="${var.nubis_sudo_groups}"
 NUBIS_USER_GROUPS="${var.nubis_user_groups}"
 EOF
