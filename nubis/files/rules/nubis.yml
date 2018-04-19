@@ -253,7 +253,6 @@ groups:
         * ON(instance) GROUP_LEFT(instance_type, availability_zone, region) aws
       for: 5m
       labels:
-        severity: critical
         type: failure
       annotations:
         description: NTP is having issues
@@ -266,7 +265,6 @@ groups:
         > 0.01
       for: 5m
       labels:
-        severity: critical
         type: failure
       annotations:
         description: NTP time drift
