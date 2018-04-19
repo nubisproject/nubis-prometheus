@@ -230,7 +230,6 @@ groups:
         aws != 0
       for: 15m
       labels:
-        severity: critical
         type: failure
       annotations:
         description: A cronjob called {{ $labels.cronjob }} has failed with status {{
