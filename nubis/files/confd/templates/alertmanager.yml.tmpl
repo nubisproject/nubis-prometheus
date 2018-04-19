@@ -63,10 +63,22 @@ receivers:
       - service_key: '{{ getv "/config/PagerDuty/PlatformCriticalServiceKey" }}'
         send_resolved: true
 {{end}}
+{{if and (exists "/config/Slack/Url") (exists "/config/Slack/Channel")}}
+    slack_configs:
+      - api_url: '{{getv "/config/Slack/Url"}}'
+        channel: '{{getv "/config/Slack/Channel"}}'
+        send_resolved: true
+{{end}}
 {{ if exists "/config/PagerDuty/PlatformNonCriticalServiceKey" }}
   - name: 'platform-non-critical'
     pagerduty_configs:
       - service_key: '{{ getv "/config/PagerDuty/PlatformNonCriticalServiceKey" }}'
+        send_resolved: true
+{{end}}
+{{if and (exists "/config/Slack/Url") (exists "/config/Slack/Channel")}}
+    slack_configs:
+      - api_url: '{{getv "/config/Slack/Url"}}'
+        channel: '{{getv "/config/Slack/Channel"}}'
         send_resolved: true
 {{end}}
 {{ if exists "/config/PagerDuty/ApplicationCriticalServiceKey" }}
@@ -75,9 +87,21 @@ receivers:
       - service_key: '{{ getv "/config/PagerDuty/ApplicationCriticalServiceKey" }}'
         send_resolved: true
 {{end}}
+{{if and (exists "/config/Slack/Url") (exists "/config/Slack/Channel")}}
+    slack_configs:
+      - api_url: '{{getv "/config/Slack/Url"}}'
+        channel: '{{getv "/config/Slack/Channel"}}'
+        send_resolved: true
+{{end}}
 {{ if exists "/config/PagerDuty/ApplicationNonCriticalServiceKey" }}
   - name: 'application-non-critical'
     pagerduty_configs:
       - service_key: '{{ getv "/config/PagerDuty/ApplicationNonCriticalServiceKey" }}'
+        send_resolved: true
+{{end}}
+{{if and (exists "/config/Slack/Url") (exists "/config/Slack/Channel")}}
+    slack_configs:
+      - api_url: '{{getv "/config/Slack/Url"}}'
+        channel: '{{getv "/config/Slack/Channel"}}'
         send_resolved: true
 {{end}}
