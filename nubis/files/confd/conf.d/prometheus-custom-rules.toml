@@ -11,4 +11,4 @@ keys = [
     "/"
 ]
 
-reload_cmd = "/bin/systemctl restart prometheus"
+reload_cmd = "/bin/systemctl reload-or-restart prometheus"
