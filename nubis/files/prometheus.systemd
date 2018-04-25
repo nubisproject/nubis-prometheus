@@ -11,6 +11,7 @@ LimitNOFILE=65536
 ExecStartPre=/usr/local/bin/prometheus-restore
 ExecStart=/usr/local/bin/nubis_prometheus
 ExecStop=/usr/local/bin/prometheus-backup
+ExecReload=/bin/kill -HUP $MAINPID
 
 [Install]
 WantedBy=multi-user.target

@@ -9,6 +9,7 @@ Restart=on-failure
 RestartSec=10s
 
 ExecStart=/opt/prometheus/blackbox_exporter --config.file /etc/prometheus/blackbox.yml --log.level info
+ExecReload=/bin/kill -HUP $MAINPID
 
 [Install]
 WantedBy=multi-user.target
