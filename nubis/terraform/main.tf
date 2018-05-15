@@ -267,7 +267,7 @@ resource "aws_iam_role_policy" "exposition" {
             "Sid": "ExpositionReadOnly",
             "Effect": "Allow",
             "Action": [
-                "ec2:DescribeInstances"
+                "ec2:DescribeInstances",
                 "elasticloadbalancing:DescribeLoadBalancers",
                 "lambda:ListFunctions",
                 "lambda:ListTags",
