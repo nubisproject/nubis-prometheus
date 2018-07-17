@@ -249,6 +249,39 @@ resource "aws_iam_role_policy" "grafana" {
 POLICY
 }
 
+resource "aws_iam_role_policy" "exposition" {
+  count = "${var.enabled * length(var.arenas)}"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  name = "${var.project}-exposition-${element(var.arenas, count.index)}-${var.aws_region}"
+  role = "${element(aws_iam_role.prometheus.*.id, count.index)}"
+
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ExpositionReadOnly",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeInstances",
+                "elasticloadbalancing:DescribeLoadBalancers",
+                "lambda:ListFunctions",
+                "lambda:ListTags",
+                "autoscaling:DescribeAutoScalingGroups",
+                "rds:DescribeDBInstances",
+                "elasticfilesystem:DescribeFileSystems"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+POLICY
+}
+
 resource "aws_launch_configuration" "prometheus" {
   count = "${var.enabled * length(var.arenas)}"
 
