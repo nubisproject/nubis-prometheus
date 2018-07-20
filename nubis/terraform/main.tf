@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "prometheus-image" {
-  source = "github.com/nubisproject/nubis-terraform///images?ref=develop"
+  source = "github.com/nubisproject/nubis-terraform//images?ref=v2.3.0"
 
   region        = "${var.aws_region}"
   image_version = "${var.nubis_version}"
