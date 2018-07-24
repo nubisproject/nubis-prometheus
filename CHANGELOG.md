@@ -1,13 +1,6 @@
 # Change Log
 
 ## [v2.3.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.3.0) (2018-07-24)
-[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.3.0...v2.3.0)
-
-**Merged pull requests:**
-
-- Updated graph to split with project [\#365](https://github.com/nubisproject/nubis-prometheus/pull/365) ([limed](https://github.com/limed))
-
-## [v2.3.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.3.0) (2018-07-20)
 [Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.2.0...v2.3.0)
 
 **Closed issues:**
@@ -22,11 +15,15 @@
 - Upgrade AlertManager to 0.14.0 [\#340](https://github.com/nubisproject/nubis-prometheus/issues/340)
 - Upgrade to Prometheus 2.2.1 [\#339](https://github.com/nubisproject/nubis-prometheus/issues/339)
 - Tag v2.2.0 release [\#336](https://github.com/nubisproject/nubis-prometheus/issues/336)
+- Tag v2.3.0 release [\#366](https://github.com/nubisproject/nubis-prometheus/issues/366)
 - Tag v2.3.0 release [\#362](https://github.com/nubisproject/nubis-prometheus/issues/362)
 - Tag v2.3.0 release [\#359](https://github.com/nubisproject/nubis-prometheus/issues/359)
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v2.3.0 release \[skip ci\] [\#368](https://github.com/nubisproject/nubis-prometheus/pull/368) ([nubis-automation](https://github.com/nubis-automation))
+- Update CHANGELOG for v2.3.0 release \[skip ci\] [\#367](https://github.com/nubisproject/nubis-prometheus/pull/367) ([nubis-automation](https://github.com/nubis-automation))
+- Updated graph to split with project [\#365](https://github.com/nubisproject/nubis-prometheus/pull/365) ([limed](https://github.com/limed))
 - Update CHANGELOG for v2.3.0 release \[skip ci\] [\#364](https://github.com/nubisproject/nubis-prometheus/pull/364) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.3.0 release \[skip ci\] [\#363](https://github.com/nubisproject/nubis-prometheus/pull/363) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.3.0 release \[skip ci\] [\#361](https://github.com/nubisproject/nubis-prometheus/pull/361) ([nubis-automation](https://github.com/nubis-automation))

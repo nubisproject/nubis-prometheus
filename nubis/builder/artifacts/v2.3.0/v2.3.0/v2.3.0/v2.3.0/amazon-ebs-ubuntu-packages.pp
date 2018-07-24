@@ -65,10 +65,10 @@ package { 'binutils':
   ensure => '2.26.1-1ubuntu1~16.04.6',
 }
 package { 'boto3':
-  ensure => '1.7.62',
+  ensure => '1.7.61',
 }
 package { 'botocore':
-  ensure => '1.10.62',
+  ensure => '1.10.61',
 }
 package { 'bsd-mailx':
   ensure => '8.1.2-0.20160123cvs-2',
@@ -1235,13 +1235,13 @@ package { 'libyaml-0-2':
   ensure => '0.1.6-3',
 }
 package { 'linux-aws':
-  ensure => '4.4.0.1063.65',
+  ensure => '4.4.0.1062.64',
 }
 package { 'linux-aws-headers-4.4.0-1061':
   ensure => '4.4.0-1061.70',
 }
-package { 'linux-aws-headers-4.4.0-1063':
-  ensure => '4.4.0-1063.72',
+package { 'linux-aws-headers-4.4.0-1062':
+  ensure => '4.4.0-1062.71',
 }
 package { 'linux-base':
   ensure => '4.5ubuntu1~16.04.1',
@@ -1249,23 +1249,23 @@ package { 'linux-base':
 package { 'linux-headers-4.4.0-1061-aws':
   ensure => '4.4.0-1061.70',
 }
-package { 'linux-headers-4.4.0-1063-aws':
-  ensure => '4.4.0-1063.72',
+package { 'linux-headers-4.4.0-1062-aws':
+  ensure => '4.4.0-1062.71',
 }
 package { 'linux-headers-aws':
-  ensure => '4.4.0.1063.65',
+  ensure => '4.4.0.1062.64',
 }
 package { 'linux-image-4.4.0-1061-aws':
   ensure => '4.4.0-1061.70',
 }
-package { 'linux-image-4.4.0-1063-aws':
-  ensure => '4.4.0-1063.72',
+package { 'linux-image-4.4.0-1062-aws':
+  ensure => '4.4.0-1062.71',
 }
 package { 'linux-image-aws':
-  ensure => '4.4.0.1063.65',
+  ensure => '4.4.0.1062.64',
 }
 package { 'linux-libc-dev':
-  ensure => '4.4.0-131.157',
+  ensure => '4.4.0-130.156',
 }
 package { 'locale':
   ensure => ['2.1.2'],
