@@ -12,8 +12,8 @@ if nubis-metadata NUBIS_PROJECT > /dev/null 2>&1; then
 fi
 KV_PREFIX="$NUBIS_PROJECT/$NUBIS_ARENA/config"
 
-if nubis-metadata NUBIS_REGION > /dev/null 2>&1; then
-    NUBIS_REGION=$(nubis-metadata NUBIS_REGION)
+if nubis-metadata INSTANCE_IDENTITY_REGION > /dev/null 2>&1; then
+    NUBIS_REGION=$(nubis-metadata INSTANCE_IDENTITY_REGION)
     consulate kv set "$KV_PREFIX/RegionName" "$NUBIS_REGION"
 fi
 
