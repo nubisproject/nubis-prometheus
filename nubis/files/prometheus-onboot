@@ -1,113 +1,121 @@
 #!/bin/bash
 
-NUBIS_ARENA=$(nubis-metadata NUBIS_ARENA)
-
-echo "Enabling node_exporter in $NUBIS_ARENA"
+if nubis-metadata NUBIS_ARENA > /dev/null 2>&1; then
+    NUBIS_ARENA=$(nubis-metadata NUBIS_ARENA)
+fi
+echo "Enabling node_exporter in '${NUBIS_ARENA:-Arena_Not_Set}'"
 
 consulate kv set "arenas/$NUBIS_ARENA/global/node_exporter/config/enabled" 1
 
-NUBIS_PROJECT=$(nubis-metadata NUBIS_PROJECT)
-
+if nubis-metadata NUBIS_PROJECT > /dev/null 2>&1; then
+    NUBIS_PROJECT=$(nubis-metadata NUBIS_PROJECT)
+fi
 KV_PREFIX="$NUBIS_PROJECT/$NUBIS_ARENA/config"
 
-NUBIS_REGION=$(nubis-region)
-if [ "$NUBIS_REGION" != "" ]; then
-  consulate kv set "$KV_PREFIX/RegionName" "$NUBIS_REGION"
+if nubis-metadata INSTANCE_IDENTITY_REGION > /dev/null 2>&1; then
+    NUBIS_REGION=$(nubis-metadata INSTANCE_IDENTITY_REGION)
+    consulate kv set "$KV_PREFIX/RegionName" "$NUBIS_REGION"
 fi
 
-NUBIS_ARENA_INDEX=$(nubis-metadata NUBIS_ARENA_INDEX)
-if [ "$NUBIS_ARENA_INDEX" != "" ]; then
-  consulate kv set "$KV_PREFIX/ArenaIndex" "$NUBIS_ARENA_INDEX"
+if nubis-metadata NUBIS_ARENA_INDEX > /dev/null 2>&1; then
+    NUBIS_ARENA_INDEX=$(nubis-metadata NUBIS_ARENA_INDEX)
+    consulate kv set "$KV_PREFIX/ArenaIndex" "$NUBIS_ARENA_INDEX"
 else
-  consulate kv rm "$KV_PREFIX/ArenaIndex"
+    consulate kv rm "$KV_PREFIX/ArenaIndex"
 fi
 
-NUBIS_PROMETHEUS_SLACK_URL=$(nubis-metadata NUBIS_PROMETHEUS_SLACK_URL)
-if [ "$NUBIS_PROMETHEUS_SLACK_URL" != "" ]; then
-  consulate kv set "$KV_PREFIX/Slack/Url" "$NUBIS_PROMETHEUS_SLACK_URL"
+if nubis-metadata NUBIS_PROMETHEUS_SLACK_URL > /dev/null 2>&1; then
+    NUBIS_PROMETHEUS_SLACK_URL=$(nubis-metadata NUBIS_PROMETHEUS_SLACK_URL)
+    consulate kv set "$KV_PREFIX/Slack/Url" "$NUBIS_PROMETHEUS_SLACK_URL"
 else
-  consulate kv rm "$KV_PREFIX/Slack/Url"
+    consulate kv rm "$KV_PREFIX/Slack/Url"
 fi
 
-NUBIS_PROMETHEUS_SLACK_CHANNEL=$(nubis-metadata NUBIS_PROMETHEUS_SLACK_CHANNEL)
-if [ "$NUBIS_PROMETHEUS_SLACK_URL" != "" ]; then
-  consulate kv set "$KV_PREFIX/Slack/Channel" "$NUBIS_PROMETHEUS_SLACK_CHANNEL"
+if nubis-metadata NUBIS_PROMETHEUS_SLACK_CHANNEL > /dev/null 2>&1; then
+    NUBIS_PROMETHEUS_SLACK_CHANNEL=$(nubis-metadata NUBIS_PROMETHEUS_SLACK_CHANNEL)
+    consulate kv set "$KV_PREFIX/Slack/Channel" "$NUBIS_PROMETHEUS_SLACK_CHANNEL"
 else
-  consulate kv rm "$KV_PREFIX/Slack/Channel"
+    consulate kv rm "$KV_PREFIX/Slack/Channel"
 fi
 
-NUBIS_PROMETHEUS_NOTIFICATION_EMAIL=$(nubis-metadata NUBIS_PROMETHEUS_NOTIFICATION_EMAIL)
-if [ "$NUBIS_PROMETHEUS_NOTIFICATION_EMAIL" != "" ]; then
-  consulate kv set "$KV_PREFIX/Email/Destination" "$NUBIS_PROMETHEUS_NOTIFICATION_EMAIL"
+if nubis-metadata NUBIS_PROMETHEUS_NOTIFICATION_EMAIL > /dev/null 2>&1; then
+    NUBIS_PROMETHEUS_NOTIFICATION_EMAIL=$(nubis-metadata NUBIS_PROMETHEUS_NOTIFICATION_EMAIL)
+    consulate kv set "$KV_PREFIX/Email/Destination" "$NUBIS_PROMETHEUS_NOTIFICATION_EMAIL"
 else
-  consulate kv rm "$KV_PREFIX/Email/Destination"
+    consulate kv rm "$KV_PREFIX/Email/Destination"
 fi
 
-NUBIS_ACCOUNT=$(nubis-metadata NUBIS_ACCOUNT)
-if [ "$NUBIS_ACCOUNT" != "" ]; then
-  consulate kv set "$KV_PREFIX/AccountName" "$NUBIS_ACCOUNT"
+if nubis-metadata NUBIS_ACCOUNT > /dev/null 2>&1; then
+    NUBIS_ACCOUNT=$(nubis-metadata NUBIS_ACCOUNT)
+    consulate kv set "$KV_PREFIX/AccountName" "$NUBIS_ACCOUNT"
 else
-  consulate kv rm "$KV_PREFIX/AccountName"
+    consulate kv rm "$KV_PREFIX/AccountName"
 fi
 
-NUBIS_TECHNICAL_CONTACT=$(nubis-metadata NUBIS_TECHNICAL_CONTACT)
-if [ "$NUBIS_TECHNICAL_CONTACT" != "" ]; then
-  consulate kv set "$KV_PREFIX/TechnicalContact" "$NUBIS_TECHNICAL_CONTACT"
+if nubis-metadata NUBIS_TECHNICAL_CONTACT > /dev/null 2>&1; then
+    NUBIS_TECHNICAL_CONTACT=$(nubis-metadata NUBIS_TECHNICAL_CONTACT)
+    consulate kv set "$KV_PREFIX/TechnicalContact" "$NUBIS_TECHNICAL_CONTACT"
 else
-  consulate kv rm "$KV_PREFIX/TechnicalContact"
+    consulate kv rm "$KV_PREFIX/TechnicalContact"
 fi
 
-NUBIS_ACCOUNT_ID=$(curl --retry 5 -fqs http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .accountId)
-if [ "$NUBIS_ACCOUNT_ID" != "" ]; then
-  consulate kv set "$KV_PREFIX/AccountID" "$NUBIS_ACCOUNT_ID"
+if nubis-metadata INSTANCE_IDENTITY_ACCOUNTID > /dev/null 2>&1; then
+    NUBIS_ACCOUNT_ID=$(nubis-metadata INSTANCE_IDENTITY_ACCOUNTID)
+    consulate kv set "$KV_PREFIX/AccountID" "$NUBIS_ACCOUNT_ID"
 else
-  consulate kv rm "$KV_PREFIX/AccountID"
+    consulate kv rm "$KV_PREFIX/AccountID"
 fi
 
-if [ "$NUBIS_ARENA" != "" ]; then
-  consulate kv set "$KV_PREFIX/Arena" "$NUBIS_ARENA"
+if [ "${NUBIS_ARENA}" != "" ]; then
+    consulate kv set "$KV_PREFIX/Arena" "$NUBIS_ARENA"
 else
-  consulate kv rm "$KV_PREFIX/Arena"
+    consulate kv rm "$KV_PREFIX/Arena"
 fi
 
-NUBIS_PROMETHEUS_PLATFORM_CRITICAL_PAGERDUTY_SERVICE_KEY=$(nubis-metadata NUBIS_PROMETHEUS_PLATFORM_CRITICAL_PAGERDUTY_SERVICE_KEY)
-if [ "$NUBIS_PROMETHEUS_PLATFORM_CRITICAL_PAGERDUTY_SERVICE_KEY" != "" ]; then
+if nubis-metadata NUBIS_PROMETHEUS_PLATFORM_CRITICAL_PAGERDUTY_SERVICE_KEY > /dev/null 2>&1; then
+    NUBIS_PROMETHEUS_PLATFORM_CRITICAL_PAGERDUTY_SERVICE_KEY=$(nubis-metadata NUBIS_PROMETHEUS_PLATFORM_CRITICAL_PAGERDUTY_SERVICE_KEY)
     consulate kv set "$KV_PREFIX/PagerDuty/PlatformCriticalServiceKey" "$NUBIS_PROMETHEUS_PLATFORM_CRITICAL_PAGERDUTY_SERVICE_KEY"
 else
     consulate kv rm "$KV_PREFIX/PagerDuty/PlatformCriticalServiceKey"
 fi
 
-NUBIS_PROMETHEUS_PLATFORM_NON_CRITICAL_PAGERDUTY_SERVICE_KEY=$(nubis-metadata NUBIS_PROMETHEUS_PLATFORM_NON_CRITICAL_PAGERDUTY_SERVICE_KEY)
-if [ "$NUBIS_PROMETHEUS_PLATFORM_NON_CRITICAL_PAGERDUTY_SERVICE_KEY" != "" ]; then
+if nubis-metadata NUBIS_PROMETHEUS_PLATFORM_NON_CRITICAL_PAGERDUTY_SERVICE_KEY > /dev/null 2>&1; then
+    NUBIS_PROMETHEUS_PLATFORM_NON_CRITICAL_PAGERDUTY_SERVICE_KEY=$(nubis-metadata NUBIS_PROMETHEUS_PLATFORM_NON_CRITICAL_PAGERDUTY_SERVICE_KEY)
     consulate kv set "$KV_PREFIX/PagerDuty/PlatformNonCriticalServiceKey" "$NUBIS_PROMETHEUS_PLATFORM_NON_CRITICAL_PAGERDUTY_SERVICE_KEY"
 else
     consulate kv rm "$KV_PREFIX/PagerDuty/PlatformNonCriticalServiceKey"
 fi
 
-NUBIS_PROMETHEUS_APP_CRITICAL_PAGERDUTY_SERVICE_KEY=$(nubis-metadata NUBIS_PROMETHEUS_APP_CRITICAL_PAGERDUTY_SERVICE_KEY)
-if [ "$NUBIS_PROMETHEUS_APP_CRITICAL_PAGERDUTY_SERVICE_KEY" != "" ]; then
+if nubis-metadata NUBIS_PROMETHEUS_APP_CRITICAL_PAGERDUTY_SERVICE_KEY > /dev/null 2>&1; then
+    NUBIS_PROMETHEUS_APP_CRITICAL_PAGERDUTY_SERVICE_KEY=$(nubis-metadata NUBIS_PROMETHEUS_APP_CRITICAL_PAGERDUTY_SERVICE_KEY)
     consulate kv set "$KV_PREFIX/PagerDuty/ApplicationCriticalServiceKey" "$NUBIS_PROMETHEUS_APP_CRITICAL_PAGERDUTY_SERVICE_KEY"
 else
     consulate kv rm "$KV_PREFIX/PagerDuty/ApplicationCriticalServiceKey"
 fi
 
-NUBIS_PROMETHEUS_APP_NON_CRITICAL_PAGERDUTY_SERVICE_KEY=$(nubis-metadata NUBIS_PROMETHEUS_APP_NON_CRITICAL_PAGERDUTY_SERVICE_KEY)
-if [ "$NUBIS_PROMETHEUS_APP_NON_CRITICAL_PAGERDUTY_SERVICE_KEY" != "" ]; then
+if nubis-metadata NUBIS_PROMETHEUS_APP_NON_CRITICAL_PAGERDUTY_SERVICE_KEY > /dev/null 2>&1; then
+    NUBIS_PROMETHEUS_APP_NON_CRITICAL_PAGERDUTY_SERVICE_KEY=$(nubis-metadata NUBIS_PROMETHEUS_APP_NON_CRITICAL_PAGERDUTY_SERVICE_KEY)
     consulate kv set "$KV_PREFIX/PagerDuty/ApplicationNonCriticalServiceKey" "$NUBIS_PROMETHEUS_APP_NON_CRITICAL_PAGERDUTY_SERVICE_KEY"
 else
     consulate kv rm "$KV_PREFIX/PagerDuty/ApplicationNonCriticalServiceKey"
 fi
 
-NUBIS_PROMETHEUS_LIVE_APP=$(nubis-metadata NUBIS_PROMETHEUS_LIVE_APP)
-if [ "$NUBIS_PROMETHEUS_LIVE_APP" != "" ]; then
-  consulate kv set "$KV_PREFIX/LiveApp" "$NUBIS_PROMETHEUS_LIVE_APP"
+if nubis-metadata NUBIS_PROMETHEUS_LIVE_APP > /dev/null 2>&1; then
+    NUBIS_PROMETHEUS_LIVE_APP=$(nubis-metadata NUBIS_PROMETHEUS_LIVE_APP)
+    consulate kv set "$KV_PREFIX/LiveApp" "$NUBIS_PROMETHEUS_LIVE_APP"
 else
-  consulate kv rm "$KV_PREFIX/LiveApp"
+    consulate kv rm "$KV_PREFIX/LiveApp"
 fi
 
-NUBIS_MON_DOMAIN="mon.$NUBIS_ARENA.$NUBIS_REGION.$(nubis-metadata NUBIS_ACCOUNT).$(nubis-metadata NUBIS_DOMAIN)"
+if nubis-metadata NUBIS_ACCOUNT > /dev/null 2>&1; then
+    NUBIS_ACCOUNT=$(nubis-metadata NUBIS_ACCOUNT)
+fi
+if nubis-metadata NUBIS_DOMAIN > /dev/null 2>&1; then
+    NUBIS_DOMAIN=$(nubis-metadata NUBIS_DOMAIN)
+fi
+NUBIS_MON_DOMAIN="mon.$NUBIS_ARENA.$NUBIS_REGION.$NUBIS_ACCOUNT.$NUBIS_DOMAIN"
 consulate kv set "$KV_PREFIX/MonDomain" "$NUBIS_MON_DOMAIN"
-consulate kv set "$KV_PREFIX/Domain" "$(nubis-metadata NUBIS_DOMAIN)"
+consulate kv set "$KV_PREFIX/Domain" "$NUBIS_DOMAIN"
 
 SECRET_FEDERATION_PASSWORD=$(nubis-secret get federation/password)
 FEDERATION_PASSWORD=$(consulate kv get "$KV_PREFIX/Federation/Password")

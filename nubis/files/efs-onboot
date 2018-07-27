@@ -1,6 +1,8 @@
 #!/bin/bash
 
-EFS_ID=$(nubis-metadata NUBIS_PROMETHEUS_FSID)
+if nubis-metadata NUBIS_PROMETHEUS_FSID > /dev/null 2>&1; then
+    EFS_ID=$(nubis-metadata NUBIS_PROMETHEUS_FSID)
+fi
 if [ "$EFS_ID" != "" ]; then
   NUBIS_REGION=$(nubis-region)
   EFS_TARGET="$EFS_ID.efs.$NUBIS_REGION.amazonaws.com"

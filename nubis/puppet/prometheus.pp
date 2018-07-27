@@ -129,14 +129,14 @@ systemd::unit_file { 'prometheus.service':
   source => 'puppet:///nubis/files/prometheus.systemd',
 }
 ->service { 'prometheus':
-  enable => true,
+  enable => false,
 }
 
 systemd::unit_file { 'alertmanager.service':
   source => 'puppet:///nubis/files/alertmanager.systemd',
 }
 ->service { 'alertmanager':
-  enable => true,
+  enable => false,
 }
 
 systemd::unit_file { 'blackbox.service':
