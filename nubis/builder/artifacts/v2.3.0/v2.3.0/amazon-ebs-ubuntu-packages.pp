@@ -65,10 +65,10 @@ package { 'binutils':
   ensure => '2.26.1-1ubuntu1~16.04.6',
 }
 package { 'boto3':
-  ensure => '1.7.65',
+  ensure => '1.7.67',
 }
 package { 'botocore':
-  ensure => '1.10.65',
+  ensure => '1.10.67',
 }
 package { 'bsd-mailx':
   ensure => '8.1.2-0.20160123cvs-2',
@@ -956,7 +956,7 @@ package { 'libnuma1':
   ensure => '2.0.11-1ubuntu1.1',
 }
 package { 'libonig2':
-  ensure => '5.9.6-1',
+  ensure => '5.9.6-1ubuntu0.1',
 }
 package { 'libopts25':
   ensure => '1:5.18.7-3',
@@ -974,7 +974,7 @@ package { 'libpam-runtime':
   ensure => '1.1.8-3.2ubuntu2.1',
 }
 package { 'libpam-systemd':
-  ensure => '229-4ubuntu21.2',
+  ensure => '229-4ubuntu21.4',
 }
 package { 'libpam0g':
   ensure => '1.1.8-3.2ubuntu2.1',
@@ -1127,7 +1127,7 @@ package { 'libstdc++6':
   ensure => '5.4.0-6ubuntu1~16.04.10',
 }
 package { 'libsystemd0':
-  ensure => '229-4ubuntu21.2',
+  ensure => '229-4ubuntu21.4',
 }
 package { 'libtasn1-6':
   ensure => '4.7-3ubuntu0.16.04.3',
@@ -1157,7 +1157,7 @@ package { 'libubsan0':
   ensure => '5.4.0-6ubuntu1~16.04.10',
 }
 package { 'libudev1':
-  ensure => '229-4ubuntu21.2',
+  ensure => '229-4ubuntu21.4',
 }
 package { 'libusb-0.1-4':
   ensure => '2:0.1.12-28',
@@ -1237,26 +1237,17 @@ package { 'libyaml-0-2':
 package { 'linux-aws':
   ensure => '4.4.0.1063.65',
 }
-package { 'linux-aws-headers-4.4.0-1061':
-  ensure => '4.4.0-1061.70',
-}
 package { 'linux-aws-headers-4.4.0-1063':
   ensure => '4.4.0-1063.72',
 }
 package { 'linux-base':
   ensure => '4.5ubuntu1~16.04.1',
 }
-package { 'linux-headers-4.4.0-1061-aws':
-  ensure => '4.4.0-1061.70',
-}
 package { 'linux-headers-4.4.0-1063-aws':
   ensure => '4.4.0-1063.72',
 }
 package { 'linux-headers-aws':
   ensure => '4.4.0.1063.65',
-}
-package { 'linux-image-4.4.0-1061-aws':
-  ensure => '4.4.0-1061.70',
 }
 package { 'linux-image-4.4.0-1063-aws':
   ensure => '4.4.0-1063.72',
@@ -1847,10 +1838,10 @@ package { 'sudo':
   ensure => '1.8.16-0ubuntu1.5',
 }
 package { 'systemd':
-  ensure => '229-4ubuntu21.2',
+  ensure => '229-4ubuntu21.4',
 }
 package { 'systemd-sysv':
-  ensure => '229-4ubuntu21.2',
+  ensure => '229-4ubuntu21.4',
 }
 package { 'sysv-rc':
   ensure => '2.88dsf-59.3ubuntu2',
@@ -1910,7 +1901,7 @@ package { 'ucf':
   ensure => '3.0036',
 }
 package { 'udev':
-  ensure => '229-4ubuntu21.2',
+  ensure => '229-4ubuntu21.4',
 }
 package { 'ufw':
   ensure => '0.35-0ubuntu2',

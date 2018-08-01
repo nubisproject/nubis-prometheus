@@ -1,23 +1,12 @@
 # Change Log
 
 ## [v2.3.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.3.0) (2018-07-27)
-[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.3.0...v2.3.0)
+[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.2.0...v2.3.0)
 
 **Closed issues:**
 
 - Prometheus startup script calls a consul kv value that doesn't exist [\#374](https://github.com/nubisproject/nubis-prometheus/issues/374)
 - Fix metadata error on boot [\#372](https://github.com/nubisproject/nubis-prometheus/issues/372)
-
-**Merged pull requests:**
-
-- Fixing prometheus startup script [\#375](https://github.com/nubisproject/nubis-prometheus/pull/375) ([limed](https://github.com/limed))
-- Fix metadata error on boot [\#373](https://github.com/nubisproject/nubis-prometheus/pull/373) ([tinnightcap](https://github.com/tinnightcap))
-
-## [v2.3.0](https://github.com/nubisproject/nubis-prometheus/tree/v2.3.0) (2018-07-24)
-[Full Changelog](https://github.com/nubisproject/nubis-prometheus/compare/v2.2.0...v2.3.0)
-
-**Closed issues:**
-
 - Scrape Redis CloudWatch metrics [\#357](https://github.com/nubisproject/nubis-prometheus/issues/357)
 - Support gracefully reloading configuration for services that support it [\#351](https://github.com/nubisproject/nubis-prometheus/issues/351)
 - Categorize other alerts [\#349](https://github.com/nubisproject/nubis-prometheus/issues/349)
@@ -28,6 +17,7 @@
 - Upgrade AlertManager to 0.14.0 [\#340](https://github.com/nubisproject/nubis-prometheus/issues/340)
 - Upgrade to Prometheus 2.2.1 [\#339](https://github.com/nubisproject/nubis-prometheus/issues/339)
 - Tag v2.2.0 release [\#336](https://github.com/nubisproject/nubis-prometheus/issues/336)
+- Tag v2.3.0 release [\#376](https://github.com/nubisproject/nubis-prometheus/issues/376)
 - Tag v2.3.0 release [\#369](https://github.com/nubisproject/nubis-prometheus/issues/369)
 - Tag v2.3.0 release [\#366](https://github.com/nubisproject/nubis-prometheus/issues/366)
 - Tag v2.3.0 release [\#362](https://github.com/nubisproject/nubis-prometheus/issues/362)
@@ -35,6 +25,10 @@
 
 **Merged pull requests:**
 
+- Update CHANGELOG for v2.3.0 release \[skip ci\] [\#378](https://github.com/nubisproject/nubis-prometheus/pull/378) ([nubis-automation](https://github.com/nubis-automation))
+- Update CHANGELOG for v2.3.0 release \[skip ci\] [\#377](https://github.com/nubisproject/nubis-prometheus/pull/377) ([nubis-automation](https://github.com/nubis-automation))
+- Fixing prometheus startup script [\#375](https://github.com/nubisproject/nubis-prometheus/pull/375) ([limed](https://github.com/limed))
+- Fix metadata error on boot [\#373](https://github.com/nubisproject/nubis-prometheus/pull/373) ([tinnightcap](https://github.com/tinnightcap))
 - Update CHANGELOG for v2.3.0 release \[skip ci\] [\#371](https://github.com/nubisproject/nubis-prometheus/pull/371) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.3.0 release \[skip ci\] [\#370](https://github.com/nubisproject/nubis-prometheus/pull/370) ([nubis-automation](https://github.com/nubis-automation))
 - Update CHANGELOG for v2.3.0 release \[skip ci\] [\#368](https://github.com/nubisproject/nubis-prometheus/pull/368) ([nubis-automation](https://github.com/nubis-automation))
