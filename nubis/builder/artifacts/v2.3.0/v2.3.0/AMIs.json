@@ -11,11 +11,11 @@
     {
       "name": "amazon-ebs-ubuntu",
       "builder_type": "amazon-ebs",
-      "build_time": 1533133534,
+      "build_time": 1533652770,
       "files": null,
-      "artifact_id": "ap-northeast-1:ami-efb8ca02,ap-northeast-2:ami-0abc18b511ad6df4a,ap-southeast-1:ami-6fbdfe85,ap-southeast-2:ami-4653f224,eu-central-1:ami-82131f69,eu-west-1:ami-31ce2fdc,sa-east-1:ami-0040990bf11709943,us-east-1:ami-b11a0ace,us-west-1:ami-fb759998,us-west-2:ami-1573566d",
-      "packer_run_uuid": "7c117a99-783e-1fba-d19d-66d5dc86fef7"
+      "artifact_id": "ap-northeast-1:ami-aea5dc43,ap-northeast-2:ami-0efc50acb9edacd25,ap-southeast-1:ami-04db554347c52a59b,ap-southeast-2:ami-7a379718,eu-central-1:ami-f7b9b71c,eu-west-1:ami-05bfb32e2a5c53aa2,sa-east-1:ami-083a1669cb3a4a7d7,us-east-1:ami-153e256a,us-west-1:ami-2e608f4d,us-west-2:ami-19644261",
+      "packer_run_uuid": "bcb4db60-093b-e292-cafa-06a2135d1990"
     }
   ],
-  "last_run_uuid": "7c117a99-783e-1fba-d19d-66d5dc86fef7"
+  "last_run_uuid": "bcb4db60-093b-e292-cafa-06a2135d1990"
 }
