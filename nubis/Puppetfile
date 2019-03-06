@@ -3,7 +3,7 @@ forge "https://forgeapi.puppetlabs.com"
 mod 'spantree/upstart','0.0.3'
 
 mod 'bfraser/grafana',
-    :git => 'https://github.com/bfraser/puppet-grafana.git',
-    :ref => '6d426d5ccc52ff23dbbcfc45290dafd224b5d2bc'
+    :git => 'https://github.com/gozer/puppet-grafana.git',
+    :ref => 'c36f941a96202d99044bd039ff1e2710442fee65'
 
 mod 'puppetlabs/java', '1.6.0'
